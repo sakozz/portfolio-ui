@@ -9,7 +9,7 @@ export async function blogDetailsLoader({
   const id = params.id as string;
 
   return defer({
-    event: await loadBlogDetails(id),
+    blog: await loadBlogDetails(id),
   });
 }
 
@@ -51,6 +51,6 @@ async function loadBlogsList() {
 
 export function blogsListLoader() {
   return defer({
-    events: loadBlogsList(),
+    blogs: loadBlogsList(),
   });
 }
