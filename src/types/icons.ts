@@ -1,4 +1,5 @@
 import {
+  faArrowRightToBracket,
   faBlog,
   faContactBook,
   faContactCard,
@@ -12,6 +13,7 @@ export const faIconsList = [
   faContactCard,
   faBlog,
   faContactBook,
+  faArrowRightToBracket,
 ] as const;
 
 export type FaIconType = (typeof faIconsList)[number];

@@ -1,0 +1,26 @@
+ngb-datepicker.dropdown-menu {
+  background-color: white !important;
+  z-index: 1 !important;
+  padding: 16px !important;
+  @apply text-sm shadow-lvl-4-bottom border border-dark-45;
+
+  .ngb-dp-weekdays {
+    border-bottom: 1px solid;
+    @apply border-light-15;
+    @apply text-dark-50;
+  }
+
+  .ngb-dp-content .ngb-dp-month .ngb-dp-week .ngb-dp-weekday {
+    font-style: normal !important;
+    margin: 0 2px !important;
+  }
+
+  .ngb-dp-day {
+    margin: 2px !important;
+  }
+
+  .text-white {
+    background: black;
+    border-radius: 50%;
+  }
+}

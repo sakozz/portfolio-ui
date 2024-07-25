@@ -1,0 +1,40 @@
+.dropdown-menu-content {
+  @apply flex flex-col p-1 min-w-[200px] max-h-[700px] overflow-y-auto rounded border border-solid border-light-135 bg-white shadow-lvl-3-bottom;
+}
+
+.menu-item {
+  @apply rounded-sm text-dark-90;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  border: none;
+
+  user-select: none;
+  min-width: 64px;
+  line-height: 20px;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 12px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex: 1;
+
+  &.selected {
+    @apply bg-light-120;
+  }
+}
+
+.menu-item:hover {
+  @apply bg-light-110;
+}
+
+.menu-item:active {
+  @apply bg-light-120;
+}
+
+.countries-menu-dropdown {
+  overflow-y: auto;
+  max-height: 500px;
+}

@@ -1,0 +1,170 @@
+button.btn,
+a.btn {
+  transition: background-color 0.3s ease;
+  @apply text-dark-90 text-nowrap flex items-center justify-center;
+
+  &:hover:not(:disabled) {
+    @apply bg-light-110;
+  }
+
+  &:active:not(:disabled) {
+    @apply bg-light-120;
+  }
+
+  &:disabled {
+    @apply text-dark-30;
+  }
+
+  &:focus {
+    @apply outline
+    outline-blue-50
+    outline-2;
+  }
+
+  &.btn-default {
+    @apply text-white
+    bg-dark-100;
+
+    &:hover {
+      @apply bg-dark-80;
+    }
+
+    &:active {
+      @apply bg-dark-70;
+    }
+
+    &:disabled {
+      @apply text-dark-40 bg-dark-20;
+    }
+  }
+
+  &.btn-success {
+    @apply text-white
+    bg-green-50;
+
+    &:hover {
+      @apply bg-dark-80;
+    }
+
+    &:active {
+      @apply bg-dark-70;
+    }
+
+    &:disabled {
+      @apply text-dark-40 bg-dark-20;
+    }
+  }
+
+  &.btn-danger {
+    @apply text-white
+    bg-red-55;
+
+    &:hover {
+      @apply bg-dark-80;
+    }
+
+    &:active {
+      @apply bg-dark-70;
+    }
+
+    &:disabled {
+      @apply text-dark-40 bg-dark-20;
+    }
+  }
+
+  &.btn-primary {
+    @apply text-dark-90
+    bg-gold-30;
+
+    &:hover {
+      @apply bg-gold-35;
+    }
+
+    &:active {
+      @apply bg-gold-40;
+    }
+
+    &:disabled {
+      @apply text-dark-40 bg-dark-20;
+    }
+  }
+
+  &.btn-primary-light {
+    @apply text-gold-50;
+    &:disabled {
+      @apply text-dark-30;
+    }
+  }
+
+  &.btn-outline-light {
+    @apply text-dark-90
+    bg-white
+    border-solid
+    border
+    border-light-130;
+
+    &:hover:not(:disabled) {
+      @apply bg-light-110
+      border-light-140;
+    }
+
+    &:active:not(:hover) {
+      @apply border-light-120
+      bg-light-120;
+    }
+
+    &:disabled {
+      @apply text-dark-30 border-dark-20;
+    }
+  }
+
+  &.btn-outline {
+    @apply text-white
+    border-solid
+    border
+    border-white;
+
+    &:hover:not(:disabled) {
+      @apply bg-light-110
+      border-light-15;
+    }
+
+    &:active:not(:hover) {
+      @apply border-light-120
+      bg-light-120;
+    }
+
+    &:disabled {
+      @apply text-dark-30 border-dark-20;
+    }
+  }
+}
+
+.btn {
+  &.btn-rounded {
+    @apply rounded-full
+    px-4
+    py-2
+    leading-6;
+
+    &.btn-lg {
+      @apply px-8
+      py-3
+      leading-6;
+    }
+  }
+
+  &.icon-btn {
+    @apply w-10 h-10;
+    &-md {
+      @apply w-12 h-12;
+    }
+    &-lg {
+      @apply w-14 h-14;
+    }
+  }
+
+  &.btn-floating {
+    @apply shadow-lvl-4-bottom flex items-center justify-center;
+  }
+}

@@ -1,0 +1,65 @@
+.cdk-overlay-pane.dialog {
+  @apply bg-white shadow-lvl-4-left w-full;
+  .cdk-dialog-container{
+    @apply overflow-y-auto;
+  }
+
+  &.xs {
+    @apply max-w-96;
+  }
+
+  &.sm {
+    @apply max-w-screen-sm;
+  }
+
+  &.md {
+    @apply max-w-screen-md;
+  }
+
+  &.lg {
+    @apply max-w-screen-lg;
+  }
+
+  &.xl {
+    @apply max-w-screen-xl;
+  }
+
+  &.xxl {
+    @apply max-w-screen-2xl;
+  }
+
+  &.fullscreen {
+    @apply max-w-max m-0;
+  }
+
+  animation: fadeIn, slideInFromTop 0.5s,0.3s ease;
+  &.closing {
+    animation: fadeOut, slideOutToTop 0.3s, 0.2s ease;
+  }
+
+  &.center{
+    @apply m-4;
+  }
+
+  &.start,
+  &.end {
+    position: absolute !important;
+    top: 0;
+    bottom: 0;
+    right: 0; // Set this to right or left when RTL is implemented
+  }
+
+  // Slide in/out animation for end alignment
+  &.end {
+    animation: slideInFromRight 0.3s ease;
+
+    &.closing {
+      animation: slideOutToRight 0.5s ease;
+    }
+  }
+}
+
+.cdk-overlay-dark-backdrop {
+  @apply bg-light-140;
+  transition: background-color 0.5s ease-in-out;
+}

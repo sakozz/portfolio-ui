@@ -1,0 +1,58 @@
+.form-group {
+  &.invalid .input-group {
+    @apply outline
+    outline-red-55
+    outline-1
+    border-red-55;
+  }
+
+  &.warning .input-group {
+    @apply outline
+    outline-orange-50
+    outline-1
+    border-orange-50;
+  }
+
+  &.disabled {
+    .form-label {
+      @apply text-dark-30;
+    }
+
+    .input-group {
+      @apply border-dark-20 text-dark-30;
+    }
+  }
+
+  .input-group {
+    .form-control {
+      @apply outline-none flex-grow py-2 px-3 bg-transparent font-light text-sm w-full;
+      &::placeholder {
+        @apply text-dark-50;
+      }
+    }
+
+    @apply flex border border-dark-45 rounded w-full;
+    &:focus-within {
+      @apply outline
+      outline-gold-30
+      outline-1
+      border-gold-30;
+    }
+
+    .suffix,
+    .prefix {
+      @apply py-2;
+    }
+
+    .suffix {
+      @apply text-dark-90 text-sm font-light pe-2;
+    }
+  }
+}
+
+.search-input {
+  @apply flex flex-row items-center relative;
+  input {
+    @apply rounded-full bg-light-110 w-full h-12 ps-10 outline-gold-30;
+  }
+}

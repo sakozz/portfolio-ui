@@ -1,4 +1,6 @@
 import { defer, json } from "react-router-dom";
+import { apiPath } from "../types/api.ts";
+import { ApiService } from "./api.service.ts";
 
 export async function blogDetailsLoader({
   params,
@@ -30,23 +32,8 @@ async function loadBlogDetails(id: string) {
 }
 
 async function loadBlogsList() {
-  const response = await fetch("http://localhost:3000/pages");
-
-  if (!response.ok) {
-    // return { isError: true, message: 'Could not fetch events.' };
-    // throw new Response(JSON.stringify({ message: 'Could not fetch events.' }), {
-    //   status: 500,
-    // });
-    throw json(
-      { message: "Could not fetch events." },
-      {
-        status: 500,
-      },
-    );
-  } else {
-    const resData = await response.json();
-    return resData.events;
-  }
+  const apiService = new ApiService();
+  return apiService.get([], `${apiPath.blogsPath}`)
 }
 
 export function blogsListLoader() {
