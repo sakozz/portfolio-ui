@@ -30,7 +30,8 @@ export class Session {
   async ssoLogin() {
     const url = `${apiPath.authPath}/${this.provider}/callback?code=${this.code}&state=${this.state}`;
     const result = await this.restApi.get({queryKey:  ["session"], refetchOnWindowFocus: false}, url);
-    this.setCookie(result.data);
+    this.setCookie(result);
+    return result;
   }
 
   setCookie({
