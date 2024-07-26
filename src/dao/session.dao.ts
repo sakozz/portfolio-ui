@@ -1,6 +1,8 @@
 import { apiPath } from "../types/api.ts";
 import Cookies from "js-cookie";
-import { ApiService } from "./api.service.ts";
+import { PayloadJSON } from "../types/payload.interface.ts";
+import { RestApi } from "./restApi.ts";
+import User from "./users.dao.ts";
 
 export class Session {
   accessTokenCookieName: string = "EATERY_ACCESS_TOKEN";
@@ -10,14 +12,14 @@ export class Session {
   code: string = "";
   token: string = "";
   expiresAt: Date = new Date();
-  apiService = new ApiService();
+  restApi         = new RestApi();
 
   constructor() {}
 
-  async loadSessionUser() {
+  async loadSessionUser(): Promise<{session: Session, user: User}> {
     const url = `${apiPath.userProfilePath}`;
-    const result = await this.apiService.get(["profile"], url);
-    return result.data;
+    const result = await this.restApi.get({queryKey: ["profile"]}, url) as PayloadJSON<User>;
+    return { session: this, user: new User(result.data.attributes) };
   }
 
   loadClientSession() {
@@ -27,7 +29,7 @@ export class Session {
 
   async ssoLogin() {
     const url = `${apiPath.authPath}/${this.provider}/callback?code=${this.code}&state=${this.state}`;
-    const result = await this.apiService.get(["profile"], url);
+    const result = await this.restApi.get({queryKey:  ["session"], refetchOnWindowFocus: false}, url);
     this.setCookie(result.data);
   }
 
