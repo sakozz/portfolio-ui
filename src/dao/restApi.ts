@@ -1,16 +1,17 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { AppQueryClient } from "../app.routes.tsx";
-
+export type httpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 const fetchQuery = async (
-  method: string,
+  method: httpMethod,
   queryOptions: UseQueryOptions,
   path: string,
+  payload?: Record<string, unknown>,
 ) => {
   try {
     const res = await AppQueryClient.fetchQuery({
       ...queryOptions,
-      queryFn: async ({ signal }) => callApi(method, path, signal),
+      queryFn: async ({ signal }) => callApi(method, path, signal, payload),
     });
     const result = res as AxiosResponse;
     return result.data;
@@ -31,18 +32,38 @@ export const useGet = (options: UseQueryOptions, path: string) => {
   });
 };
 
-export const callApi = (method: string, path: string, signal: AbortSignal) => {
-  return axios.get(path, {
-    method: method,
+export const callApi = (
+  method: httpMethod,
+  path: string,
+  signal: AbortSignal,
+  payload?: unknown,
+) => {
+  const config: AxiosRequestConfig = {
     withCredentials: true,
     signal: signal,
-  });
+  };
+  switch (method) {
+    case "GET":
+      return axios.get(path, config);
+    case "POST":
+      return axios.post(path, payload, config);
+    case "PUT":
+      return axios.put(path, payload, config);
+    case "PATCH":
+      return axios.patch(path, payload, config);
+    case "DELETE":
+      return axios.delete(path, config);
+    default:
+      throw "Unknown method";
+  }
 };
-
 
 export class RestApi {
   get(queryOptions: UseQueryOptions, path: string) {
     return fetchQuery("GET", queryOptions, path);
   }
-}
 
+  post(path: string, payload?: Record<string, unknown>) {
+    return fetchQuery("POST", null, path, payload);
+  }
+}

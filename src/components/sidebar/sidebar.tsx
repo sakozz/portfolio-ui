@@ -1,12 +1,46 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
+import { ErrorResponse, NavLink } from "react-router-dom";
+import { ClearCookie, LogoutUser } from "../../dao/session.dao.ts";
+import { sessionActions } from "../../store/session.store.ts";
 import { RootState } from "../../store/store.ts";
 import NavMenu from "./nav-menu.tsx";
 
 function Sidebar() {
-  const {currentUser } = useSelector(
-    (state: RootState) =>  state.session
+  const { currentUser } = useSelector((state: RootState) => state.session);
+  const dispatch =useDispatch()
+  const {mutate} = useMutation({
+    mutationFn: LogoutUser,
+    onMutate: ()=>{
+      // Any modifications before api call
+    },
+    onSuccess: ()=>{
+      dispatch(sessionActions.clearSession());
+      ClearCookie()
+       window.location.href = '/';
+    },
+    onError: (error: ErrorResponse) => {
+      console.log(error);
+    }
+  })
+
+  function handleLogout(){
+    mutate();
+  }
+
+  const authLink = currentUser?.id ? (
+    <button className="btn btn-outline btn-rounded" onClick={handleLogout}>
+      <FontAwesomeIcon icon="arrow-right-to-bracket" className="me-2" />
+      <span>Logout</span>
+    </button>
+  ) : (
+    <NavLink to="/auth">
+      <button className="btn btn-outline btn-rounded w-full">
+        <FontAwesomeIcon icon="arrow-right-to-bracket" className="me-2" />
+        <span>Login</span>
+      </button>
+    </NavLink>
   );
 
   return (
@@ -24,10 +58,7 @@ function Sidebar() {
         </h2>
         <NavMenu />
       </div>
-      <NavLink to="/auth">
-        <FontAwesomeIcon icon="arrow-right-to-bracket" className="me-2" />
-        <span>Login</span>
-      </NavLink>
+      {authLink}
     </div>
   );
 }

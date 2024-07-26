@@ -53,6 +53,11 @@ export class Session {
   }
 }
 
+export const ClearCookie = ()=>{
+  const session = new Session();
+  Cookies.remove(session.accessTokenCookieName)
+}
+
 export function SsoLoginLoader({ request }: { request: Request }) {
   const session = new Session();
   const params = new URL(request.url).searchParams;
@@ -65,3 +70,9 @@ export async function LoadSession() {
   const session = new Session();
   return session.loadClientSession();
 }
+
+export async function LogoutUser() {
+  const apiService = new RestApi();
+  return  apiService.post( `${apiPath.authPath}/logout`)
+}
+
