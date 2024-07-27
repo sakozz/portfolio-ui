@@ -4,7 +4,12 @@ import User from "../dao/users.dao.ts";
 
 const sessionSlice = createSlice({
   name: "session",
-  initialState: { currentSession: null, currentUser: null, authenticated: false },
+  initialState: {
+    currentSession: null,
+    currentUser: null,
+    cookie: null,
+    authenticated: false,
+  },
   reducers: {
     setSession: (
       state,
@@ -14,11 +19,15 @@ const sessionSlice = createSlice({
       state.currentUser = action.payload.user;
       state.authenticated = true;
     },
-    clearSession: (state) =>{
+    setCookies: (state, action: { payload: { cookie: string } }) => {
+      state.cookie = action.payload.cookie;
+    },
+    clearSession: (state) => {
       state.currentUser = undefined;
       state.currentSession = undefined;
+      state.cookie = undefined;
       state.authenticated = false;
-    }
+    },
   },
 });
 

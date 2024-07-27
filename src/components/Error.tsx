@@ -5,6 +5,7 @@ import Sidebar from "./sidebar/sidebar.tsx";
 function ErrorPage() {
   const error: ErrorResponse = useRouteError() as ErrorResponse;
 
+  console.log(error);
   let title = "An error occurred!";
   let message = "Something went wrong!";
 

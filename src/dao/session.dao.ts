@@ -1,3 +1,6 @@
+import { redirect } from "react-router-dom";
+import { sessionActions } from "../store/session.store.ts";
+import store from "../store/store.ts";
 import { apiPath } from "../types/api.ts";
 import Cookies from "js-cookie";
 import { PayloadJSON } from "../types/payload.interface.ts";
@@ -10,28 +13,38 @@ export class Session {
   provider: string = "google";
   state: string = "";
   code: string = "";
-  token: string = "";
+  token: string = null;
   expiresAt: Date = new Date();
-  restApi         = new RestApi();
+  restApi = new RestApi();
 
   constructor() {}
 
-  async loadSessionUser(): Promise<{session: Session, user: User}> {
+  async loadSessionUser(): Promise<{ session: Session; user: User }> {
     const url = `${apiPath.userProfilePath}`;
-    const result = await this.restApi.get({queryKey: ["profile"]}, url) as PayloadJSON<User>;
+    const result = (await this.restApi.get(
+      { queryKey: ["profile"] },
+      url,
+    )) as PayloadJSON<User>;
     return { session: this, user: new User(result.data.attributes) };
   }
 
-  loadClientSession() {
-    this.token = Cookies.get(this.accessTokenCookieName) || "";
-    return this.loadSessionUser();
+  loadCookie() {
+    this.token = Cookies.get(this.accessTokenCookieName) || null;
+    store.dispatch(sessionActions.setCookies({ cookie: this.token }));
   }
 
   async ssoLogin() {
     const url = `${apiPath.authPath}/${this.provider}/callback?code=${this.code}&state=${this.state}`;
-    const result = await this.restApi.get({queryKey:  ["session"], refetchOnWindowFocus: false}, url);
-    this.setCookie(result);
-    return result;
+    try {
+      const result = await this.restApi.get(
+        { queryKey: ["session"], refetchOnWindowFocus: false },
+        url,
+      );
+      this.setCookie(result);
+      return redirect("/");
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   setCookie({
@@ -54,10 +67,10 @@ export class Session {
   }
 }
 
-export const ClearCookie = ()=>{
+export const ClearCookie = () => {
   const session = new Session();
-  Cookies.remove(session.accessTokenCookieName)
-}
+  Cookies.remove(session.accessTokenCookieName);
+};
 
 export function SsoLoginLoader({ request }: { request: Request }) {
   const session = new Session();
@@ -69,11 +82,15 @@ export function SsoLoginLoader({ request }: { request: Request }) {
 
 export async function LoadSession() {
   const session = new Session();
-  return session.loadClientSession();
+  return session.loadSessionUser();
+}
+
+export function loadCookie() {
+  const session = new Session();
+  session.loadCookie();
 }
 
 export async function LogoutUser() {
   const apiService = new RestApi();
-  return  apiService.post( `${apiPath.authPath}/logout`)
+  return apiService.post(`${apiPath.authPath}/logout`);
 }
-

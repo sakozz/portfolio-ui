@@ -1,7 +1,13 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { redirect } from "react-router-dom";
 import { AppQueryClient } from "../app.routes.tsx";
+import { Toast } from "../components/toast-messages/toast-messages.tsx";
+import store from "../store/store.ts";
+import { uiActions } from "../store/ui.store.ts";
+
 export type httpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+
 const fetchQuery = async (
   method: httpMethod,
   queryOptions: UseQueryOptions,
@@ -16,12 +22,7 @@ const fetchQuery = async (
     const result = res as AxiosResponse;
     return result.data;
   } catch (err) {
-    const error = err as AxiosError;
-    if ([401, 403, 500].includes(error.response.status)) {
-      // Flash error message
-      console.log(error);
-    }
-    throw error;
+    return handleApiError(err as AxiosError);
   }
 };
 
@@ -67,3 +68,35 @@ export class RestApi {
     return fetchQuery("POST", null, path, payload);
   }
 }
+
+const handleApiError = (error: AxiosError) => {
+  const { status } = error.response;
+  if ([401, 403, 500].includes(status)) {
+    let toast: Toast = new Toast("Sorry, Error has occurred", "", "error");
+    // Flash error message
+    switch (status) {
+      case 401:
+        toast = new Toast(
+          "Unauthorized Error",
+          "Invalid or Expired session. Please login.",
+          "error",
+        );
+        store.dispatch(uiActions.addToast({ toast: toast }));
+        return redirect("/auth");
+      case 403:
+        toast = new Toast(
+          "Forbidden Error",
+          "Access to record or content is not allowed",
+          "error",
+        );
+        break;
+      default:
+        toast.title = "Server Error";
+        break;
+    }
+    store.dispatch(uiActions.addToast({ toast: toast }));
+    return error.response;
+  } else {
+    throw error;
+  }
+};
