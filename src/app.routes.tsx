@@ -5,6 +5,7 @@ import About from "./pages/about/about.tsx";
 import Auth from "./pages/auth/auth.tsx";
 import LoginPage from "./pages/auth/login.tsx";
 import SSOCallback from "./pages/auth/sso-callback.tsx";
+import BlogPage from "./pages/blogs/blog.tsx";
 import BlogsList from "./pages/blogs/blogs-list.tsx";
 import Blogs from "./pages/blogs/blogs.tsx";
 import ErrorPage from "./components/Error.tsx";
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
           {
             path: ":id",
             id: "blog-detail",
+            element: <BlogPage/>,
             loader: blogDetailsLoader,
           },
         ],

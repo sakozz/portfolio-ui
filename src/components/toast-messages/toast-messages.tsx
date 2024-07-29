@@ -1,6 +1,6 @@
 import {  useSelector } from "react-redux";
 import { RootState } from "../../store/store.ts";
-import { randomId } from "../../utils/misc.ts";
+import { randomId } from "../../lib/misc.ts";
 import ToastMessage from "./toast-message.tsx";
 
 export type ToastType = "info" | "success" | "warning" | "error";

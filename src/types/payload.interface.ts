@@ -5,8 +5,8 @@ export interface PayloadJSON<AttrType = unknown> {
   included?: ResourceJSON[];
 }
 
-export interface ArrayPayloadJSON {
-  data: ResourceJSON[];
+export interface ArrayPayloadJSON<AttrType = unknown> {
+  data: ResourceJSON<AttrType>[];
   errors?: undefined;
   meta?: undefined;
   links?: undefined;
@@ -19,15 +19,4 @@ export interface ResourceJSON<AttrType = unknown> {
   meta?: undefined;
   relationships?: Record<string, PayloadJSON | ArrayPayloadJSON>;
   included?: ResourceJSON[]; // This is filled by frontend, not part of JSONAPI spec
-}
-
-export type ResourceFormData = FormData;
-
-export type SuccessCode = 'submission_success';
-
-export interface SuccessJSON {
-  code: string;
-  type: SuccessCode;
-  title: string;
-  detail: Record<string, string>;
 }

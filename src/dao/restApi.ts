@@ -12,15 +12,14 @@ const fetchQuery = async (
   method: httpMethod,
   queryOptions: UseQueryOptions,
   path: string,
-  payload?: Record<string, unknown>,
+  payload?: unknown,
 ) => {
   try {
     const res = await AppQueryClient.fetchQuery({
       ...queryOptions,
       queryFn: async ({ signal }) => callApi(method, path, signal, payload),
     });
-    const result = res as AxiosResponse;
-    return result.data;
+    return res as AxiosResponse;
   } catch (err) {
     return handleApiError(err as AxiosError);
   }
@@ -64,8 +63,12 @@ export class RestApi {
     return fetchQuery("GET", queryOptions, path);
   }
 
-  post(path: string, payload?: Record<string, unknown>) {
+  post(path: string, payload?: unknown) {
     return fetchQuery("POST", null, path, payload);
+  }
+
+  patch(path: string, payload?: unknown) {
+    return fetchQuery("PATCH", null, path, payload);
   }
 }
 
@@ -82,7 +85,7 @@ const handleApiError = (error: AxiosError) => {
           "error",
         );
         store.dispatch(uiActions.addToast({ toast: toast }));
-        return redirect("/auth");
+        throw redirect("/auth");
       case 403:
         toast = new Toast(
           "Forbidden Error",
@@ -95,8 +98,6 @@ const handleApiError = (error: AxiosError) => {
         break;
     }
     store.dispatch(uiActions.addToast({ toast: toast }));
-    return error.response;
-  } else {
-    throw error;
   }
+  return error;
 };

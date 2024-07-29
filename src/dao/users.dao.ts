@@ -1,27 +1,21 @@
+import { ResourceJSON } from "../types/payload.interface.ts";
+
 export default class User {
-  id: number = null;
+  id: string = null;
   username: string = null;
   email: string = null;
   firstName: string = null;
   lastName: string = null;
-  role:  string = null;
+  role: string = null;
   avatarUrl: string = null;
 
-  constructor({
-    id,
-    username,
-    email,
-    firstName,
-    lastName,
-    role,
-    avatarUrl,
-  }: User) {
-    this.id = id;
-    this.username = username;
-    this.email = email;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.role = role;
-    this.avatarUrl = avatarUrl;
+  constructor(payload: ResourceJSON<User>) {
+    this.id = payload.attributes.id;
+    this.username = payload.attributes.username;
+    this.email = payload.attributes.email;
+    this.firstName = payload.attributes.firstName;
+    this.lastName = payload.attributes.lastName;
+    this.role = payload.attributes.role;
+    this.avatarUrl = payload.attributes.avatarUrl;
   }
 }

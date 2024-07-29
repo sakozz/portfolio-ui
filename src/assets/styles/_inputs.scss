@@ -1,16 +1,9 @@
-.form-group {
-  &.invalid .input-group {
+form {
+  .invalid .input-group {
     @apply outline
     outline-red-55
     outline-1
     border-red-55;
-  }
-
-  &.warning .input-group {
-    @apply outline
-    outline-orange-50
-    outline-1
-    border-orange-50;
   }
 
   &.disabled {

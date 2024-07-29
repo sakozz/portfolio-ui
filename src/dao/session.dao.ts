@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { redirect } from "react-router-dom";
 import { sessionActions } from "../store/session.store.ts";
 import store from "../store/store.ts";
@@ -21,11 +22,12 @@ export class Session {
 
   async loadSessionUser(): Promise<{ session: Session; user: User }> {
     const url = `${apiPath.userProfilePath}`;
-    const result = (await this.restApi.get(
-      { queryKey: ["profile"] },
-      url,
-    )) as PayloadJSON<User>;
-    return { session: this, user: new User(result.data.attributes) };
+    const result = await this.restApi.get({ queryKey: ["profile"] }, url);
+    if (result instanceof AxiosError) {
+      throw result;
+    }
+    const user = result.data as PayloadJSON<User>;
+    return { session: this, user: new User(user.data) };
   }
 
   loadCookie() {
@@ -35,16 +37,16 @@ export class Session {
 
   async ssoLogin() {
     const url = `${apiPath.authPath}/${this.provider}/callback?code=${this.code}&state=${this.state}`;
-    try {
-      const result = await this.restApi.get(
-        { queryKey: ["session"], refetchOnWindowFocus: false },
-        url,
-      );
-      this.setCookie(result);
-      return redirect("/");
-    } catch (err) {
-      console.error(err);
+    const result = await this.restApi.get(
+      { queryKey: ["session"], refetchOnWindowFocus: false },
+      url,
+    );
+    if (result instanceof AxiosError) {
+      throw result;
     }
+
+    this.setCookie(result.data);
+    return redirect("/");
   }
 
   setCookie({
