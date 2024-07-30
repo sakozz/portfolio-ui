@@ -29,7 +29,7 @@ export default {
         light: {
           light: {
             5: "#F6F5F3",
-            15: "#E4E0D7",
+            15: "#f3f2ee",
             110: "#1D19170D", //hover-bg
             115: "#79736C1A", //sidemenu-active
             120: "#79736C26", //active-bg

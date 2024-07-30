@@ -1,9 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { redirect } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import FormField from "../../components/form-field/form-field.tsx";
-import { saveBlog } from "../../dao/blogs.dao.ts";
+import {
+  Blog,
+  saveBlog,
+} from "../../dao/blogs.dao.ts";
+import { setValidationErrors } from "../../dao/restApi.ts";
 import { descriptionValidator, titleValidator } from "../../lib/validators.ts";
 
 const blogFormSchema = z.object({
@@ -11,29 +16,32 @@ const blogFormSchema = z.object({
   body: descriptionValidator,
   excerpt: descriptionValidator,
 });
-
-type BlogFormFields = z.infer<typeof blogFormSchema>;
+type FormFieldsType = typeof blogFormSchema;
+type BlogFormFields = z.infer<FormFieldsType>;
 
 export default function BlogForm() {
+  const blog: Blog = useLoaderData() as Blog;
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
   } = useForm<BlogFormFields>({
-    defaultValues: {},
+    defaultValues: {
+      title: blog.title,
+      body: blog.body,
+      excerpt: blog.excerpt,
+    },
     resolver: zodResolver(blogFormSchema),
   });
 
   const onSubmit: SubmitHandler<BlogFormFields> = async (data) => {
-    console.log(errors);
-    try {
-      await saveBlog(data)
-      redirect('blogs')
-    } catch (error) {
-      setError("root", {
-        message: "This email is already taken",
-      });
+    const result = await saveBlog(data, blog?.slug);
+    if (result instanceof AxiosError) {
+      setValidationErrors<BlogFormFields>(setError, result);
+    } else {
+      navigate("/blogs");
     }
   };
 

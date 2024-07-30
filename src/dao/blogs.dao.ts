@@ -1,8 +1,9 @@
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { apiPath } from "../types/api.ts";
 import {
-  ArrayPayloadJSON, PayloadJSON,
-  ResourceJSON
+  ArrayPayloadJSON,
+  PayloadJSON,
+  ResourceJSON,
 } from "../types/payload.interface.ts";
 import { RestApi } from "./restApi.ts";
 export class Blog {
@@ -32,14 +33,21 @@ export async function blogDetailsLoader({
   params: Record<string, unknown>;
 }) {
   const id = params.id as string;
-  const apiService = new RestApi();
+  const restApi = new RestApi();
   if (id == "new") {
     return new Blog(undefined);
   }
-  return apiService.get(
+  const result = await restApi.get(
     { queryKey: ["blogDetails", id] },
     `${apiPath.blogsPath}/${id}`,
   );
+
+  if (result instanceof AxiosError) {
+    return result;
+  }
+
+  const payload = result.data as PayloadJSON<Blog>;
+  return new Blog(payload.data as Blog);
 }
 
 export async function blogsListLoader() {
@@ -58,22 +66,27 @@ export async function blogsListLoader() {
   });
 }
 
-export async function saveBlog(payload: unknown, id?: string): Promise<Blog> {
-  const data: PayloadJSON = { data: {
-      type      : "blogs",
+export async function saveBlog(
+  payload: unknown,
+  id?: string,
+): Promise<Blog | AxiosError> {
+  const data: PayloadJSON = {
+    data: {
+      type: "blogs",
       attributes: payload,
-    }
+    },
   };
   const restApi = new RestApi();
-  let request = restApi.post(`${apiPath.blogsPath}`, data);
+  let result: AxiosResponse<Blog> | AxiosError;
   if (id) {
-    request = restApi.patch(`${apiPath.blogsPath}/${id}`, data);
+    result = await restApi.put(`${apiPath.blogsPath}/${id}`, data);
+  } else {
+    result = await restApi.post(`${apiPath.blogsPath}`, data);
   }
 
-  const result = await request;
-
   if (result instanceof AxiosError) {
-    throw result;
+    return result;
   }
   return new Blog(result.data as ResourceJSON<Blog>);
 }
+

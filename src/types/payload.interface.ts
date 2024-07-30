@@ -20,3 +20,21 @@ export interface ResourceJSON<AttrType = unknown> {
   relationships?: Record<string, PayloadJSON | ArrayPayloadJSON>;
   included?: ResourceJSON[]; // This is filled by frontend, not part of JSONAPI spec
 }
+
+export type ApiError = {
+  message: string; // Generic error message
+  status: number; // Error status i.e 401, 422
+  error: "validation_error"; // Error code i.e "validation_error"
+  causes: Record<string, Record<string, unknown>[]>; // Reasons for errors
+  /* Example of causes
+  {
+    Body: [
+        {
+          error: "min_length_required";
+          expected: 100;
+          provided: 65;
+        },
+     ];
+    };
+  */
+};
