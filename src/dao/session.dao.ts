@@ -1,7 +1,9 @@
 import { AxiosError } from "axios";
 import { redirect } from "react-router-dom";
+import { Toast } from "../components/toast-messages/toast-messages.tsx";
 import { sessionActions } from "../store/session.store.ts";
 import store from "../store/store.ts";
+import { uiActions } from "../store/ui.store.ts";
 import { apiPath } from "../types/api.ts";
 import Cookies from "js-cookie";
 import { PayloadJSON } from "../types/payload.interface.ts";
@@ -46,6 +48,11 @@ export class Session {
     }
 
     this.setCookie(result.data);
+    store.dispatch(
+      uiActions.addToast({
+        toast: new Toast("Welcome !", "Logged in Successfully.", "success"),
+      }),
+    );
     return redirect("/");
   }
 
