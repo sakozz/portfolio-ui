@@ -1,7 +1,8 @@
 import { createThemes } from "tw-colors";
+import withMT from "@material-tailwind/html/utils/withMT.js";
 
 /** @type {import('tailwindcss').Config} */
-export default {
+export default withMT({
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {},
@@ -96,4 +97,4 @@ export default {
       { defaultTheme: "light" },
     ),
   ],
-};
+});
