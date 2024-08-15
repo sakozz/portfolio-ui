@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import ToastMessages from "./components/toast-messages/toast-messages.tsx";
-import Sidebar from "./components/sidebar/sidebar.tsx";
 import { loadCookie, LoadSession } from "./dao/session.dao.ts";
 import { sessionActions } from "./store/session.store.ts";
 import { RootState } from "./store/store.ts";
@@ -35,8 +34,7 @@ function RootLayout() {
         <div className="absolute top-0 h-1 w-full progress-bar"></div>
       )}
       <ToastMessages></ToastMessages>
-      <Sidebar />
-      <main className="flex flex-col flex-grow p-4 container mx-auto">
+      <main className="flex flex-col flex-grow">
         <Outlet />
       </main>
     </div>

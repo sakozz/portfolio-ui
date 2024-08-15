@@ -1,5 +1,5 @@
 import { Link, NavLink, useLoaderData } from "react-router-dom";
-import { Blog } from "../../dao/blogs.dao.ts";
+import { Blog } from "../../../dao/blogs.dao.ts";
 
 export default function BlogsList() {
   const blogs: Blog[] = useLoaderData() as Blog[];

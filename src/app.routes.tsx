@@ -1,18 +1,26 @@
 import { QueryClient } from "@tanstack/react-query";
 import { createBrowserRouter } from "react-router-dom";
 import { SsoLoginLoader } from "./dao/session.dao.ts";
-import About from "./pages/about/about.tsx";
-import Auth from "./pages/auth/auth.tsx";
-import LoginPage from "./pages/auth/login.tsx";
-import SSOCallback from "./pages/auth/sso-callback.tsx";
-import BlogPage from "./pages/blogs/blog.tsx";
-import BlogsList from "./pages/blogs/blogs-list.tsx";
-import Blogs from "./pages/blogs/blogs.tsx";
+import Auth from "./pages/public/auth/auth.tsx";
+import LoginPage from "./pages/public/auth/login.tsx";
+import SSOCallback from "./pages/public/auth/sso-callback.tsx";
+
 import ErrorPage from "./components/Error.tsx";
 import { blogDetailsLoader, blogsListLoader } from "./dao/blogs.dao.ts";
-import Contact from "./pages/contact/contact.tsx";
-import Resume from "./pages/resume/resume.tsx";
 import RootLayout from "./root-layout.tsx";
+import Internal from "./pages/int/internal.tsx";
+import Dashboard from "./pages/int/dashboard/dashboard.tsx";
+import Profiles from "./pages/int/profiles/profiles.tsx";
+import ProfilesCollection from "./pages/int/profiles/profiles-collection.tsx";
+import Profile from "./pages/int/profiles/profile.tsx";
+import PublicPages from "./pages/public/public.tsx";
+import About from "./pages/public/about/about.tsx";
+import Resume from "./pages/resume/resume.tsx";
+import Contact from "./pages/public/contact/contact.tsx";
+import Blogs from "./pages/public/blogs/blogs.tsx";
+import BlogsList from "./pages/public/blogs/blogs-list.tsx";
+import BlogPage from "./pages/public/blogs/blog.tsx";
+
 export const AppQueryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -20,7 +28,51 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <About /> },
+      {
+        path: "",
+        element: <PublicPages />,
+        children: [
+          { index: true, element: <About /> },
+          {
+            path: "resume",
+            element: <Resume />,
+          },
+          {
+            path: "contact",
+            element: <Contact />,
+          },
+          {
+            path: "auth",
+            element: <Auth />,
+            children: [
+              {
+                index: true,
+                element: <LoginPage />,
+              },
+              {
+                path: "google/sso-callback",
+                element: <SSOCallback />,
+                loader: SsoLoginLoader,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "int",
+        element: <Internal />,
+        children: [
+          { index: true, element: <Dashboard /> },
+          {
+            path: "profiles",
+            element: <Profiles />,
+            children: [
+              { index: true, element: <ProfilesCollection /> },
+              { path: ":id", element: <Profile /> },
+            ],
+          },
+        ],
+      },
       {
         path: "blogs",
         element: <Blogs />,
@@ -33,31 +85,8 @@ const router = createBrowserRouter([
           {
             path: ":id",
             id: "blog-detail",
-            element: <BlogPage/>,
+            element: <BlogPage />,
             loader: blogDetailsLoader,
-          },
-        ],
-      },
-      {
-        path: "resume",
-        element: <Resume />,
-      },
-      {
-        path: "contact",
-        element: <Contact />,
-      },
-      {
-        path: "auth",
-        element: <Auth />,
-        children: [
-          {
-            index: true,
-            element: <LoginPage />,
-          },
-          {
-            path: "google/sso-callback",
-            element: <SSOCallback />,
-            loader: SsoLoginLoader,
           },
         ],
       },
