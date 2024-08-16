@@ -15,7 +15,7 @@ import ProfilesCollection from "./pages/int/profiles/profiles-collection.tsx";
 import Profile from "./pages/int/profiles/profile.tsx";
 import PublicPages from "./pages/public/public.tsx";
 import About from "./pages/public/about/about.tsx";
-import Resume from "./pages/resume/resume.tsx";
+import Resume from "./pages/public/resume/resume.tsx";
 import Contact from "./pages/public/contact/contact.tsx";
 import Blogs from "./pages/public/blogs/blogs.tsx";
 import BlogsList from "./pages/public/blogs/blogs-list.tsx";

@@ -2,14 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Session } from "../dao/session.dao.ts";
 import User from "../dao/users.dao.ts";
 
+export type SessionState = {
+  currentSession: Session | null;
+  currentUser: User | null;
+  authToken: string | null;
+  authenticated: boolean;
+};
+
+export const initialState: SessionState = {
+  currentSession: null,
+  currentUser: null,
+  authToken: null,
+  authenticated: false,
+};
 const sessionSlice = createSlice({
   name: "session",
-  initialState: {
-    currentSession: null,
-    currentUser: null,
-    cookie: null,
-    authenticated: false,
-  },
+  initialState: initialState,
   reducers: {
     setSession: (
       state,
@@ -19,13 +27,9 @@ const sessionSlice = createSlice({
       state.currentUser = action.payload.user;
       state.authenticated = true;
     },
-    setCookies: (state, action: { payload: { cookie: string } }) => {
-      state.cookie = action.payload.cookie;
-    },
     clearSession: (state) => {
       state.currentUser = undefined;
       state.currentSession = undefined;
-      state.cookie = undefined;
       state.authenticated = false;
     },
   },

@@ -1,15 +1,26 @@
 import {
   faArrowRightToBracket,
-  faBlog, faCheck,
+  faBlog,
+  faCalendarDays,
+  faCheck,
   faCircleExclamation,
   faCircleInfo,
   faContactBook,
   faContactCard,
+  faEnvelope,
   faIdCard,
+  faMapLocationDot,
+  faPassport,
+  faPhone,
   faTriangleExclamation,
   faUser,
-  faXmark
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  faGithub,
+  faLinkedin,
+  faStackOverflow,
+} from "@fortawesome/free-brands-svg-icons";
 
 export const faIconsList = [
   faUser,
@@ -23,6 +34,14 @@ export const faIconsList = [
   faTriangleExclamation,
   faCircleExclamation,
   faCheck,
+  faEnvelope,
+  faPhone,
+  faMapLocationDot,
+  faGithub,
+  faLinkedin,
+  faStackOverflow,
+  faPassport,
+  faCalendarDays,
 ] as const;
 
 export type FaIconType = (typeof faIconsList)[number];

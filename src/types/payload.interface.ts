@@ -1,24 +1,26 @@
-export interface PayloadJSON<AttrType = unknown> {
-  data: ResourceJSON<AttrType>;
-  errors?: undefined;
-  meta?: undefined; // { count: 1, next: }
+export type PayloadJSON = Record<string, unknown>;
+
+export interface ArrayPayloadJSON {
+  items: ResourceJSON[];
+  errors?: unknown;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  pageNumber: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
   included?: ResourceJSON[];
 }
 
-export interface ArrayPayloadJSON<AttrType = unknown> {
-  data: ResourceJSON<AttrType>[];
-  errors?: undefined;
-  meta?: undefined;
-  links?: undefined;
-  included?: ResourceJSON[];
-}
-export interface ResourceJSON<AttrType = unknown> {
-  type: string;
-  id?: string;
-  attributes?: AttrType;
-  meta?: undefined;
-  relationships?: Record<string, PayloadJSON | ArrayPayloadJSON>;
-  included?: ResourceJSON[]; // This is filled by frontend, not part of JSONAPI spec
+export type ResourceJSON = Record<string, unknown>;
+
+export type SuccessCode = "submission_success";
+
+export interface SuccessJSON {
+  code: string;
+  type: SuccessCode;
+  title: string;
+  detail: Record<string, string>;
 }
 
 export type ApiError = {

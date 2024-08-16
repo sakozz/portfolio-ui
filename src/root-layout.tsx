@@ -1,32 +1,24 @@
 import { useIsFetching } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 import ToastMessages from "./components/toast-messages/toast-messages.tsx";
-import { loadCookie, LoadSession } from "./dao/session.dao.ts";
+import { LoadSession } from "./dao/session.dao.ts";
 import { sessionActions } from "./store/session.store.ts";
-import { RootState } from "./store/store.ts";
 
 function RootLayout() {
   const dispatch = useDispatch();
-  const { cookie } = useSelector((state: RootState) => state.session);
   const isFetching = useIsFetching();
 
   useEffect(() => {
-    loadCookie();
-  }, []);
-
-  useEffect(() => {
-    if (cookie) {
-      LoadSession()
-        .then((res) => {
-          dispatch(sessionActions.setSession(res));
-        })
-        .catch((err) => {
-          console.log("Error loading session:", err);
-        });
-    }
-  }, [cookie, dispatch]);
+    LoadSession()
+      .then((res) => {
+        dispatch(sessionActions.setSession(res));
+      })
+      .catch((err) => {
+        console.log("Error loading session:", err);
+      });
+  }, [dispatch]);
 
   return (
     <div className="flex flex-row h-full">
