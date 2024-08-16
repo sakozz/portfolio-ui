@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "../../components/sidebar/sidebar.tsx";
+import Sidebar from "./sidebar/sidebar.tsx";
 
 export default function PublicPages() {
   return (

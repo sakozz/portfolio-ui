@@ -1,6 +1,6 @@
 import { ErrorResponse, useRouteError } from "react-router-dom";
 import PageContent from "./page-content/page-content.tsx";
-import Sidebar from "./sidebar/sidebar.tsx";
+import Sidebar from "../pages/public/sidebar/sidebar.tsx";
 
 function ErrorPage() {
   const error: ErrorResponse = useRouteError() as ErrorResponse;

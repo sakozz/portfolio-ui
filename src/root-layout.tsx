@@ -29,7 +29,7 @@ function RootLayout() {
   }, [cookie, dispatch]);
 
   return (
-    <div className="flex flex-row h-full bg-light-5">
+    <div className="flex flex-row h-full">
       {isFetching > 0 && (
         <div className="absolute top-0 h-1 w-full progress-bar"></div>
       )}

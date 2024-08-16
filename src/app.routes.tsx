@@ -9,7 +9,7 @@ import ErrorPage from "./components/Error.tsx";
 import { blogDetailsLoader, blogsListLoader } from "./dao/blogs.dao.ts";
 import RootLayout from "./root-layout.tsx";
 import Internal from "./pages/int/internal.tsx";
-import Dashboard from "./pages/int/dashboard/dashboard.tsx";
+import Overview from "./pages/int/overview/overview.tsx";
 import Profiles from "./pages/int/profiles/profiles.tsx";
 import ProfilesCollection from "./pages/int/profiles/profiles-collection.tsx";
 import Profile from "./pages/int/profiles/profile.tsx";
@@ -62,7 +62,7 @@ const router = createBrowserRouter([
         path: "int",
         element: <Internal />,
         children: [
-          { index: true, element: <Dashboard /> },
+          { index: true, element: <Overview /> },
           {
             path: "profiles",
             element: <Profiles />,
