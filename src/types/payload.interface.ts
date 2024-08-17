@@ -1,7 +1,7 @@
 export type PayloadJSON = Record<string, unknown>;
 
-export interface ArrayPayloadJSON {
-  items: ResourceJSON[];
+export interface ArrayPayloadJSON<Type> {
+  items: Type[];
   errors?: unknown;
   hasNextPage: boolean;
   hasPreviousPage: boolean;
