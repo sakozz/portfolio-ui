@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-export const titleValidator = z
+export const nameValidator = z
   .string()
-   .min(5, "Title should be at least 5 Characters")
-   .max(100, "Title should be at max 100 characters");
+  .min(5, "Title should be at least 5 Characters")
+  .max(100, "Title should be at max 100 characters");
 
 export const descriptionValidator = z
   .string()

@@ -8,11 +8,11 @@ import { Blog, saveBlog } from "../../../dao/blogs.dao.ts";
 import { setValidationErrors } from "../../../dao/restApi.ts";
 import {
   descriptionValidator,
-  titleValidator,
+  nameValidator,
 } from "../../../lib/validators.ts";
 
 const blogFormSchema = z.object({
-  title: z.literal("").or(titleValidator),
+  title: z.literal("").or(nameValidator),
   body: descriptionValidator,
   excerpt: descriptionValidator,
 });

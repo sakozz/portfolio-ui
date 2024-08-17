@@ -1,16 +1,18 @@
 import {
-  ExperienceType,
+  Experience,
   fetchProfileExperiences,
 } from "../../../../dao/experiences.dao.ts";
 import { useQuery } from "@tanstack/react-query";
 import { ArrayPayloadJSON } from "../../../../types/payload.interface.ts";
 import { AxiosError, AxiosResponse } from "axios";
+import User from "../../../../dao/users.dao.ts";
 
-export default function Experiences({ profileId }: { profileId: number }) {
+export default function Experiences({ user }: { user: User }) {
   const { data, error }: { data: AxiosResponse; error: AxiosError } = useQuery({
-    queryKey: ["profiles", profileId, "experiences"],
-    queryFn: ({ signal }) => fetchProfileExperiences(profileId, signal),
+    queryKey: ["profiles", user?.id, "experiences"],
+    queryFn: ({ signal }) => fetchProfileExperiences(user?.id, signal),
   });
+
   let content;
   if (error) {
     content = (
@@ -20,10 +22,15 @@ export default function Experiences({ profileId }: { profileId: number }) {
     );
   }
   if (data) {
-    const experiences = data.data as ArrayPayloadJSON<ExperienceType>;
+    const experiences = data.data as ArrayPayloadJSON<Experience>;
     content = experiences.items.map((item, index) => (
       <div key={index} className={"my-2"}>
-        <h3 className={"text-xl font-bold "}>{item.jobTitle}</h3>
+        <div className={"flex flex-row justify-between gap-4"}>
+          <h3 className={"text-xl font-bold "}>{item.jobTitle}</h3>
+          <button type="button" className={"btn btn-rounded"}>
+            Edit
+          </button>
+        </div>
         <p className={"font-bold text-dark-60"}>
           {item.startDate} — {item.isCurrent ? "Present" : item.endDate} |{" "}
           {item.companyName} | {item.link}
@@ -35,7 +42,12 @@ export default function Experiences({ profileId }: { profileId: number }) {
 
   return (
     <div className={"flex flex-col w-full"}>
-      <h2 className="text-3xl text-red-600">Experiences</h2>
+      <div className={"flex flex-row justify-between gap-4"}>
+        <h2 className="text-3xl text-red-600">Experiences</h2>
+        <button className={"btn btn-rounded btn-outline-light"} type="button">
+          Add New
+        </button>
+      </div>
       <hr className={"my-4"} />
       {content}
     </div>

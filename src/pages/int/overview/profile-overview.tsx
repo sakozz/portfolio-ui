@@ -1,4 +1,4 @@
-import ProfileTabs from "./profile-tabs.tsx";
+import ProfileTabs from "../../shared/profile/profile-tabs.tsx";
 import EducationInfo from "../../shared/profile/education-info.tsx";
 import Experiences from "../../shared/profile/experiences/experiences.tsx";
 import QuickInfo from "../../shared/quick-info.tsx";
