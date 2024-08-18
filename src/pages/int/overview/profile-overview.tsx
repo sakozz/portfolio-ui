@@ -14,7 +14,7 @@ export default function ProfileOverview() {
   return (
     <>
       {currentUser?.id && (
-        <div className="flex flex-col items-start justify-center gap-6">
+        <div className="flex flex-col items-start justify-center gap-8">
           <QuickInfo user={currentUser} />
           <ProfileTabs />
           <ModalContextProvider>

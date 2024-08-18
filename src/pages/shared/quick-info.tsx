@@ -6,7 +6,7 @@ export default function QuickInfo({ user }: { user: User }) {
     <div className={"card flex flex-col md:flex-row gap-4"}>
       <div
         className={
-          "min-w-[250px] flex flex-col justify-center items-center gap-2"
+          "min-w-[280px] flex flex-col justify-center items-center gap-2 bg-red-600 text-white p-6 rounded-s-3xl"
         }
       >
         <img
@@ -66,7 +66,7 @@ export default function QuickInfo({ user }: { user: User }) {
           )}
         </div>
       </div>
-      <div>
+      <div className={"p-6"}>
         <h1 className={"text-4xl font-bold text-red-600"}>
           {user?.firstName} {user?.lastName}
         </h1>
