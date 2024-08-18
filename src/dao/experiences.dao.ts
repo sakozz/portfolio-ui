@@ -1,5 +1,5 @@
 import { apiPath } from "../types/api.ts";
-import { callApi } from "./restApi.ts";
+import { callApi, httpMethod } from "./restApi.ts";
 
 export interface ExperienceType {}
 
@@ -31,13 +31,14 @@ export async function fetchProfileExperiences(
 
 export async function saveExperience(
   profileId: number,
-  payload: unknown,
+  payload: Experience,
   signal?: AbortSignal,
 ) {
-  return await callApi(
-    "GET",
-    `${apiPath.profilesPath}/${profileId}/experiences`,
-    signal,
-    payload,
-  );
+  let path = `${apiPath.profilesPath}/${profileId}/experiences`;
+  let method: httpMethod = "POST";
+  if (payload.id) {
+    path = path.concat("/", payload.id.toString());
+    method = "PUT";
+  }
+  return await callApi(method, path, signal, payload);
 }

@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import User from "../../../../dao/users.dao.ts";
 import FormField from "../../../../components/form-field/form-field.tsx";
 import { useModalContext } from "../../../../components/modal/modal-context.tsx";
+import SwitchInput from "../../../../components/switch.tsx";
 
 const experienceFormSchema = z.object({
   jobTitle: nameValidator,
@@ -51,7 +52,7 @@ export default function ExperienceForm({
 
   console.log(errors);
   const { mutate } = useMutation({
-    mutationFn: (payload: { profileId: number; data: unknown }) =>
+    mutationFn: (payload: { profileId: number; data: Experience }) =>
       saveExperience(payload.profileId, payload.data),
     onMutate: () => {
       // Any modifications before api call
@@ -78,9 +79,10 @@ export default function ExperienceForm({
 
   const onSubmit: SubmitHandler<ExperienceFormFields> = async (data) => {
     console.log(data);
+    const record = Object.assign(experience, data);
     mutate({
       profileId: user.id,
-      data: data,
+      data: record,
     });
   };
 
@@ -144,9 +146,12 @@ export default function ExperienceForm({
         />
       </FormField>
 
-      <FormField label={"Is Current"} error={errors?.isCurrent?.message}>
-        <input {...register("isCurrent")} className="form-control" />
-      </FormField>
+      <SwitchInput
+        register={register("isCurrent")}
+        error={errors.isCurrent?.message}
+      >
+        <p>Is Current</p>
+      </SwitchInput>
 
       <div className="flex flex-row gap-2 justify-end">
         <button
