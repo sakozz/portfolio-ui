@@ -13,6 +13,7 @@ import { Toast } from "../../../../components/toast-messages/toast-messages.tsx"
 import { useDispatch } from "react-redux";
 import User from "../../../../dao/users.dao.ts";
 import FormField from "../../../../components/form-field/form-field.tsx";
+import { useModalContext } from "../../../../components/modal/modal-context.tsx";
 
 const experienceFormSchema = z.object({
   jobTitle: nameValidator,
@@ -34,6 +35,7 @@ export default function ExperienceForm({
   user: User;
 }) {
   const dispatch = useDispatch();
+  const { closeModal } = useModalContext();
   const {
     register,
     handleSubmit,
@@ -47,6 +49,7 @@ export default function ExperienceForm({
     resolver: zodResolver(experienceFormSchema),
   });
 
+  console.log(errors);
   const { mutate } = useMutation({
     mutationFn: (payload: { profileId: number; data: unknown }) =>
       saveExperience(payload.profileId, payload.data),
@@ -74,6 +77,7 @@ export default function ExperienceForm({
   });
 
   const onSubmit: SubmitHandler<ExperienceFormFields> = async (data) => {
+    console.log(data);
     mutate({
       profileId: user.id,
       data: data,
@@ -82,11 +86,14 @@ export default function ExperienceForm({
 
   return (
     <form
-      className="form flex flex-col gap-4 my-8"
+      className="form flex flex-col gap-4"
       onSubmit={handleSubmit(onSubmit)}
     >
+      <h3 className={"text-2xl mt-0"}>
+        {experience.id ? "Update Experience" : "Create Experience"}
+      </h3>
       {errors.root && <div className="text-red-500">{errors.root.message}</div>}
-
+      <hr />
       <FormField label={"Title"} error={errors?.jobTitle?.message}>
         <input
           {...register("jobTitle")}
@@ -95,7 +102,10 @@ export default function ExperienceForm({
           placeholder="Job Title"
         />
       </FormField>
-      <FormField label={"Excerpt"} error={errors?.responsibilities?.message}>
+      <FormField
+        label={"Responsibilities"}
+        error={errors?.responsibilities?.message}
+      >
         <textarea
           {...register("responsibilities")}
           className="form-control"
@@ -110,15 +120,40 @@ export default function ExperienceForm({
           placeholder="Name of Company"
         />
       </FormField>
-      <FormField label={"Body"} error={errors?.link?.message}>
+      <FormField label={"Link"} error={errors?.link?.message}>
         <input
           {...register("link")}
           className="form-control"
           placeholder="Company website"
         />
       </FormField>
+
+      <FormField label={"Start Date"} error={errors?.startDate?.message}>
+        <input
+          {...register("startDate")}
+          className="form-control"
+          placeholder="Start"
+        />
+      </FormField>
+
+      <FormField label={"End Date"} error={errors?.endDate?.message}>
+        <input
+          {...register("endDate")}
+          className="form-control"
+          placeholder="End"
+        />
+      </FormField>
+
+      <FormField label={"Is Current"} error={errors?.isCurrent?.message}>
+        <input {...register("isCurrent")} className="form-control" />
+      </FormField>
+
       <div className="flex flex-row gap-2 justify-end">
-        <button type="button" className={"btn btn-outline-light btn-rounded"}>
+        <button
+          type="button"
+          className={"btn btn-outline-light btn-rounded"}
+          onClick={closeModal}
+        >
           Cancel
         </button>
         <button

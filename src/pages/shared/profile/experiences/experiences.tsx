@@ -6,20 +6,25 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrayPayloadJSON } from "../../../../types/payload.interface.ts";
 import { AxiosError, AxiosResponse } from "axios";
 import User from "../../../../dao/users.dao.ts";
+import Modal from "../../../../components/modal/modal.tsx";
+import ExperienceForm from "./experience.form.tsx";
+import { useModalContext } from "../../../../components/modal/modal-context.tsx";
+import { useState } from "react";
 
 export default function Experiences({ user }: { user: User }) {
+  const { openModal } = useModalContext();
+  const [formExperience, setFormExperience] = useState(null);
   const { data, error }: { data: AxiosResponse; error: AxiosError } = useQuery({
     queryKey: ["profiles", user?.id, "experiences"],
     queryFn: ({ signal }) => fetchProfileExperiences(user?.id, signal),
   });
-
+  const handleEdit = (experience: Experience) => {
+    setFormExperience(experience);
+    openModal();
+  };
   let content;
   if (error) {
-    content = (
-      <div>
-        <p>Error has occurred</p>
-      </div>
-    );
+    content = <p>Error has occurred</p>;
   }
   if (data) {
     const experiences = data.data as ArrayPayloadJSON<Experience>;
@@ -27,7 +32,11 @@ export default function Experiences({ user }: { user: User }) {
       <div key={index} className={"my-2"}>
         <div className={"flex flex-row justify-between gap-4"}>
           <h3 className={"text-xl font-bold "}>{item.jobTitle}</h3>
-          <button type="button" className={"btn btn-rounded"}>
+          <button
+            type="button"
+            className={"btn btn-rounded"}
+            onClick={() => handleEdit(item)}
+          >
             Edit
           </button>
         </div>
@@ -50,6 +59,15 @@ export default function Experiences({ user }: { user: User }) {
       </div>
       <hr className={"my-4"} />
       {content}
+
+      <Modal classname={"sm start"}>
+        {formExperience && (
+          <ExperienceForm
+            experience={formExperience}
+            user={user}
+          ></ExperienceForm>
+        )}
+      </Modal>
     </div>
   );
 }

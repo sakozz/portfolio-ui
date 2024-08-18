@@ -42,6 +42,7 @@ export const faIconsList = [
   faStackOverflow,
   faPassport,
   faCalendarDays,
+  faXmark,
 ] as const;
 
 export type FaIconType = (typeof faIconsList)[number];

@@ -25,6 +25,7 @@ function RootLayout() {
       {isFetching > 0 && (
         <div className="absolute top-0 h-1 w-full progress-bar"></div>
       )}
+      <div id={"modal"}></div>
       <ToastMessages></ToastMessages>
       <main className="flex flex-col flex-grow">
         <Outlet />

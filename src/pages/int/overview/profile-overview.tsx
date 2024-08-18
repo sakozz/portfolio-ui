@@ -5,6 +5,7 @@ import QuickInfo from "../../shared/quick-info.tsx";
 import User from "../../../dao/users.dao.ts";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store.ts";
+import ModalContextProvider from "../../../components/modal/modal-context.tsx";
 
 export default function ProfileOverview() {
   const { currentUser }: { currentUser: User } = useSelector(
@@ -16,8 +17,10 @@ export default function ProfileOverview() {
         <div className="flex flex-col items-start justify-center gap-6">
           <QuickInfo user={currentUser} />
           <ProfileTabs />
-          <Experiences profileId={currentUser.id} />
-          <EducationInfo></EducationInfo>
+          <ModalContextProvider>
+            <Experiences user={currentUser} />
+            <EducationInfo></EducationInfo>
+          </ModalContextProvider>
         </div>
       )}
     </>
