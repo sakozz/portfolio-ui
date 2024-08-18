@@ -6,13 +6,15 @@ export default function QuickInfo({ user }: { user: User }) {
     <div className={"card flex flex-col md:flex-row gap-4"}>
       <div
         className={
-          "min-w-[280px] flex flex-col justify-center items-center gap-2 bg-red-600 text-white p-6 rounded-s-3xl"
+          "min-w-[280px] flex flex-col justify-center items-center gap-2 bg-red-600 text-white p-6 rounded-s-3xl "
         }
       >
         <img
           src={user?.avatarUrl || ""}
           alt=""
-          className={"w-24 h-24 rounded-full mb-3"}
+          className={
+            "w-28 h-28 rounded-full mb-3 shadow-2xl  border-white border-2"
+          }
         />
         <div className={"flex flex-col gap-1"}>
           {user?.email && (
@@ -67,10 +69,10 @@ export default function QuickInfo({ user }: { user: User }) {
         </div>
       </div>
       <div className={"p-6"}>
-        <h1 className={"text-4xl font-bold text-red-600"}>
+        <h1 className={"text-4xl font-bold text-red-600 capitalize"}>
           {user?.firstName} {user?.lastName}
         </h1>
-        <p className={"text-dark-50 text-xl"}>Software Engineer</p>
+        <p className={"text-dark-50 text-xl capitalize"}>Software Engineer</p>
         <p className={"mt-8 leading text-lg"}>{user?.description}</p>
       </div>
     </div>

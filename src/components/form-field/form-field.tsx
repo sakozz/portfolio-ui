@@ -3,10 +3,12 @@ import { randomId } from "../../lib/misc.ts";
 
 export default function FormField({
   label,
+  hint,
   error,
   children,
 }: {
   label: string;
+  hint?: string;
   error: string;
   children: ReactNode;
 }) {
@@ -29,6 +31,7 @@ export default function FormField({
       <div className={"input-group"} ref={controlRef}>
         {children}
       </div>
+      {hint && <span className="text-sm text-dark-60">{hint}</span>}
       {error && <p className="text-red-500 text-sm">{error}</p>}
     </fieldset>
   );

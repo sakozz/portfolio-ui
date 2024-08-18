@@ -118,9 +118,9 @@ export function setValidationErrors<TFieldValues>(
   });
 
   Object.keys(apiErrors.causes).forEach((key) => {
-    const field = key.toLowerCase() as FieldPath<TFieldValues>;
+    const field = key as FieldPath<TFieldValues>;
     return setErrorFn(field, {
-      message: apiErrors.causes[key].map((item) => item.error).join("/n"),
+      message: apiErrors.causes[key].join("/n"),
     });
   });
 }

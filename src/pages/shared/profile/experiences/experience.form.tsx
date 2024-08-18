@@ -15,6 +15,8 @@ import User from "../../../../dao/users.dao.ts";
 import FormField from "../../../../components/form-field/form-field.tsx";
 import { useModalContext } from "../../../../components/modal/modal-context.tsx";
 import SwitchInput from "../../../../components/switch.tsx";
+import { AxiosError } from "axios";
+import { setValidationErrors } from "../../../../dao/restApi.ts";
 
 const experienceFormSchema = z.object({
   jobTitle: nameValidator,
@@ -40,12 +42,11 @@ export default function ExperienceForm({
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<ExperienceFormFields>({
     defaultValues: {
-      jobTitle: experience.jobTitle,
-      responsibilities: experience.responsibilities,
-      companyName: experience.companyName,
+      ...experience,
     },
     resolver: zodResolver(experienceFormSchema),
   });
@@ -58,13 +59,19 @@ export default function ExperienceForm({
       // Any modifications before api call
     },
     onSuccess: () => {
+      closeModal();
       dispatch(
         uiActions.addToast({
-          toast: new Toast("Logged Out", "Successfully logged out.", "success"),
+          toast: new Toast(
+            "Saved successfully",
+            "Saved the experience record.",
+            "success",
+          ),
         }),
       );
     },
-    onError: () => {
+    onError: (error: AxiosError) => {
+      setValidationErrors<ExperienceFormFields>(setError, error);
       dispatch(
         uiActions.addToast({
           toast: new Toast(
@@ -130,7 +137,11 @@ export default function ExperienceForm({
         />
       </FormField>
 
-      <FormField label={"Start Date"} error={errors?.startDate?.message}>
+      <FormField
+        label={"Start Date"}
+        hint={"2022/02/30"}
+        error={errors?.startDate?.message}
+      >
         <input
           {...register("startDate")}
           className="form-control"
