@@ -10,14 +10,16 @@ import Modal from "../../../../components/modal/modal.tsx";
 import ExperienceForm from "./experience.form.tsx";
 import { useModalContext } from "../../../../components/modal/modal-context.tsx";
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 
 export default function Experiences({ user }: { user: User }) {
-  const { openModal } = useModalContext();
+  const { isOpen, openModal } = useModalContext();
   const [formExperience, setFormExperience] = useState(null);
   const { data, error }: { data: AxiosResponse; error: AxiosError } = useQuery({
     queryKey: ["profiles", user?.id, "experiences"],
     queryFn: ({ signal }) => fetchProfileExperiences(user?.id, signal),
   });
+
   const handleEdit = (experience: Experience) => {
     setFormExperience(experience);
     openModal();
@@ -59,15 +61,18 @@ export default function Experiences({ user }: { user: User }) {
       </div>
       <hr className={"my-4"} />
       {content}
-
-      <Modal classname={"sm start"}>
-        {formExperience && (
-          <ExperienceForm
-            experience={formExperience}
-            user={user}
-          ></ExperienceForm>
+      <AnimatePresence>
+        {isOpen && (
+          <Modal classname={"sm start"}>
+            {formExperience && (
+              <ExperienceForm
+                experience={formExperience}
+                user={user}
+              ></ExperienceForm>
+            )}
+          </Modal>
         )}
-      </Modal>
+      </AnimatePresence>
     </div>
   );
 }
