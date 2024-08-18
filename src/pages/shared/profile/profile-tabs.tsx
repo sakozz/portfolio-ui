@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function ProfileTabs() {
   const sections = [
@@ -26,13 +27,15 @@ export default function ProfileTabs() {
           <button
             key={index}
             onClick={() => handleNavClick(index)}
-            className={
-              activeIndex == index
-                ? "bg-light-5 p-2 px-6 rounded-2xl shadow"
-                : "p-2 px-6 "
-            }
+            className={"p-2 px-6 relative "}
           >
-            <a href={`#${section}`} className={"text-lg"}>
+            {activeIndex == index && (
+              <motion.div
+                layoutId={"activeTabIndicator"}
+                className="absolute left-0 top-0 bottom-0 w-full bg-light-5 p-2 px-6 rounded-2xl shadow"
+              ></motion.div>
+            )}
+            <a href={`#${section}`} className={"text-lg z-1 relative"}>
               {section}
             </a>
           </button>
