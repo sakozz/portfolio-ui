@@ -17,6 +17,7 @@ import { useModalContext } from "../../../../components/modal/modal-context.tsx"
 import SwitchInput from "../../../../components/switch.tsx";
 import { AxiosError } from "axios";
 import { setValidationErrors } from "../../../../dao/restApi.ts";
+import { AppQueryClient } from "../../../../app.routes.tsx";
 
 const experienceFormSchema = z.object({
   jobTitle: nameValidator,
@@ -60,6 +61,10 @@ export default function ExperienceForm({
     },
     onSuccess: () => {
       closeModal();
+      AppQueryClient.invalidateQueries({
+        queryKey: ["profiles", user?.id, "experiences"],
+      });
+
       dispatch(
         uiActions.addToast({
           toast: new Toast(

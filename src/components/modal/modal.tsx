@@ -39,6 +39,7 @@ export default function Modal({
       ref={dialog}
       className={`modal ${classname}`}
     >
+      <div className={`content`}>{children}</div>
       <button
         type="button"
         className={"btn btn-rounded icon-btn absolute end-2 top-2"}
@@ -46,7 +47,6 @@ export default function Modal({
       >
         <FontAwesomeIcon icon="xmark" size={"lg"} />
       </button>
-      <div className={`content`}>{children}</div>
     </motion.dialog>,
     document.getElementById("modal"),
   );
