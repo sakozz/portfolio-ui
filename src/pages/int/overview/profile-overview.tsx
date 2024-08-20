@@ -6,6 +6,7 @@ import User from "../../../dao/users.dao.ts";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store.ts";
 import ModalContextProvider from "../../../components/modal/modal-context.tsx";
+import CompetenceGroups from "../../shared/profile/competene-groups/competence-groups.tsx";
 
 export default function ProfileOverview() {
   const { currentUser }: { currentUser: User } = useSelector(
@@ -18,9 +19,12 @@ export default function ProfileOverview() {
           <QuickInfo user={currentUser} />
           <ProfileTabs />
           <ModalContextProvider>
-            <Experiences user={currentUser} />
-            <EducationInfo></EducationInfo>
+            <CompetenceGroups user={currentUser} />
           </ModalContextProvider>
+          <ModalContextProvider>
+            <Experiences user={currentUser} />
+          </ModalContextProvider>
+          <EducationInfo></EducationInfo>
         </div>
       )}
     </>
