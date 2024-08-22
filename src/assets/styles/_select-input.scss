@@ -1,0 +1,40 @@
+.custom__ {
+
+
+  &value-container {
+    @apply px-2 pt-1;
+  }
+
+  &indicators {
+    @apply px-2;
+  }
+
+  &multi-value {
+    @apply me-1 mb-1;
+    &__label {
+      @apply text-dark-60 bg-light-120 px-3 py-[2px] rounded-s;
+    }
+
+    &__remove {
+      @apply bg-light-130 rounded-e px-1;
+    }
+  }
+
+  &clear-indicator {
+    @apply cursor-pointer text-light-165;
+  }
+
+  &menu {
+    @apply mt-1 bg-white border rounded shadow-md;
+    .custom__option {
+      @apply p-2;
+      &:hover {
+        @apply bg-light-115 cursor-pointer;
+      }
+    }
+
+    &-notice {
+      @apply py-6;
+    }
+  }
+}

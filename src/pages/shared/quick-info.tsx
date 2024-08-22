@@ -69,7 +69,7 @@ export default function QuickInfo({ user }: { user: User }) {
         </div>
       </div>
       <div className={"p-6"}>
-        <h1 className={"text-4xl font-bold text-red-600 capitalize"}>
+        <h1 className={"text-4xl text-red-600 capitalize"}>
           {user?.firstName} {user?.lastName}
         </h1>
         <p className={"text-dark-50 text-xl capitalize"}>Software Engineer</p>
