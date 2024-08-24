@@ -14,7 +14,7 @@ export interface ArrayPayloadJSON<Type> {
 
 export type ResourceJSON = Record<string, unknown>;
 
-export type SuccessCode = "submission_success";
+export type SuccessCode = 'submission_success';
 
 export interface SuccessJSON {
   code: string;
@@ -26,7 +26,7 @@ export interface SuccessJSON {
 export type ApiError = {
   message: string; // Generic error message
   status: number; // Error status i.e 401, 422
-  error: "validation_error"; // Error code i.e "validation_error"
+  error: 'validation_error'; // Error code i.e "validation_error"
   causes: Record<string, Record<string, unknown>[]>; // Reasons for errors
   /* Example of causes
   {
@@ -40,3 +40,33 @@ export type ApiError = {
     };
   */
 };
+
+export type Filter = {
+  attr: string;
+  value: unknown;
+  opt?: 'eq' | 'neq' | 'lt' | 'lte' | 'gt' | 'gte' | 'in'; // Operator for filtering i.e "eq", "neq" etc.
+};
+
+export class QueryParams {
+  page: number;
+  size: number;
+  sort: string;
+  filters: Filter[];
+
+  constructor({
+    page,
+    size,
+    sort,
+    filters,
+  }: {
+    page?: number;
+    size?: number;
+    sort?: string;
+    filters?: Filter[];
+  }) {
+    this.page = page || 1;
+    this.size = size || 10;
+    this.sort = sort;
+    this.filters = filters;
+  }
+}

@@ -1,13 +1,9 @@
 import { apiPath } from '../types/api.ts';
-import { callApi, httpMethod, RestApi } from './restApi.ts';
+import { callApi, httpMethod } from './restApi.ts';
 import { SelectOption } from '../components/select-input.tsx';
-
-export interface groupCompetence {
-  id: number;
-  level: number;
-  competenceId: number;
-  competencesName: string;
-}
+import { ArrayPayloadJSON, QueryParams } from '../types/payload.interface.ts';
+import { CompetenceGroup } from './competence-group.dao.ts';
+import { AxiosError } from 'axios';
 
 export class Competence {
   public type: string = 'competenceGroups';
@@ -19,14 +15,31 @@ export class Competence {
   ) {}
 }
 
-export async function fetchCompetences(params?: Record<string, unknown>) {
-  const restApi = new RestApi();
-  console.log(params);
-  return await restApi.get({ queryKey: [params] }, `${apiPath.competencesPath}`);
+export async function fetchCompetences(params?: Record<string, unknown>, signal?: AbortSignal) {
+  return await callApi('GET', `${apiPath.competencesPath}`, signal, params);
 }
 
-export function asSelectOptions(competences: Competence[]): SelectOption[] {
-  return competences.map((item) => {
+export async function fetchGroupCompetencesByIds(
+  group: CompetenceGroup,
+  signal?: AbortSignal,
+): Promise<CompetenceGroup> {
+  const competenceIds = group.competences.map((item) => item.competenceId);
+  const params = new QueryParams({ filters: [{ attr: 'id', value: competenceIds, opt: 'in' }] });
+
+  const result = await callApi('GET', `${apiPath.competencesPath}`, signal, null, params);
+
+  if (result instanceof AxiosError) return group;
+  group.competences.map((item) => {
+    item.competencesName = result.data.items.find(
+      (comp: Competence) => comp.id === item.competenceId,
+    )?.name;
+    return item;
+  });
+  return group;
+}
+
+export function asSelectOptions(payload: ArrayPayloadJSON<Competence>): SelectOption[] {
+  return payload.items.map((item) => {
     return {
       label: item.name,
       value: { competenceId: item.id, level: 0 },

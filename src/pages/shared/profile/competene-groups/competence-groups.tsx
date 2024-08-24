@@ -11,6 +11,7 @@ import {
   CompetenceGroup,
   fetchProfileCompetenceGroups,
 } from '../../../../dao/competence-group.dao.ts';
+import CompetenceGroupInfo from './competence-group-info.tsx';
 
 export default function CompetenceGroups({ user }: { user: User }) {
   const { isOpen, openModal } = useModalContext();
@@ -34,18 +35,15 @@ export default function CompetenceGroups({ user }: { user: User }) {
   if (error) {
     content = <p>Error has occurred</p>;
   }
+
   if (data) {
     const competenceGroups = data.data as ArrayPayloadJSON<CompetenceGroup>;
     content = competenceGroups.items.map((item, index) => (
-      <div key={index} className={'my-2'}>
-        <div className={'flex flex-row justify-between gap-4'}>
-          <h3 className={'text-xl font-bold '}>{item.name}</h3>
-          <button type="button" className={'btn btn-rounded'} onClick={() => handleEdit(item)}>
-            Edit
-          </button>
-        </div>
-        <p className={'font-bold text-dark-60'}>{item.description}</p>
-      </div>
+      <CompetenceGroupInfo
+        competenceGroup={item}
+        key={index}
+        onEdit={(item) => handleEdit(item as CompetenceGroup)}
+      />
     ));
   }
 

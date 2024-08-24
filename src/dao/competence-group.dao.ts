@@ -1,5 +1,6 @@
-import { apiPath } from "../types/api.ts";
-import { callApi, httpMethod } from "./restApi.ts";
+import { apiPath } from '../types/api.ts';
+import { callApi, httpMethod } from './restApi.ts';
+import { GroupCompetence } from './group-competence.dao.ts';
 
 export interface groupCompetence {
   id: number;
@@ -9,25 +10,18 @@ export interface groupCompetence {
 }
 
 export class CompetenceGroup {
-  public type: string = "competenceGroups";
+  public type: string = 'competenceGroups';
 
   constructor(
     public id: number,
     public name: string,
     public description: string,
-    public competences: groupCompetence[],
+    public competences: GroupCompetence[],
   ) {}
 }
 
-export async function fetchProfileCompetenceGroups(
-  profileId: number,
-  signal: AbortSignal,
-) {
-  return await callApi(
-    "GET",
-    `${apiPath.profilesPath}/${profileId}/competence-groups`,
-    signal,
-  );
+export async function fetchProfileCompetenceGroups(profileId: number, signal: AbortSignal) {
+  return await callApi('GET', `${apiPath.profilesPath}/${profileId}/competence-groups`, signal);
 }
 
 export async function saveCompetenceGroup(
@@ -36,10 +30,10 @@ export async function saveCompetenceGroup(
   signal?: AbortSignal,
 ) {
   let path = `${apiPath.profilesPath}/${profileId}/competence-groups`;
-  let method: httpMethod = "POST";
+  let method: httpMethod = 'POST';
   if (payload.id) {
-    path = path.concat("/", payload.id.toString());
-    method = "PUT";
+    path = path.concat('/', payload.id.toString());
+    method = 'PUT';
   }
   return await callApi(method, path, signal, payload);
 }

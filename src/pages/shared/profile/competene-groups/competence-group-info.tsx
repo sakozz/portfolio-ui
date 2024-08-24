@@ -1,18 +1,40 @@
-export default function CompetenceGroupInfo() {
+import { CompetenceGroup } from '../../../../dao/competence-group.dao.ts';
+import { useQuery } from '@tanstack/react-query';
+import { fetchGroupCompetencesByIds } from '../../../../dao/competence.dao.ts';
+import { CompetenceInfo } from './competence-info.tsx';
+import { GroupCompetence } from '../../../../dao/group-competence.dao.ts';
+
+export default function CompetenceGroupInfo({
+  competenceGroup,
+  onEdit,
+}: {
+  competenceGroup: CompetenceGroup;
+  onEdit: (item: CompetenceGroup) => void;
+}) {
+  const handleEdit = (competenceGroup: CompetenceGroup) => {
+    onEdit(competenceGroup);
+  };
+
+  const { data }: { data: CompetenceGroup } = useQuery({
+    queryKey: ['competences', competenceGroup.id],
+    queryFn: ({ signal }) => fetchGroupCompetencesByIds(competenceGroup, signal),
+  });
   return (
-    <div className={"card"}>
-      <div id={"experience"}>
-        <h2 className={"text-3xl text-red-600 my-6"}>Experiences</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec ante
-          aliquam, sodales dui ornare, porttitor nunc. Suspendisse in congue
-          leo, eget porttitor nibh. Morbi semper dolor sit amet aliquet tempor.
-          Sed sit amet justo tellus. Sed id nulla sit amet ante cursus viverra
-          at ac nisi. Donec eget mattis dui, sit amet volutpat nisl. Etiam et
-          pretium libero. Curabitur posuere est in luctus laoreet. Aliquam
-          consequat efficitur eros sed dapibus. Cras id posuere quam. Nam
-          sollicitudin quam pharetra mi convallis, eu molestie odio varius.
-        </p>
+    <div>
+      <div className={'flex flex-row justify-between gap-4'}>
+        <h3 className={'text-xl font-bold '}>{competenceGroup.name}</h3>
+        <button
+          type="button"
+          className={'btn btn-rounded'}
+          onClick={() => handleEdit(competenceGroup)}>
+          Edit
+        </button>
+      </div>
+      <div>
+        {data &&
+          data.competences?.map((item: GroupCompetence) => (
+            <CompetenceInfo key={item.id} competence={item} />
+          ))}
       </div>
     </div>
   );

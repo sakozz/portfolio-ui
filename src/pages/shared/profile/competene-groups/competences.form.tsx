@@ -17,6 +17,7 @@ import { CompetenceGroup, saveCompetenceGroup } from '../../../../dao/competence
 import SelectInput, { SelectOption } from '../../../../components/select-input.tsx';
 import { MultiValue } from 'react-select';
 import { asSelectOptions, Competence, fetchCompetences } from '../../../../dao/competence.dao.ts';
+import { ArrayPayloadJSON } from '../../../../types/payload.interface.ts';
 
 const formSchema = z.object({
   name: nameValidator,
@@ -95,9 +96,10 @@ export default function CompetencesForm({
   };
 
   const searchCompetences = async (searchTerm: string) => {
-    const result = await fetchCompetences({ term: searchTerm });
+    const params = { 'filter[name__match]': searchTerm };
+    const result = await fetchCompetences(params);
     if (result instanceof AxiosError) return [];
-    return asSelectOptions(result.data as Competence[]);
+    return asSelectOptions(result.data as ArrayPayloadJSON<Competence>);
   };
 
   return (
