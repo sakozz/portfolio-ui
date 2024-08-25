@@ -1,22 +1,19 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import User from "../../dao/users.dao.ts";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import User from '../../dao/users.dao.ts';
 
 export default function QuickInfo({ user }: { user: User }) {
   return (
-    <div className={"card flex flex-col md:flex-row gap-4"}>
+    <div className={'card flex flex-col md:flex-row gap-4'}>
       <div
         className={
-          "min-w-[280px] flex flex-col justify-center items-center gap-2 bg-red-600 text-white p-6 rounded-s-3xl "
-        }
-      >
+          'min-w-[280px] flex flex-col justify-center items-center gap-2 bg-secondary-500 text-white p-6 rounded-s-3xl '
+        }>
         <img
-          src={user?.avatarUrl || ""}
+          src={user?.avatarUrl || ''}
           alt=""
-          className={
-            "w-28 h-28 rounded-full mb-3 shadow-2xl  border-white border-2"
-          }
+          className={'w-28 h-28 rounded-full mb-3 shadow-2xl  border-white border-2'}
         />
-        <div className={"flex flex-col gap-1"}>
+        <div className={'flex flex-col gap-1'}>
           {user?.email && (
             <p>
               <FontAwesomeIcon icon="envelope" className="me-2" />
@@ -49,11 +46,11 @@ export default function QuickInfo({ user }: { user: User }) {
           )}
           {user?.githubUrl && (
             <p>
-              <FontAwesomeIcon icon={["fab", "github"]} className="me-2" />
+              <FontAwesomeIcon icon={['fab', 'github']} className="me-2" />
               {user.githubUrl}
             </p>
           )}
-          <hr className={"my-3"} />
+          <hr className={'my-3'} />
           {user?.nationality && (
             <p>
               <FontAwesomeIcon icon="passport" className="me-2" />
@@ -68,12 +65,12 @@ export default function QuickInfo({ user }: { user: User }) {
           )}
         </div>
       </div>
-      <div className={"p-6"}>
-        <h1 className={"text-4xl text-red-600 capitalize"}>
+      <div className={'p-6'}>
+        <h1 className={'text-4xl text-secondary-500 capitalize'}>
           {user?.firstName} {user?.lastName}
         </h1>
-        <p className={"text-dark-50 text-xl capitalize"}>Software Engineer</p>
-        <p className={"mt-8 leading text-lg"}>{user?.description}</p>
+        <p className={'text-primary-500 text-xl capitalize'}>Software Engineer</p>
+        <p className={'mt-8 leading text-lg'}>{user?.description}</p>
       </div>
     </div>
   );

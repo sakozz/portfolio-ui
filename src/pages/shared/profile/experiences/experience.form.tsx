@@ -1,23 +1,20 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Experience, saveExperience } from "../../../../dao/experiences.dao.ts";
-import {
-  descriptionValidator,
-  nameValidator,
-} from "../../../../lib/validators.ts";
-import { useMutation } from "@tanstack/react-query";
-import { uiActions } from "../../../../store/ui.store.ts";
-import { Toast } from "../../../../components/toast-messages/toast-messages.tsx";
-import { useDispatch } from "react-redux";
-import User from "../../../../dao/users.dao.ts";
-import FormField from "../../../../components/form-field/form-field.tsx";
-import { useModalContext } from "../../../../components/modal/modal-context.tsx";
-import SwitchInput from "../../../../components/switch.tsx";
-import { AxiosError } from "axios";
-import { setValidationErrors } from "../../../../dao/restApi.ts";
-import { AppQueryClient } from "../../../../app.routes.tsx";
+import { Experience, saveExperience } from '../../../../dao/experiences.dao.ts';
+import { descriptionValidator, nameValidator } from '../../../../lib/validators.ts';
+import { useMutation } from '@tanstack/react-query';
+import { uiActions } from '../../../../store/ui.store.ts';
+import { Toast } from '../../../../components/toast-messages/toast-messages.tsx';
+import { useDispatch } from 'react-redux';
+import User from '../../../../dao/users.dao.ts';
+import FormField from '../../../../components/form-field/form-field.tsx';
+import { useModalContext } from '../../../../components/modal/modal-context.tsx';
+import SwitchInput from '../../../../components/switch.tsx';
+import { AxiosError } from 'axios';
+import { setValidationErrors } from '../../../../dao/restApi.ts';
+import { AppQueryClient } from '../../../../app.routes.tsx';
 
 const experienceFormSchema = z.object({
   jobTitle: nameValidator,
@@ -62,16 +59,12 @@ export default function ExperienceForm({
     onSuccess: () => {
       closeModal();
       AppQueryClient.invalidateQueries({
-        queryKey: ["profiles", user?.id, "experiences"],
+        queryKey: ['profiles', user?.id, 'experiences'],
       });
 
       dispatch(
         uiActions.addToast({
-          toast: new Toast(
-            "Saved successfully",
-            "Saved the experience record.",
-            "success",
-          ),
+          toast: new Toast('Saved successfully', 'Saved the experience record.', 'success'),
         }),
       );
     },
@@ -80,9 +73,9 @@ export default function ExperienceForm({
       dispatch(
         uiActions.addToast({
           toast: new Toast(
-            "Failed to log out",
-            "Sorry, Failed to log you out from the system.",
-            "error",
+            'Failed to log out',
+            'Sorry, Failed to log you out from the system.',
+            'error',
           ),
         }),
       );
@@ -99,90 +92,59 @@ export default function ExperienceForm({
   };
 
   return (
-    <form
-      className="form flex flex-col gap-4"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <h3 className={"text-2xl mt-0"}>
-        {experience.id ? "Update Experience" : "Create Experience"}
+    <form className="form flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+      <h3 className={'text-2xl mt-0'}>
+        {experience.id ? 'Update Experience' : 'Create Experience'}
       </h3>
       {errors.root && <div className="text-red-500">{errors.root.message}</div>}
       <hr />
-      <FormField label={"Title"} error={errors?.jobTitle?.message}>
+      <FormField label={'Title'} error={errors?.jobTitle?.message}>
         <input
-          {...register("jobTitle")}
+          {...register('jobTitle')}
           type="text"
           className="form-control"
           placeholder="Job Title"
         />
       </FormField>
-      <FormField
-        label={"Responsibilities"}
-        error={errors?.responsibilities?.message}
-      >
+      <FormField label={'Responsibilities'} error={errors?.responsibilities?.message}>
         <textarea
-          {...register("responsibilities")}
+          {...register('responsibilities')}
           className="form-control"
           placeholder="Responsibilities"
-          rows={4}
-        ></textarea>
+          rows={4}></textarea>
       </FormField>
-      <FormField label={"Body"} error={errors?.companyName?.message}>
+      <FormField label={'Body'} error={errors?.companyName?.message}>
         <input
-          {...register("companyName")}
+          {...register('companyName')}
           className="form-control"
           placeholder="Name of Company"
         />
       </FormField>
-      <FormField label={"Link"} error={errors?.link?.message}>
-        <input
-          {...register("link")}
-          className="form-control"
-          placeholder="Company website"
-        />
+      <FormField label={'Link'} error={errors?.link?.message}>
+        <input {...register('link')} className="form-control" placeholder="Company website" />
       </FormField>
 
-      <FormField
-        label={"Start Date"}
-        hint={"2022/02/30"}
-        error={errors?.startDate?.message}
-      >
-        <input
-          {...register("startDate")}
-          className="form-control"
-          placeholder="Start"
-        />
+      <FormField label={'Start Date'} hint={'2022/02/30'} error={errors?.startDate?.message}>
+        <input {...register('startDate')} className="form-control" placeholder="Start" />
       </FormField>
 
-      <FormField label={"End Date"} error={errors?.endDate?.message}>
-        <input
-          {...register("endDate")}
-          className="form-control"
-          placeholder="End"
-        />
+      <FormField label={'End Date'} error={errors?.endDate?.message}>
+        <input {...register('endDate')} className="form-control" placeholder="End" />
       </FormField>
 
-      <SwitchInput
-        register={register("isCurrent")}
-        error={errors.isCurrent?.message}
-      >
+      <SwitchInput register={register('isCurrent')} error={errors.isCurrent?.message}>
         <p>Is Current</p>
       </SwitchInput>
 
       <div className="flex flex-row gap-2 justify-end">
         <button
           type="button"
-          className={"btn btn-outline-light btn-rounded"}
-          onClick={closeModal}
-        >
+          className={'btn btn-primary-outline btn-rounded'}
+          onClick={closeModal}>
           Cancel
         </button>
-        <button
-          className="btn btn-default btn-rounded"
-          disabled={isSubmitting}
-          type="submit"
-        >
-          {isSubmitting ? "Loading..." : "Submit"}
+        <button className="btn btn-primary btn-rounded" disabled={isSubmitting} type="submit">
+          {isSubmitting ? 'Loading...' : 'Submit'}
         </button>
       </div>
     </form>

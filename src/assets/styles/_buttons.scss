@@ -1,10 +1,10 @@
 button.btn,
 a.btn {
   transition: background-color 0.3s ease;
-  @apply text-dark-90 text-nowrap flex items-center justify-center;
+  @apply text-secondary-900 text-nowrap flex items-center justify-center;
 
   &:hover:not(:disabled) {
-    @apply bg-light-110;
+    @apply bg-secondary-100;
   }
 
   &:active:not(:disabled) {
@@ -21,20 +21,55 @@ a.btn {
     outline-2;
   }
 
-  &.btn-default {
-    @apply text-white
-    bg-dark-100;
+  &.btn-primary {
+    @apply bg-primary-950 text-primary-50;
 
     &:hover {
-      @apply bg-dark-80;
+      @apply bg-primary-700;
     }
 
     &:active {
-      @apply bg-dark-70;
+      @apply bg-primary-900;
     }
 
     &:disabled {
-      @apply text-dark-40 bg-dark-20;
+      @apply text-primary-100 bg-primary-400;
+    }
+  }
+
+  &.btn-primary-outline {
+    @apply text-primary-900
+    bg-white
+    border-solid
+    border
+    border-primary-200;
+
+    &:hover:not(:disabled) {
+      @apply bg-primary-50 border-primary-300;
+    }
+
+    &:active:not(:hover) {
+      @apply bg-primary-100  border-primary-200;
+    }
+
+    &:disabled {
+      @apply text-primary-400 border-primary-100;
+    }
+  }
+
+  &.btn-secondary {
+    @apply text-secondary-100 bg-secondary-600;
+
+    &:hover {
+      @apply bg-secondary-700;
+    }
+
+    &:active {
+      @apply bg-secondary-800;
+    }
+
+    &:disabled {
+      @apply bg-secondary-400;
     }
   }
 
@@ -72,23 +107,6 @@ a.btn {
     }
   }
 
-  &.btn-primary {
-    @apply text-dark-90
-    bg-gold-30;
-
-    &:hover {
-      @apply bg-gold-35;
-    }
-
-    &:active {
-      @apply bg-gold-40;
-    }
-
-    &:disabled {
-      @apply text-dark-40 bg-dark-20;
-    }
-  }
-
   &.btn-primary-light {
     @apply text-gold-50;
     &:disabled {
@@ -96,27 +114,6 @@ a.btn {
     }
   }
 
-  &.btn-outline-light {
-    @apply text-dark-90
-    bg-white
-    border-solid
-    border
-    border-light-130;
-
-    &:hover:not(:disabled) {
-      @apply bg-light-110
-      border-light-140;
-    }
-
-    &:active:not(:hover) {
-      @apply border-light-120
-      bg-light-120;
-    }
-
-    &:disabled {
-      @apply text-dark-30 border-dark-20;
-    }
-  }
 
   &.btn-outline {
     @apply text-white
@@ -159,6 +156,7 @@ a.btn {
     &-md {
       @apply w-12 h-12;
     }
+
     &-lg {
       @apply w-14 h-14;
     }

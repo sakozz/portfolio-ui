@@ -126,10 +126,13 @@ export default function CompetencesForm({
       </FormField>
 
       <div className="flex flex-row gap-2 justify-between">
-        <button type="button" className={'btn btn-outline-light btn-rounded'} onClick={closeModal}>
+        <button
+          type="button"
+          className={'btn btn-primary-outline btn-rounded'}
+          onClick={closeModal}>
           Cancel
         </button>
-        <button className="btn btn-default btn-rounded" disabled={isSubmitting} type="submit">
+        <button className="btn btn-primary btn-rounded" disabled={isSubmitting} type="submit">
           {isSubmitting ? 'Loading...' : 'Next'}
         </button>
       </div>

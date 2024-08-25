@@ -121,19 +121,19 @@ export default function CompetencesAssessmentForm({ user }: { user: User }) {
         <div className="flex flex-row gap-2 justify-between">
           <button
             type="button"
-            className={'btn btn-primary-light btn-rounded'}
+            className={'btn btn-rounded'}
             onClick={() => showCompetencesView(competenceGroup)}>
             Previous
           </button>
           <div className="flex flex-row justify-between gap-4">
             <button
               type="button"
-              className={'btn btn-outline-light btn-rounded'}
+              className={'btn btn-primary-outline btn-rounded'}
               onClick={closeModal}>
               Cancel
             </button>
             <button
-              className="btn btn-primary btn-rounded"
+              className="btn btn-secondary btn-rounded"
               disabled={isSubmitting || !isValid}
               type="submit">
               {isSubmitting ? 'Loading...' : 'Submit'}

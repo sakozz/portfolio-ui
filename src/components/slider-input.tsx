@@ -23,7 +23,10 @@ export default function SliderInput({
   const [inputValue, setInputValue] = useState<number>(0);
   const id = randomId();
   const getBgColor = (index: number) => {
-    return inputValue >= index ? 'bg-amber-600' : 'bg-amber-200';
+    let classNames = inputValue >= index ? 'bg-secondary-400' : 'bg-secondary-50';
+    if (index == 1) classNames += ' rounded-s-[3px]';
+    if (index == 5) classNames += ' rounded-e-[3px]';
+    return classNames;
   };
 
   const updateValue = (value: number) => {
@@ -38,22 +41,22 @@ export default function SliderInput({
 
   return (
     <div className="flex flex-col w-full">
-      <label className="form-label mb-2 text-dark-50" htmlFor={id}>
+      <label className="form-label" htmlFor={id}>
         {label}
       </label>
       <input {...register} className="slider-input hidden" type="number" id={id} ref={inputRef} />
-      <div className="flex flex-row justify-between items-center bg-light-15 gap-1 rounded border border-amber-200 p-[2px]">
-        {[...Array(max).keys()].slice(1).map((value) => (
+      <div className="flex flex-row justify-between items-center bg-primary-200 gap-1 rounded p-[3px]">
+        {[...Array(max).keys()].map((value) => (
           <button
             type="button"
-            onClick={() => updateValue(value)}
-            key={value}
-            className={`${getBgColor(value)} inline-flex h-2 flex-auto`}></button>
+            onClick={() => updateValue(value + 1)}
+            key={value + 1}
+            className={`${getBgColor(value + 1)} inline-flex h-3 flex-auto`}></button>
         ))}
       </div>
       <div className="flex flex-row justify-between ">
-        <span className="text-xs text-dark-40">{mappings[min as number]}</span>
-        <span className="text-xs text-dark-40">{mappings[max as number]}</span>
+        <span className="text-xs text-primary-400">{mappings[min as number]}</span>
+        <span className="text-xs text-primary-400">{mappings[max as number]}</span>
       </div>
       {error && <p className="text-red-500 text-sm">{error}</p>}
     </div>

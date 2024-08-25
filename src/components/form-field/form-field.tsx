@@ -25,14 +25,14 @@ export default function FormField({
 
   return (
     <fieldset className={`${error ? 'invalid' : undefined}`}>
-      <label className="form-label mb-2 text-dark-50" htmlFor={id}>
+      <label className="form-label" htmlFor={id}>
         {label}
       </label>
       <div className={'input-group'} ref={controlRef}>
         {children}
       </div>
-      {hint && <span className="text-sm text-dark-60">{hint}</span>}
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {hint && <span className="text-sm text-primary-400">{hint}</span>}
+      {error && <p className="text-red-600 text-sm">{error}</p>}
     </fieldset>
   );
 }

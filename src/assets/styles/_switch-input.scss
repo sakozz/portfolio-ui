@@ -9,7 +9,7 @@
 
 /* The slider */
 .slider {
-  @apply absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-light-140 rounded-2xl transition-colors ease-in-out duration-200;
+  @apply absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-secondary-200 border-primary-100 border rounded-2xl transition-colors ease-in-out duration-200;
   user-select: none;
 
   &::before {
@@ -21,7 +21,7 @@
   }
 
   &.enable-transitions {
-    &, &::before, &::after {
+    &::before, &::after {
       -webkit-transition: .4s;
       transition: .4s;
     }
@@ -33,7 +33,7 @@
 }
 
 input:checked + .slider {
-  @apply bg-yellow-900;
+  @apply bg-secondary-500;
 
   &::before {
     @apply shadow;
@@ -41,7 +41,7 @@ input:checked + .slider {
 }
 
 input:focus + .slider {
-  @apply outline outline-gold-30 outline-2 outline-offset-2;
+  @apply outline outline-secondary-300 outline-2 outline-offset-1;
 }
 
 input:checked + .slider {
@@ -53,5 +53,3 @@ input:checked + .slider {
     @apply -translate-x-9;
   }
 }
-
-

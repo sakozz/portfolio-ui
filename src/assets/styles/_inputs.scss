@@ -6,30 +6,34 @@ form {
     border-red-55;
   }
 
-  &.disabled {
+  .disabled {
     .form-label {
-      @apply text-dark-30;
+      @apply text-primary-400;
     }
 
     .input-group {
-      @apply border-dark-20 text-dark-30;
+      @apply bg-primary-50 text-primary-400;
     }
+  }
+
+  .form-label {
+    @apply text-primary-600 mb-1 inline-block;
   }
 
   .input-group {
     .form-control {
       @apply outline-none flex-grow py-2 px-3 bg-transparent font-light text-sm w-full;
       &::placeholder {
-        @apply text-dark-50;
+        @apply text-primary-400;
       }
     }
 
-    @apply flex border border-dark-45 rounded w-full;
+    @apply flex border border-primary-200 rounded w-full;
     &:focus-within {
       @apply outline
-      outline-gold-30
+      outline-secondary-300
       outline-1
-      border-gold-30;
+      border-secondary-300;
     }
 
     .suffix,
@@ -38,14 +42,7 @@ form {
     }
 
     .suffix {
-      @apply text-dark-90 text-sm font-light pe-2;
+      @apply text-primary-700 text-sm font-light pe-2;
     }
-  }
-}
-
-.search-input {
-  @apply flex flex-row items-center relative;
-  input {
-    @apply rounded-full bg-light-110 w-full h-12 ps-10 outline-gold-30;
   }
 }
