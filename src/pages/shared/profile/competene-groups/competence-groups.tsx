@@ -51,7 +51,7 @@ export default function CompetenceGroups({ user }: { user: User }) {
   return (
     <div className={'flex flex-col w-full'}>
       <div className={'flex flex-row justify-between gap-4'}>
-        <h2 className="text-3xl text-red-600">Experiences</h2>
+        <h2 className="text-2xl text-red-600">Competences</h2>
         <button
           className={'btn btn-rounded btn-outline-light'}
           type="button"

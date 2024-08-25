@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export default function SwitchInput({
   children,
@@ -6,7 +6,7 @@ export default function SwitchInput({
   error,
 }: {
   children: ReactNode;
-  register: any;
+  register: Record<string, unknown>;
   error: string;
 }) {
   const handleChange = (event: React.ChangeEvent) => {
@@ -14,8 +14,8 @@ export default function SwitchInput({
   };
   return (
     <>
-      <label className={"flex flex-row gap-2 items-center"}>
-        <div className={"switch"}>
+      <label className={'flex flex-row gap-2 items-center'}>
+        <div className={'switch'}>
           <input
             {...register}
             className="switch-input"

@@ -1,7 +1,6 @@
 import { useCompetencesGroupContext } from '../../../../lib/hooks.ts';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useEffect, useRef } from 'react';
-import FormField from '../../../../components/form-field/form-field.tsx';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
 import { CompetenceGroup, saveCompetenceGroup } from '../../../../dao/competence-group.dao.ts';
 import { useMutation } from '@tanstack/react-query';
@@ -13,6 +12,7 @@ import User from '../../../../dao/users.dao.ts';
 import { GroupCompetence } from '../../../../dao/group-competence.dao.ts';
 import { Competence } from '../../../../dao/competence.dao.ts';
 import { AppQueryClient } from '../../../../app.routes.tsx';
+import SliderInput from '../../../../components/slider-input.tsx';
 
 interface FormFields {
   competenceLevel: {
@@ -30,8 +30,9 @@ export default function CompetencesAssessmentForm({ user }: { user: User }) {
   const {
     handleSubmit,
     control,
+    setValue,
     register,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, errors },
   } = useForm<FormFields>();
   const { fields, append } = useFieldArray({
     control,
@@ -87,6 +88,10 @@ export default function CompetencesAssessmentForm({ user }: { user: User }) {
     },
   });
 
+  const handleChange = (value: number, index: number) => {
+    setValue(`competenceLevel.${index}.level`, value);
+  };
+
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     const record = Object.assign(competenceGroup);
     record.competences = data.competenceLevel as GroupCompetence[];
@@ -98,18 +103,20 @@ export default function CompetencesAssessmentForm({ user }: { user: User }) {
 
   return (
     <div>
-      <h1>Competences Assessment Form</h1>
+      <h2 className="text-lg mb-4">Asses your competences</h2>
       <form className="form flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         {fields &&
           fields.map((field, index) => (
-            <FormField key={field.id} label={competenceGroup.competences[index]?.competence?.name}>
-              <input
-                {...register(`competenceLevel.${index}.level`)}
-                type="number"
-                className="form-control"
-                placeholder="Level"
-              />
-            </FormField>
+            <SliderInput
+              key={field.id}
+              label={competenceGroup.competences[index]?.competence?.name}
+              value={competenceGroup.competences[index]?.level}
+              max={5}
+              min={1}
+              onChange={(value) => handleChange(value, index)}
+              error={errors.competenceLevel?.message}
+              register={register(`competenceLevel.${index}.level`)}
+            />
           ))}
         <div className="flex flex-row gap-2 justify-between">
           <button
