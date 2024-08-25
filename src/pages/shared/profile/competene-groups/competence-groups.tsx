@@ -39,12 +39,11 @@ export default function CompetenceGroups({ user }: { user: User }) {
   if (data) {
     const competenceGroups = data.data as ArrayPayloadJSON<CompetenceGroup>;
     content = competenceGroups.items.map((item) => (
-      <div className="my-4" key={item.id}>
-        <CompetenceGroupInfo
-          competenceGroup={item}
-          onEdit={(item) => handleEdit(item as CompetenceGroup)}
-        />
-      </div>
+      <CompetenceGroupInfo
+        key={item.id}
+        competenceGroup={item}
+        onEdit={(item) => handleEdit(item as CompetenceGroup)}
+      />
     ));
   }
 
@@ -60,7 +59,7 @@ export default function CompetenceGroups({ user }: { user: User }) {
         </button>
       </div>
       <hr className={'my-4'} />
-      {content}
+      <div className="my-4 grid grid-cols-3 gap-6">{content}</div>
       <AnimatePresence>
         {isOpen && (
           <Modal classname={'sm start'}>
