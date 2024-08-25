@@ -1,6 +1,4 @@
 import { CompetenceGroup } from '../../../../dao/competence-group.dao.ts';
-import { useQuery } from '@tanstack/react-query';
-import { fetchGroupCompetencesByIds } from '../../../../dao/competence.dao.ts';
 import { CompetenceInfo } from './competence-info.tsx';
 import { GroupCompetence } from '../../../../dao/group-competence.dao.ts';
 
@@ -14,11 +12,6 @@ export default function CompetenceGroupInfo({
   const handleEdit = (competenceGroup: CompetenceGroup) => {
     onEdit(competenceGroup);
   };
-
-  const { data }: { data: CompetenceGroup } = useQuery({
-    queryKey: ['competences', competenceGroup.id],
-    queryFn: ({ signal }) => fetchGroupCompetencesByIds(competenceGroup, signal),
-  });
   return (
     <div>
       <div className={'flex flex-row justify-between gap-4'}>
@@ -31,10 +24,10 @@ export default function CompetenceGroupInfo({
         </button>
       </div>
       <div>
-        {data &&
-          data.competences?.map((item: GroupCompetence) => (
-            <CompetenceInfo key={item.id} competence={item} />
-          ))}
+        {competenceGroup.competences?.map(
+          (item: GroupCompetence, index) =>
+            item && <CompetenceInfo key={index} groupCompetence={item} />,
+        )}
       </div>
     </div>
   );

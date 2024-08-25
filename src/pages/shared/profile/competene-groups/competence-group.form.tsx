@@ -1,22 +1,9 @@
 import { CompetenceGroup } from '../../../../dao/competence-group.dao.ts';
 import User from '../../../../dao/users.dao.ts';
 import CompetencesForm from './competences.form.tsx';
-import { createContext, useContext, useState } from 'react';
+import { useState } from 'react';
 import CompetencesAssessmentForm from './competences-assessment.form.tsx';
-
-export const CompetencesGroupFormContext = createContext({
-  isAssessmentView: false,
-  competenceGroup: {} as CompetenceGroup,
-  showAssessmentView: (group: CompetenceGroup) => {},
-});
-
-export function useCompetencesGroupContext() {
-  const ctx = useContext(CompetencesGroupFormContext);
-  if (!ctx) {
-    throw new Error('Component should be wrapped in CompetencesGroupFormContext');
-  }
-  return ctx;
-}
+import { CompetencesGroupFormContext } from '../../../../lib/hooks.ts';
 
 export default function CompetenceGroupForm({
   initialCompetenceGroup,
@@ -33,7 +20,12 @@ export default function CompetenceGroupForm({
     setIsAssessmentView(true);
   };
 
-  const ctxValue = { isAssessmentView, competenceGroup, showAssessmentView };
+  const showCompetencesView = (group: CompetenceGroup) => {
+    setCompetenceGroup(group);
+    setIsAssessmentView(false);
+  };
+
+  const ctxValue = { isAssessmentView, competenceGroup, showAssessmentView, showCompetencesView };
 
   return (
     <CompetencesGroupFormContext.Provider value={ctxValue}>
@@ -42,8 +34,7 @@ export default function CompetenceGroupForm({
           {competenceGroup?.id ? 'Update Competences' : 'Add Competences'}
         </h3>
         <hr className={'my-4'} />
-        {isAssessmentView && <CompetencesAssessmentForm></CompetencesAssessmentForm>}
-
+        {isAssessmentView && <CompetencesAssessmentForm user={user}></CompetencesAssessmentForm>}
         {!isAssessmentView && (
           <CompetencesForm competenceGroup={competenceGroup} user={user}></CompetencesForm>
         )}

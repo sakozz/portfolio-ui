@@ -9,10 +9,11 @@ const competenceMap: Record<number, string> = {
   5: 'Master',
 };
 
-export function CompetenceInfo({ competence }: { competence: GroupCompetence }) {
+export function CompetenceInfo({ groupCompetence }: { groupCompetence: GroupCompetence }) {
   return (
     <div className={'flex flex-row gap-4 justify-between'}>
-      <span>{competence.competencesName}</span> <span>{competenceMap[competence.level]}</span>
+      <span>{groupCompetence.competence?.name}</span>
+      <span>{competenceMap[groupCompetence?.level]}</span>
     </div>
   );
 }

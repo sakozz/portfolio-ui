@@ -12,16 +12,17 @@ import FormField from '../../../../components/form-field/form-field.tsx';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
 import { AxiosError } from 'axios';
 import { setValidationErrors } from '../../../../dao/restApi.ts';
-import { AppQueryClient } from '../../../../app.routes.tsx';
 import { CompetenceGroup, saveCompetenceGroup } from '../../../../dao/competence-group.dao.ts';
 import SelectInput, { SelectOption } from '../../../../components/select-input.tsx';
 import { MultiValue } from 'react-select';
 import { asSelectOptions, Competence, fetchCompetences } from '../../../../dao/competence.dao.ts';
-import { ArrayPayloadJSON } from '../../../../types/payload.interface.ts';
+import { ArrayPayloadJSON, QueryParams } from '../../../../types/payload.interface.ts';
+import { useCompetencesGroupContext } from '../../../../lib/hooks.ts';
+import { GroupCompetence } from '../../../../dao/group-competence.dao.ts';
 
 const formSchema = z.object({
   name: nameValidator,
-  competences: z.array(z.unknown()).min(4, 'Please select at least 4 competences'),
+  competences: z.array(z.unknown()).min(1, 'Please select at least 1 competences'),
 });
 type FormFieldsType = typeof formSchema;
 type FormFields = z.infer<FormFieldsType>;
@@ -35,7 +36,11 @@ export default function CompetencesForm({
 }) {
   const dispatch = useDispatch();
   const { closeModal } = useModalContext();
-  //const { showAssessmentView } = useCompetencesGroupContext();
+  const { showAssessmentView } = useCompetencesGroupContext();
+
+  const preSelectedOptions: SelectOption[] = asSelectOptions(
+    competenceGroup?.competences?.map((item) => item?.competence),
+  );
   const {
     register,
     handleSubmit,
@@ -45,6 +50,7 @@ export default function CompetencesForm({
   } = useForm<FormFields>({
     defaultValues: {
       name: competenceGroup?.name,
+      competences: competenceGroup?.competences,
     },
     resolver: zodResolver(formSchema),
   });
@@ -56,12 +62,7 @@ export default function CompetencesForm({
       // Any modifications before api call
     },
     onSuccess: (result) => {
-      closeModal();
-      AppQueryClient.invalidateQueries({
-        queryKey: ['profiles', user?.id, 'competenceGroups'],
-      });
-      console.log(result);
-      //showAssessmentView(result as AxiosResponse);
+      showAssessmentView(result as CompetenceGroup);
       dispatch(
         uiActions.addToast({
           toast: new Toast('Saved successfully', 'Saved the Competence group record.', 'success'),
@@ -83,23 +84,32 @@ export default function CompetencesForm({
   });
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    const record = Object.assign(competenceGroup, data);
+    const record = Object.assign(competenceGroup, data) as CompetenceGroup;
     mutate({
       profileId: user.id,
       data: record,
     });
   };
 
-  const updateCompetences = (result: MultiValue<SelectOption>) => {
-    const competences = result.map((item) => item.value);
+  const setCompetences = (result: MultiValue<SelectOption>) => {
+    const competences = result.map((item) => {
+      const groupCompetence = item.value as GroupCompetence;
+      groupCompetence.level =
+        competenceGroup?.competences?.find(
+          (item) => item.competenceId == groupCompetence.competenceId,
+        )?.level || 0;
+      return groupCompetence;
+    });
     setValue('competences', competences, { shouldValidate: true });
   };
 
   const searchCompetences = async (searchTerm: string) => {
-    const params = { 'filter[name__match]': searchTerm };
+    const params: QueryParams = new QueryParams({ filters: [{ attr: 'name', value: searchTerm }] });
+
     const result = await fetchCompetences(params);
     if (result instanceof AxiosError) return [];
-    return asSelectOptions(result.data as ArrayPayloadJSON<Competence>);
+    const payload = result.data as ArrayPayloadJSON<Competence>;
+    return asSelectOptions(payload.items);
   };
 
   return (
@@ -109,7 +119,8 @@ export default function CompetencesForm({
       </FormField>
       <FormField label={'Competences'} error={errors?.competences?.message}>
         <SelectInput
-          onChange={(result) => updateCompetences(result)}
+          selectedOptions={preSelectedOptions}
+          onChange={(result) => setCompetences(result)}
           optionsPromise={(searchTerm) => searchCompetences(searchTerm)}
         />
       </FormField>

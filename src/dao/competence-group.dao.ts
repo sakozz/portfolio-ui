@@ -1,6 +1,7 @@
 import { apiPath } from '../types/api.ts';
 import { callApi, httpMethod } from './restApi.ts';
 import { GroupCompetence } from './group-competence.dao.ts';
+import { AxiosError, AxiosResponse } from 'axios';
 
 export interface groupCompetence {
   id: number;
@@ -28,12 +29,16 @@ export async function saveCompetenceGroup(
   profileId: number,
   payload: CompetenceGroup,
   signal?: AbortSignal,
-) {
+): Promise<CompetenceGroup | AxiosError> {
   let path = `${apiPath.profilesPath}/${profileId}/competence-groups`;
   let method: httpMethod = 'POST';
   if (payload.id) {
     path = path.concat('/', payload.id.toString());
     method = 'PUT';
   }
-  return await callApi(method, path, signal, payload);
+
+  const result = (await callApi(method, path, signal, payload)) as AxiosResponse;
+  if (result instanceof AxiosError) result;
+
+  return result.data as CompetenceGroup;
 }

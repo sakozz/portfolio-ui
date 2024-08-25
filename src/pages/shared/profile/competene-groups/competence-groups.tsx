@@ -38,12 +38,13 @@ export default function CompetenceGroups({ user }: { user: User }) {
 
   if (data) {
     const competenceGroups = data.data as ArrayPayloadJSON<CompetenceGroup>;
-    content = competenceGroups.items.map((item, index) => (
-      <CompetenceGroupInfo
-        competenceGroup={item}
-        key={index}
-        onEdit={(item) => handleEdit(item as CompetenceGroup)}
-      />
+    content = competenceGroups.items.map((item) => (
+      <div className="my-4" key={item.id}>
+        <CompetenceGroupInfo
+          competenceGroup={item}
+          onEdit={(item) => handleEdit(item as CompetenceGroup)}
+        />
+      </div>
     ));
   }
 

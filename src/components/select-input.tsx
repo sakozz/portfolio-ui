@@ -13,19 +13,32 @@ export type SelectOption = {
 const animatedComponents = makeAnimated();
 
 export default function SelectInput({
+  selectedOptions,
   onChange,
   optionsPromise,
 }: {
   onChange: OnChangeFn;
   optionsPromise: OptionsPromiseFn;
+  selectedOptions?: SelectOption[];
 }) {
+  const handleChange = (changedValue: MultiValue<unknown>) => {
+    const values = changedValue as MultiValue<SelectOption>;
+    const distinctValues = values.reduce((collection, value) => {
+      if (!collection.some((item) => item.label == value.label)) {
+        collection.push(value);
+      }
+      return collection;
+    }, []);
+    onChange(distinctValues);
+  };
   return (
     <AsyncSelect
       cacheOptions
       defaultOptions
+      defaultValue={selectedOptions}
       isMulti
       unstyled={true}
-      onChange={(value) => onChange(value as MultiValue<SelectOption>)}
+      onChange={handleChange}
       classNamePrefix={'custom'}
       closeMenuOnSelect={false}
       components={animatedComponents}
