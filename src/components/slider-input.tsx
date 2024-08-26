@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { randomId } from '../lib/misc.ts';
-import { competenceMap } from '../types/cometence-mapping.ts';
+import { competenceMap } from '../lib/constants.ts';
 
 const mappings = competenceMap;
 export default function SliderInput({

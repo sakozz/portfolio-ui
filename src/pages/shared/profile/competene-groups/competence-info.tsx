@@ -1,5 +1,5 @@
 import { GroupCompetence } from '../../../../dao/group-competence.dao.ts';
-import { competenceMap } from '../../../../types/cometence-mapping.ts';
+import { competenceMap } from '../../../../lib/constants.ts';
 
 export function CompetenceInfo({ groupCompetence }: { groupCompetence: GroupCompetence }) {
   return (
