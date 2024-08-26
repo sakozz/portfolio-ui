@@ -1,23 +1,23 @@
 button.btn,
 a.btn {
   transition: background-color 0.3s ease;
-  @apply text-secondary-900 text-nowrap flex items-center justify-center;
+  @apply text-secondary-900 bg-secondary-50 text-nowrap flex items-center justify-center;
 
   &:hover:not(:disabled) {
     @apply bg-secondary-100;
   }
 
   &:active:not(:disabled) {
-    @apply bg-light-120;
+    @apply bg-secondary-200;
   }
 
   &:disabled {
-    @apply text-dark-30;
+    @apply text-secondary-300;
   }
 
-  &:focus {
+  &:focus:not(:hover) {
     @apply outline
-    outline-blue-50
+    outline-secondary-200
     outline-2;
   }
 
