@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import User from '../../dao/users.dao.ts';
+import { motion } from 'framer-motion';
 
 export default function QuickInfo({ user }: { user: User }) {
   return (
@@ -66,11 +67,32 @@ export default function QuickInfo({ user }: { user: User }) {
         </div>
       </div>
       <div className={'p-6'}>
-        <h1 className={'text-4xl text-secondary-500 capitalize'}>
-          {user?.firstName} {user?.lastName}
-        </h1>
-        <p className={'text-primary-500 text-xl capitalize'}>Software Engineer</p>
-        <p className={'mt-8 leading text-lg'}>{user?.description}</p>
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: -25 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ delay: 0.1, duration: 1, type: 'spring' }}
+          viewport={{ once: true, amount: 0.2 }}>
+          <h1 className={'text-4xl text-secondary-500 capitalize'}>
+            {user?.firstName} {user?.lastName}
+          </h1>
+          <p className={'text-primary-500 text-xl capitalize'}>Software Engineer</p>
+        </motion.div>
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, y: 25 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ delay: 0.1, duration: 1, type: 'spring' }}
+          viewport={{ once: true, amount: 0.2 }}
+          className={'mt-8 leading text-lg'}>
+          {user?.description}
+        </motion.p>
       </div>
     </div>
   );

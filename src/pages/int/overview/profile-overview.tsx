@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store.ts';
 import ModalContextProvider from '../../../components/modal/modal-context.tsx';
 import CompetenceGroups from '../../shared/profile/competene-groups/competence-groups.tsx';
+import { motion } from 'framer-motion';
 
 export default function ProfileOverview() {
   const { currentUser }: { currentUser: User } = useSelector((state: RootState) => state.session);
@@ -15,9 +16,18 @@ export default function ProfileOverview() {
       {currentUser?.id && (
         <div className="flex flex-col items-center justify-center gap-8">
           <QuickInfo user={currentUser} />
-          <div className="sticky top-0 bg-opacity-95 w-full flex justify-center bg-white py-8">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 25 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            whileInView="visible"
+            transition={{ delay: 0.1, duration: 1, type: 'spring' }}
+            viewport={{ once: true, amount: 0.2 }}
+            className="sticky top-0 bg-opacity-95 w-full flex justify-center bg-white py-8">
             <ProfileTabs />
-          </div>
+          </motion.div>
           <ModalContextProvider>
             <CompetenceGroups user={currentUser} />
           </ModalContextProvider>

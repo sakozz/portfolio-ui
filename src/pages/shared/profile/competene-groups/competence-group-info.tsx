@@ -2,6 +2,7 @@ import { CompetenceGroup } from '../../../../dao/competence-group.dao.ts';
 import { CompetenceInfo } from './competence-info.tsx';
 import { GroupCompetence } from '../../../../dao/group-competence.dao.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { motion } from 'framer-motion';
 
 export default function CompetenceGroupInfo({
   competenceGroup,
@@ -14,7 +15,16 @@ export default function CompetenceGroupInfo({
     onEdit(competenceGroup);
   };
   return (
-    <div className="card rounded-2xl p-6 pt-4">
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0 },
+      }}
+      initial="hidden"
+      whileInView="visible"
+      transition={{ delay: 0.1, duration: 1.2, type: 'spring' }}
+      viewport={{ once: true, amount: 0.2 }}
+      className="card rounded-2xl p-6 pt-4">
       <div className={'flex flex-row justify-between items-center gap-2'}>
         <h3 className={'text-xl font-bold '}>{competenceGroup.name}</h3>
         <button
@@ -30,6 +40,6 @@ export default function CompetenceGroupInfo({
             item && <CompetenceInfo key={index} groupCompetence={item} />,
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

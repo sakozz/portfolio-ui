@@ -6,7 +6,7 @@ import Modal from '../../../../components/modal/modal.tsx';
 import CompetenceGroupForm from './competence-group.form.tsx';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
 import { useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   CompetenceGroup,
   fetchProfileCompetenceGroups,
@@ -50,7 +50,18 @@ export default function CompetenceGroups({ user }: { user: User }) {
   return (
     <div className={'flex flex-col w-full'}>
       <div className={'flex flex-row justify-between gap-4'}>
-        <h2 className="text-2xl text-secondary-500">Competences</h2>
+        <motion.h2
+          variants={{
+            hidden: { opacity: 0, y: 50 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ delay: 0.1, duration: 1.2, type: 'spring' }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="text-2xl text-secondary-500">
+          Competences
+        </motion.h2>
         <button
           className={'btn btn-rounded btn-primary-outline'}
           type="button"
@@ -59,7 +70,7 @@ export default function CompetenceGroups({ user }: { user: User }) {
         </button>
       </div>
       <hr className={'my-4'} />
-      <div className="my-4 grid grid-cols-3 gap-6">{content}</div>
+      <div className="my-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">{content}</div>
       <AnimatePresence>
         {isOpen && (
           <Modal classname={'sm start'}>

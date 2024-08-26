@@ -7,7 +7,7 @@ import Modal from '../../../../components/modal/modal.tsx';
 import ExperienceForm from './experience.form.tsx';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
 import { useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Experiences({ user }: { user: User }) {
   const { isOpen, openModal } = useModalContext();
@@ -34,7 +34,17 @@ export default function Experiences({ user }: { user: User }) {
   if (data) {
     const experiences = data.data as ArrayPayloadJSON<Experience>;
     content = experiences.items.map((item, index) => (
-      <div key={index} className={'my-2'}>
+      <motion.div
+        variants={{
+          hidden: { opacity: 0, y: 50 },
+          visible: { opacity: 1, y: 0 },
+        }}
+        initial="hidden"
+        whileInView="visible"
+        transition={{ delay: 0.1, duration: 1.2, type: 'spring' }}
+        viewport={{ once: true, amount: 0.2 }}
+        key={index}
+        className={'my-2'}>
         <div className={'flex flex-row justify-between gap-4'}>
           <h3 className={'text-xl font-bold '}>{item.jobTitle}</h3>
           <button type="button" className={'btn btn-rounded'} onClick={() => handleEdit(item)}>
@@ -46,14 +56,25 @@ export default function Experiences({ user }: { user: User }) {
           {item.link}
         </p>
         <p className={'text-primary-500'}>{item.responsibilities}</p>
-      </div>
+      </motion.div>
     ));
   }
 
   return (
     <div className={'flex flex-col w-full'}>
       <div className={'flex flex-row justify-between gap-4'}>
-        <h2 className="text-2xl text-secondary-500">Experiences</h2>
+        <motion.h2
+          variants={{
+            hidden: { opacity: 0, y: 50, scale: 1.2 },
+            visible: { opacity: 1, y: 0, scale: 1 },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ delay: 0.1, duration: 1, type: 'spring' }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="text-2xl text-secondary-500">
+          Experiences
+        </motion.h2>
         <button
           className={'btn btn-rounded btn-primary-outline'}
           type="button"
