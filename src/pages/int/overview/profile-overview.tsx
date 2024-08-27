@@ -3,18 +3,35 @@ import EducationInfo from '../../shared/profile/education-info.tsx';
 import Experiences from '../../shared/profile/experiences/experiences.tsx';
 import QuickInfo from '../../shared/quick-info.tsx';
 import User from '../../../dao/users.dao.ts';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store.ts';
 import ModalContextProvider from '../../../components/modal/modal-context.tsx';
 import CompetenceGroups from '../../shared/profile/competene-groups/competence-groups.tsx';
 import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import { profileSections } from '../../../lib/constants.ts';
+import { uiActions } from '../../../store/ui.store.ts';
 
 export default function ProfileOverview() {
   const { currentUser }: { currentUser: User } = useSelector((state: RootState) => state.session);
+  const dispatch = useDispatch();
+  const { el, scroll } = useSelector((state: RootState) => state.ui.inViewElement) || {
+    el: profileSections[0].key,
+  };
+
+  const containerRef = useRef(null);
+  useEffect(() => {
+    const element = document.getElementById(el);
+    if (element && scroll) {
+      element.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      dispatch(uiActions.setInViewElement({ el: el, scroll: false }));
+    }
+  }, [dispatch, el, scroll]);
+
   return (
-    <>
+    <div>
       {currentUser?.id && (
-        <div className="flex flex-col items-center justify-center gap-8">
+        <div ref={containerRef} className="flex flex-col items-center justify-center gap-8">
           <QuickInfo user={currentUser} />
           <motion.div
             variants={{
@@ -25,7 +42,7 @@ export default function ProfileOverview() {
             whileInView="visible"
             transition={{ delay: 0.1, duration: 1, type: 'spring' }}
             viewport={{ once: true, amount: 0.2 }}
-            className="sticky top-0 bg-opacity-95 w-full flex justify-center container bg-white py-8">
+            className=" sticky top-0 bg-opacity-95 w-full flex justify-center container bg-white pt-6 pb-2">
             <ProfileTabs />
           </motion.div>
           <ModalContextProvider>
@@ -37,6 +54,6 @@ export default function ProfileOverview() {
           <EducationInfo></EducationInfo>
         </div>
       )}
-    </>
+    </div>
   );
 }
