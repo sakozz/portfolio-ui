@@ -12,10 +12,8 @@ import Overview from './pages/int/overview/overview.tsx';
 import Profiles from './pages/int/profiles/profiles.tsx';
 import ProfilesCollection from './pages/int/profiles/profiles-collection.tsx';
 import Profile from './pages/int/profiles/profile.tsx';
+import { profileLoader } from './dao/profiles.dao.ts';
 import PublicPages from './pages/public/public.tsx';
-import About from './pages/public/about/about.tsx';
-import Resume from './pages/public/resume/resume.tsx';
-import Contact from './pages/public/contact/contact.tsx';
 
 export const AppQueryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -27,30 +25,24 @@ const router = createBrowserRouter([
       {
         path: '',
         element: <PublicPages />,
+      },
+      {
+        path: ':id',
+        element: <Profile />,
+        loader: ({ params }) => profileLoader(params),
+      },
+      {
+        path: 'auth',
+        element: <Auth />,
         children: [
-          { index: true, element: <About /> },
           {
-            path: 'resume',
-            element: <Resume />,
+            index: true,
+            element: <LoginPage />,
           },
           {
-            path: 'contact',
-            element: <Contact />,
-          },
-          {
-            path: 'auth',
-            element: <Auth />,
-            children: [
-              {
-                index: true,
-                element: <LoginPage />,
-              },
-              {
-                path: 'google/sso-callback',
-                element: <SSOCallback />,
-                loader: SsoLoginLoader,
-              },
-            ],
+            path: 'google/sso-callback',
+            element: <SSOCallback />,
+            loader: SsoLoginLoader,
           },
         ],
       },

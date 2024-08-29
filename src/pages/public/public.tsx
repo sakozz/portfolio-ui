@@ -1,14 +1,18 @@
-import { Outlet } from "react-router-dom";
-import Sidebar from "./sidebar/sidebar.tsx";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store.ts';
+import { profileConfigs } from '../../profile-configs.ts';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function PublicPages() {
-  return (
-    <div className="flex flex-row h-full">
-      <Sidebar />
-      <main className="flex flex-col flex-grow p-4 container mx-auto">
-        <h1>Public Pages</h1>
-        <Outlet />
-      </main>
-    </div>
-  );
+  const { authenticated } = useSelector((state: RootState) => state.session);
+  const navigate = useNavigate();
+  let username = profileConfigs.defaultProfileUsername;
+  useEffect(() => {
+    if (authenticated) {
+      username = 'own';
+    }
+  }, [username, navigate, authenticated]);
+
+  return <Navigate to={`/${username}`} />;
 }
