@@ -12,7 +12,6 @@ import Overview from './pages/int/overview/overview.tsx';
 import Profiles from './pages/int/profiles/profiles.tsx';
 import ProfilesCollection from './pages/int/profiles/profiles-collection.tsx';
 import Profile from './pages/int/profiles/profile.tsx';
-import { profileLoader } from './dao/profiles.dao.ts';
 import PublicPages from './pages/public/public.tsx';
 
 export const AppQueryClient = new QueryClient();
@@ -29,7 +28,6 @@ const router = createBrowserRouter([
       {
         path: ':id',
         element: <Profile />,
-        loader: ({ params }) => profileLoader(params),
       },
       {
         path: 'auth',

@@ -8,7 +8,7 @@ import { uiActions } from '../../../../store/ui.store.ts';
 import { Toast } from '../../../../components/toast-messages/toast-messages.tsx';
 import { AxiosError } from 'axios';
 import { useDispatch } from 'react-redux';
-import User from '../../../../dao/users.dao.ts';
+import Profile from '../../../../dao/users.dao.ts';
 import { GroupCompetence } from '../../../../dao/group-competence.dao.ts';
 import { Competence } from '../../../../dao/competence.dao.ts';
 import { AppQueryClient } from '../../../../app.routes.tsx';
@@ -23,7 +23,7 @@ interface FormFields {
   }[];
 }
 
-export default function CompetencesAssessmentForm({ user }: { user: User }) {
+export default function CompetencesAssessmentForm({ user }: { user: Profile }) {
   const { competenceGroup, showCompetencesView } = useCompetencesGroupContext();
   const { closeModal } = useModalContext();
   const dispatch = useDispatch();

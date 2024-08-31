@@ -1,5 +1,5 @@
 import { CompetenceGroup } from '../../../../dao/competence-group.dao.ts';
-import User from '../../../../dao/users.dao.ts';
+import Profile from '../../../../dao/users.dao.ts';
 import CompetencesForm from './competences.form.tsx';
 import { useState } from 'react';
 import CompetencesAssessmentForm from './competences-assessment.form.tsx';
@@ -10,7 +10,7 @@ export default function CompetenceGroupForm({
   user,
 }: {
   initialCompetenceGroup: CompetenceGroup;
-  user: User;
+  user: Profile;
 }) {
   const [isAssessmentView, setIsAssessmentView] = useState(false);
   const [competenceGroup, setCompetenceGroup] = useState(initialCompetenceGroup);

@@ -2,7 +2,7 @@ import ProfileTabs from '../../shared/profile/profile-tabs.tsx';
 import EducationInfo from '../../shared/profile/education-info.tsx';
 import Experiences from '../../shared/profile/experiences/experiences.tsx';
 import QuickInfo from '../../shared/quick-info.tsx';
-import User from '../../../dao/users.dao.ts';
+import Profile from '../../../dao/users.dao.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store.ts';
 import ModalContextProvider from '../../../components/modal/modal-context.tsx';
@@ -13,7 +13,9 @@ import { profileSections } from '../../../lib/constants.ts';
 import { uiActions } from '../../../store/ui.store.ts';
 
 export default function ProfileOverview() {
-  const { currentUser }: { currentUser: User } = useSelector((state: RootState) => state.session);
+  const { currentProfile }: { currentProfile: Profile } = useSelector(
+    (state: RootState) => state.session,
+  );
   const dispatch = useDispatch();
   const { el, scroll } = useSelector((state: RootState) => state.ui.inViewElement) || {
     el: profileSections[0].key,
@@ -30,9 +32,9 @@ export default function ProfileOverview() {
 
   return (
     <div>
-      {currentUser?.id && (
+      {currentProfile?.id && (
         <div ref={containerRef} className="flex flex-col items-center justify-center gap-8">
-          <QuickInfo user={currentUser} />
+          <QuickInfo user={currentProfile} />
           <motion.div
             variants={{
               hidden: { opacity: 0, y: 25 },
@@ -46,10 +48,10 @@ export default function ProfileOverview() {
             <ProfileTabs />
           </motion.div>
           <ModalContextProvider>
-            <CompetenceGroups user={currentUser} />
+            <CompetenceGroups user={currentProfile} />
           </ModalContextProvider>
           <ModalContextProvider>
-            <Experiences user={currentUser} />
+            <Experiences user={currentProfile} />
           </ModalContextProvider>
           <EducationInfo></EducationInfo>
         </div>

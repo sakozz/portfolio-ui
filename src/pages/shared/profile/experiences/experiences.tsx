@@ -2,7 +2,7 @@ import { Experience, fetchProfileExperiences } from '../../../../dao/experiences
 import { useQuery } from '@tanstack/react-query';
 import { ArrayPayloadJSON } from '../../../../types/payload.interface.ts';
 import { AxiosError, AxiosResponse } from 'axios';
-import User from '../../../../dao/users.dao.ts';
+import Profile from '../../../../dao/users.dao.ts';
 import Modal from '../../../../components/modal/modal.tsx';
 import ExperienceForm from './experience.form.tsx';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
@@ -12,7 +12,7 @@ import { useElementOnScreen } from '../../../../lib/hooks.ts';
 import { uiActions } from '../../../../store/ui.store.ts';
 import { useDispatch } from 'react-redux';
 
-export default function Experiences({ user }: { user: User }) {
+export default function Experiences({ user }: { user: Profile }) {
   const { isOpen, openModal } = useModalContext();
   const [formExperience, setFormExperience] = useState(null);
   const dispatch = useDispatch();

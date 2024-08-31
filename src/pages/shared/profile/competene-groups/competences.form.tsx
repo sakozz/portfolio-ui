@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { uiActions } from '../../../../store/ui.store.ts';
 import { Toast } from '../../../../components/toast-messages/toast-messages.tsx';
 import { useDispatch } from 'react-redux';
-import User from '../../../../dao/users.dao.ts';
+import Profile from '../../../../dao/users.dao.ts';
 import FormField from '../../../../components/form-field/form-field.tsx';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
 import { AxiosError } from 'axios';
@@ -32,7 +32,7 @@ export default function CompetencesForm({
   user,
 }: {
   competenceGroup: CompetenceGroup;
-  user: User;
+  user: Profile;
 }) {
   const dispatch = useDispatch();
   const { closeModal } = useModalContext();

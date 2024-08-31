@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { ArrayPayloadJSON } from '../../../../types/payload.interface.ts';
 import { AxiosError, AxiosResponse } from 'axios';
-import User from '../../../../dao/users.dao.ts';
+import Profile from '../../../../dao/users.dao.ts';
 import Modal from '../../../../components/modal/modal.tsx';
 import CompetenceGroupForm from './competence-group.form.tsx';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
@@ -16,7 +16,7 @@ import { useElementOnScreen } from '../../../../lib/hooks.ts';
 import { uiActions } from '../../../../store/ui.store.ts';
 import { useDispatch } from 'react-redux';
 
-export default function CompetenceGroups({ user }: { user: User }) {
+export default function CompetenceGroups({ user }: { user: Profile }) {
   const { isOpen, openModal } = useModalContext();
   const [formCompetenceGroup, setFormCompetenceGroup] = useState<CompetenceGroup>(null);
   const dispatch = useDispatch();

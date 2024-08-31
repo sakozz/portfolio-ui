@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import User from '../../dao/users.dao.ts';
+import Profile from '../../dao/users.dao.ts';
 import { motion } from 'framer-motion';
 
-export default function QuickInfo({ user }: { user: User }) {
+export default function QuickInfo({ user }: { user: Profile }) {
   return (
     <div className={'card flex flex-col md:flex-row gap-4'}>
       <div

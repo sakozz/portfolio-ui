@@ -1,4 +1,4 @@
-export default class User {
+export default class Profile {
   constructor(
     public id: number,
     public username: string,
