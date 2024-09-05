@@ -1,3 +1,7 @@
+import { RestApi } from './restApi.ts';
+import { apiPath } from '../types/api.ts';
+import { AxiosError } from 'axios';
+
 export default class Profile {
   constructor(
     public id: number,
@@ -17,3 +21,14 @@ export default class Profile {
     public githubUrl: string,
   ) {}
 }
+
+export const loadCurrentProfile = async (username: string): Promise<Profile> => {
+  const restApi = new RestApi();
+  const url = `${apiPath.profilesPath}/${username}`;
+  const result = await restApi.get({ queryKey: ['currentProfile'] }, url);
+  if (result instanceof AxiosError) {
+    throw result;
+  }
+
+  return result.data as Profile;
+};

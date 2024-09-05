@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useMutation } from '@tanstack/react-query';
-import { ClearCookie, LogoutUser } from '../dao/session.dao.ts';
+import { clearCookie, LogoutUser } from '../dao/session.dao.ts';
 import { sessionActions } from '../store/session.store.ts';
 import { uiActions } from '../store/ui.store.ts';
 import { Toast } from './toast-messages/toast-messages.tsx';
@@ -15,7 +15,7 @@ export default function LogoutBtn() {
     },
     onSuccess: () => {
       dispatch(sessionActions.clearSession());
-      ClearCookie();
+      clearCookie();
 
       dispatch(
         uiActions.addToast({

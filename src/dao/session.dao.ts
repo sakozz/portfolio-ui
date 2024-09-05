@@ -6,44 +6,19 @@ import { uiActions } from '../store/ui.store.ts';
 import { apiPath } from '../types/api.ts';
 import Cookies from 'js-cookie';
 import { RestApi } from './restApi.ts';
-import Profile from './users.dao.ts';
+import { loadCurrentProfile } from './users.dao.ts';
 import { profileConfigs } from '../profile-configs.ts';
-import { SessionState } from '../store/session.store.ts';
 
-export class Session {
-  accessTokenCookieName: string = 'profile_cookie';
-  restApi = new RestApi();
+export const hasSessionCookie = (): boolean => {
+  return !!Cookies.get(profileConfigs.accessTokenCookieName);
+};
 
-  hasSessionCookie(): boolean {
-    return !!Cookies.get(this.accessTokenCookieName);
-  }
-
-  constructor() {}
-
-  async loadCurrentProfile(): Promise<SessionState> {
-    let url = `${apiPath.profilesPath}/`;
-    const isAuthenticated = this.hasSessionCookie();
-    url += isAuthenticated ? 'own' : profileConfigs.defaultProfileUsername;
-    const result = await this.restApi.get({ queryKey: ['currentProfile'] }, url);
-    if (result instanceof AxiosError) {
-      throw result;
-    }
-    return {
-      currentSession: this,
-      currentProfile: result.data as Profile,
-      authenticated: isAuthenticated,
-    };
-  }
-}
-
-export const ClearCookie = () => {
-  const session = new Session();
-  Cookies.remove(session.accessTokenCookieName);
+export const clearCookie = () => {
+  Cookies.remove(profileConfigs.accessTokenCookieName);
 };
 
 export async function SsoLoginLoader() {
-  const session = new Session();
-  const result = await session.loadCurrentProfile();
+  const result = await loadCurrentProfile('own');
 
   let loginMessage: Toast = new Toast('Welcome !', 'Logged in Successfully.', 'success');
 
@@ -56,11 +31,6 @@ export async function SsoLoginLoader() {
     }),
   );
   return redirect('/');
-}
-
-export async function LoadSession(): Promise<SessionState> {
-  const session = new Session();
-  return session.loadCurrentProfile();
 }
 
 export async function LogoutUser() {
