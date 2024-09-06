@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 import ToastMessages from './components/toast-messages/toast-messages.tsx';
 import { hasSessionCookie } from './dao/session.dao.ts';
 import { sessionActions } from './store/session.store.ts';
-import Profile, { loadCurrentProfile } from './dao/users.dao.ts';
+import { loadProfile } from './dao/users.dao.ts';
 import { profileConfigs } from './profile-configs.ts';
 
 function RootLayout() {
@@ -15,10 +15,10 @@ function RootLayout() {
   useEffect(() => {
     const isAuthenticated = hasSessionCookie();
     const username = isAuthenticated ? 'own' : profileConfigs.defaultProfileUsername;
-    loadCurrentProfile(username)
-      .then((res: Profile) => {
+    loadProfile(username)
+      .then((profile) => {
         dispatch(
-          sessionActions.setSession({ authenticated: isAuthenticated, currentProfile: res }),
+          sessionActions.setSession({ authenticated: isAuthenticated, currentProfile: profile }),
         );
       })
       .catch((err) => {

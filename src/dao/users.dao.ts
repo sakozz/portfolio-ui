@@ -25,23 +25,22 @@ export default class Profile {
   ) {}
 }
 
-export const loadCurrentProfile = async (username: string): Promise<Profile> => {
+export const loadProfile = async (username: string): Promise<Profile> => {
   const url = `${apiPath.profilesPath}/${username}`;
   const result = await fetchQuery('GET', { queryKey: ['profiles', username] }, url);
   if (result instanceof AxiosError) {
     throw result;
   }
-  const profile = result.data as Profile;
+  return result.data as Profile;
+};
+
+export const currentProfileLoader = async (params: Params) => {
+  const username = params['id'];
+  const profile = await loadProfile(username);
   store.dispatch(
     profileActions.setProfile({
       currentProfile: profile,
     }),
   );
-
   return profile;
-};
-
-export const currentProfileLoader = async (params: Params) => {
-  const username = params['id'];
-  return loadCurrentProfile(username);
 };

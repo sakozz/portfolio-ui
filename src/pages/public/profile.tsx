@@ -1,5 +1,5 @@
-import ProfileOverview from '../overview/profile-overview.tsx';
-import NavMenuBar from '../../public/nav-menu/nav-menu-bar.tsx';
+import ProfileOverview from '../shared/profile/profile-overview.tsx';
+import NavMenuBar from '../shared/nav-menu/nav-menu-bar.tsx';
 
 export default function Profile() {
   return (

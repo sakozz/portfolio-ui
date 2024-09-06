@@ -19,6 +19,7 @@ const sessionSlice = createSlice({
       state.authenticated = action.payload.authenticated;
     },
     clearSession: (state) => {
+      state.currentProfile = null;
       state.authenticated = false;
     },
   },

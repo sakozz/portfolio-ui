@@ -1,12 +1,12 @@
-import ProfileTabs from '../../shared/profile/profile-tabs.tsx';
-import EducationInfo from '../../shared/profile/education-info.tsx';
-import Experiences from '../../shared/profile/experiences/experiences.tsx';
-import QuickInfo from '../../shared/quick-info.tsx';
+import ProfileTabs from './profile-tabs.tsx';
+import EducationInfo from './education-info.tsx';
+import Experiences from './experiences/experiences.tsx';
+import QuickInfo from '../quick-info.tsx';
 import Profile from '../../../dao/users.dao.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store.ts';
 import ModalContextProvider from '../../../components/modal/modal-context.tsx';
-import CompetenceGroups from '../../shared/profile/competene-groups/competence-groups.tsx';
+import CompetenceGroups from './competene-groups/competence-groups.tsx';
 import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 import { profileSections } from '../../../lib/constants.ts';
@@ -14,7 +14,7 @@ import { uiActions } from '../../../store/ui.store.ts';
 
 export default function ProfileOverview() {
   const { currentProfile }: { currentProfile: Profile } = useSelector(
-    (state: RootState) => state.session,
+    (state: RootState) => state.profile,
   );
   const dispatch = useDispatch();
   const { el, scroll } = useSelector((state: RootState) => state.ui.inViewElement) || {

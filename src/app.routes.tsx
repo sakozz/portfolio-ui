@@ -11,7 +11,7 @@ import Internal from './pages/int/internal.tsx';
 import Overview from './pages/int/overview/overview.tsx';
 import Profiles from './pages/int/profiles/profiles.tsx';
 import ProfilesCollection from './pages/int/profiles/profiles-collection.tsx';
-import Profile from './pages/int/profiles/profile.tsx';
+import Profile from './pages/public/profile.tsx';
 import PublicPages from './pages/public/public.tsx';
 import { currentProfileLoader } from './dao/users.dao.ts';
 

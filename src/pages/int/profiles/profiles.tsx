@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import NavMenuBar from '../../public/nav-menu/nav-menu-bar.tsx';
+import NavMenuBar from '../../shared/nav-menu/nav-menu-bar.tsx';
 
 export default function Profiles() {
   return (

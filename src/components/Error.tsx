@@ -1,6 +1,6 @@
 import { ErrorResponse, useRouteError } from 'react-router-dom';
 import PageContent from './page-content/page-content.tsx';
-import NavMenu from '../pages/public/nav-menu/nav-menu-bar.tsx';
+import NavMenu from '../pages/shared/nav-menu/nav-menu-bar.tsx';
 
 function ErrorPage() {
   const error: ErrorResponse = useRouteError() as ErrorResponse;

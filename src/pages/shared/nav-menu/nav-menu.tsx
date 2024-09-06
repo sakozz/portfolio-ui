@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { NavLink } from "react-router-dom";
-import styles from "./nav-menu.module.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NavLink } from 'react-router-dom';
+import styles from './nav-menu.module.scss';
 
 export default function NavMenu() {
   return (
@@ -8,10 +8,9 @@ export default function NavMenu() {
       <ul className="flex flex-col gap-2">
         <li>
           <NavLink
-            to="/"
+            to="/src/pages/public"
             className={({ isActive }) => (isActive ? styles.active : undefined)}
-            end
-          >
+            end>
             <FontAwesomeIcon icon="user" className="me-2" />
             <span>About Me</span>
           </NavLink>
@@ -19,17 +18,13 @@ export default function NavMenu() {
         <li>
           <NavLink
             to="/resume"
-            className={({ isActive }) => (isActive ? styles.active : undefined)}
-          >
+            className={({ isActive }) => (isActive ? styles.active : undefined)}>
             <FontAwesomeIcon icon="id-card" className="me-2" />
             <span>Resume</span>
           </NavLink>
         </li>
         <li>
-          <NavLink
-            to="/blogs"
-            className={({ isActive }) => (isActive ? styles.active : undefined)}
-          >
+          <NavLink to="/blogs" className={({ isActive }) => (isActive ? styles.active : undefined)}>
             <FontAwesomeIcon icon="blog" className="me-2" />
             <span>Blogs</span>
           </NavLink>
@@ -38,8 +33,7 @@ export default function NavMenu() {
         <li>
           <NavLink
             to="/contact"
-            className={({ isActive }) => (isActive ? styles.active : undefined)}
-          >
+            className={({ isActive }) => (isActive ? styles.active : undefined)}>
             <FontAwesomeIcon icon="contact-book" className="me-2" />
             <span>Contact Me</span>
           </NavLink>

@@ -5,9 +5,10 @@ import store from '../store/store.ts';
 import { uiActions } from '../store/ui.store.ts';
 import { apiPath } from '../types/api.ts';
 import Cookies from 'js-cookie';
-import { loadCurrentProfile } from './users.dao.ts';
+import { loadProfile } from './users.dao.ts';
 import { profileConfigs } from '../profile-configs.ts';
 import { fetchQuery } from './restApi.ts';
+import { profileActions } from '../store/profile.store.ts';
 
 export const hasSessionCookie = (): boolean => {
   return !!Cookies.get(profileConfigs.accessTokenCookieName);
@@ -18,16 +19,22 @@ export const clearCookie = () => {
 };
 
 export async function SsoLoginLoader() {
-  const result = await loadCurrentProfile('own');
+  const profile = await loadProfile('own');
 
   let loginMessage: Toast = new Toast('Welcome !', 'Logged in Successfully.', 'success');
 
-  if (result instanceof AxiosError) {
+  if (profile instanceof AxiosError) {
     loginMessage = new Toast('Failed to login', 'Sorry, Failed to log you in', 'error');
   }
   store.dispatch(
     uiActions.addToast({
       toast: loginMessage,
+    }),
+  );
+
+  store.dispatch(
+    profileActions.setProfile({
+      currentProfile: profile,
     }),
   );
   return redirect('/');
