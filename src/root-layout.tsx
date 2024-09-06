@@ -17,7 +17,9 @@ function RootLayout() {
     const username = isAuthenticated ? 'own' : profileConfigs.defaultProfileUsername;
     loadCurrentProfile(username)
       .then((res: Profile) => {
-        dispatch(sessionActions.setSession({ authenticated: true, currentProfile: res }));
+        dispatch(
+          sessionActions.setSession({ authenticated: isAuthenticated, currentProfile: res }),
+        );
       })
       .catch((err) => {
         console.log('Error loading session:', err);

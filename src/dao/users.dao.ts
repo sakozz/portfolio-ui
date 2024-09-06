@@ -1,6 +1,9 @@
-import { RestApi } from './restApi.ts';
 import { apiPath } from '../types/api.ts';
 import { AxiosError } from 'axios';
+import store from '../store/store.ts';
+import { profileActions } from '../store/profile.store.ts';
+import { Params } from 'react-router-dom';
+import { fetchQuery } from './restApi.ts';
 
 export default class Profile {
   constructor(
@@ -23,12 +26,22 @@ export default class Profile {
 }
 
 export const loadCurrentProfile = async (username: string): Promise<Profile> => {
-  const restApi = new RestApi();
   const url = `${apiPath.profilesPath}/${username}`;
-  const result = await restApi.get({ queryKey: ['currentProfile'] }, url);
+  const result = await fetchQuery('GET', { queryKey: ['profiles', username] }, url);
   if (result instanceof AxiosError) {
     throw result;
   }
+  const profile = result.data as Profile;
+  store.dispatch(
+    profileActions.setProfile({
+      currentProfile: profile,
+    }),
+  );
 
-  return result.data as Profile;
+  return profile;
+};
+
+export const currentProfileLoader = async (params: Params) => {
+  const username = params['id'];
+  return loadCurrentProfile(username);
 };

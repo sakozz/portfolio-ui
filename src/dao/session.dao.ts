@@ -5,9 +5,9 @@ import store from '../store/store.ts';
 import { uiActions } from '../store/ui.store.ts';
 import { apiPath } from '../types/api.ts';
 import Cookies from 'js-cookie';
-import { RestApi } from './restApi.ts';
 import { loadCurrentProfile } from './users.dao.ts';
 import { profileConfigs } from '../profile-configs.ts';
+import { fetchQuery } from './restApi.ts';
 
 export const hasSessionCookie = (): boolean => {
   return !!Cookies.get(profileConfigs.accessTokenCookieName);
@@ -34,6 +34,5 @@ export async function SsoLoginLoader() {
 }
 
 export async function LogoutUser() {
-  const apiService = new RestApi();
-  return apiService.post(`${apiPath.authPath}/logout`);
+  return fetchQuery('POST', null, `${apiPath.authPath}/logout`);
 }

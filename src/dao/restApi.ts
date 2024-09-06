@@ -10,7 +10,7 @@ import { ApiError, Filter, QueryParams } from '../types/payload.interface.ts';
 
 export type httpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-const fetchQuery = async (
+export const fetchQuery = async (
   method: httpMethod,
   queryOptions: UseQueryOptions,
   path: string,
@@ -56,20 +56,6 @@ export const callApi = (
       throw 'Unknown method';
   }
 };
-
-export class RestApi {
-  get(queryOptions: UseQueryOptions, path: string) {
-    return fetchQuery('GET', queryOptions, path);
-  }
-
-  post(path: string, payload?: unknown) {
-    return fetchQuery('POST', null, path, payload);
-  }
-
-  put(path: string, payload?: unknown) {
-    return fetchQuery('PUT', null, path, payload);
-  }
-}
 
 const handleApiError = (error: AxiosError): AxiosError => {
   const { status } = error.response;
