@@ -11,6 +11,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 import { profileSections } from '../../../lib/constants.ts';
 import { uiActions } from '../../../store/ui.store.ts';
+import Projects from './projects/projects.tsx';
 
 export default function ProfileOverview() {
   const { currentProfile }: { currentProfile: Profile } = useSelector(
@@ -49,6 +50,9 @@ export default function ProfileOverview() {
           </motion.div>
           <ModalContextProvider>
             <CompetenceGroups user={currentProfile} />
+          </ModalContextProvider>
+          <ModalContextProvider>
+            <Projects profile={currentProfile} />
           </ModalContextProvider>
           <ModalContextProvider>
             <Experiences user={currentProfile} />
