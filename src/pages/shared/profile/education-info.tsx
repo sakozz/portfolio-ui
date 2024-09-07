@@ -1,21 +1,7 @@
-import { useElementOnScreen } from '../../../lib/hooks.ts';
-import { useEffect } from 'react';
-import { uiActions } from '../../../store/ui.store.ts';
-import { useDispatch } from 'react-redux';
-
 export default function EducationInfo() {
-  const dispatch = useDispatch();
-  const [containerRef, isVisible] = useElementOnScreen({
-    root: null,
-    rootMargin: '0px',
-    threshold: 1,
-  });
-  useEffect(() => {
-    dispatch(uiActions.setInViewElement({ el: isVisible ? 'education' : null, scroll: false }));
-  }, [dispatch, isVisible]);
   return (
-    <div ref={containerRef} className={'card p-6'}>
-      <div id={'education'}>
+    <div id="education" className={'card p-6'} data-scrollspy="educations">
+      <div>
         <h2 className={'text-2xl text-red-600 my-6'}>Education</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec ante aliquam, sodales

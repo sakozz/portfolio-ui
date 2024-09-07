@@ -1,22 +1,16 @@
 import { motion } from 'framer-motion';
 import { profileSections } from '../../../lib/constants.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDispatch, useSelector } from 'react-redux';
-import { uiActions } from '../../../store/ui.store.ts';
-import { RootState } from '../../../store/store.ts';
+import { useScrollSpyContext } from '../../../components/scroll-spy.tsx';
 
 export default function ProfileTabs() {
-  const { el } = useSelector((state: RootState) => state.ui.inViewElement) || {
-    el: profileSections[0].key,
-  };
+  const { visibleElementId } = useScrollSpyContext();
 
-  const dispatch = useDispatch();
   const handleNavClick = (sectionKey: string) => {
-    dispatch(uiActions.setInViewElement({ el: sectionKey, scroll: true }));
-  };
-
-  const activeElementKey = () => {
-    return el || profileSections[0].key;
+    const element = document.getElementById(sectionKey);
+    if (element) {
+      element.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
   };
 
   return (
@@ -28,16 +22,17 @@ export default function ProfileTabs() {
         {profileSections.map((section) => (
           <button
             key={section.key}
+            data-scrollspy-id={section.key}
             onClick={() => handleNavClick(section.key)}
             className={'p-2 lg:p-1 px-5 lg:px-4 relative '}>
-            {activeElementKey() == section.key && (
+            {visibleElementId == section.key && (
               <motion.div
                 layoutId={'activeTabIndicator'}
                 className="absolute left-0 top-0 bottom-0 w-full bg-white rounded-3xl shadow"></motion.div>
             )}
             <div
               className={
-                activeElementKey() == section.key
+                visibleElementId == section.key
                   ? 'z-1 text-dark-90 relative'
                   : 'z-1 text-dark-60 relative'
               }>

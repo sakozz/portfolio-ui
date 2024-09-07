@@ -6,29 +6,16 @@ import Profile from '../../../../dao/users.dao.ts';
 import Modal from '../../../../components/modal/modal.tsx';
 import ExperienceForm from './experience.form.tsx';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useElementOnScreen } from '../../../../lib/hooks.ts';
-import { uiActions } from '../../../../store/ui.store.ts';
-import { useDispatch } from 'react-redux';
 
 export default function Experiences({ user }: { user: Profile }) {
   const { isOpen, openModal } = useModalContext();
   const [formExperience, setFormExperience] = useState(null);
-  const dispatch = useDispatch();
   const { data, error }: { data: AxiosResponse; error: AxiosError } = useQuery({
     queryKey: ['profiles', user?.id, 'experiences'],
     queryFn: ({ signal }) => fetchProfileExperiences(user?.id, signal),
   });
-
-  const [containerRef, isVisible] = useElementOnScreen({
-    root: null,
-    rootMargin: '0px',
-    threshold: 1,
-  });
-  useEffect(() => {
-    dispatch(uiActions.setInViewElement({ el: isVisible ? 'experiences' : null, scroll: false }));
-  }, [dispatch, isVisible]);
 
   const handleCreateNew = () => {
     setFormExperience({} as Experience);
@@ -74,7 +61,7 @@ export default function Experiences({ user }: { user: Profile }) {
   }
 
   return (
-    <div ref={containerRef} className={'flex flex-col w-full'} id="experiences">
+    <div className={'flex flex-col w-full'} id="experiences" data-scrollspy="experiences">
       <div className={'flex flex-row justify-between gap-4'}>
         <motion.h2
           variants={{
