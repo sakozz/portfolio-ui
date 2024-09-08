@@ -87,7 +87,7 @@ export default function Projects({ profile }: { profile: Profile }) {
       <AnimatePresence>
         {isOpen && (
           <Modal classname={'sm start'}>
-            {formProject && <ProjectForm experience={formProject} user={profile}></ProjectForm>}
+            {formProject && <ProjectForm project={formProject} user={profile}></ProjectForm>}
           </Modal>
         )}
       </AnimatePresence>

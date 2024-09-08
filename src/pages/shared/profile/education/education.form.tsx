@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { descriptionValidator, nameValidator } from '../../../../lib/validators.ts';
+import { nameValidator } from '../../../../lib/validators.ts';
 import { useMutation } from '@tanstack/react-query';
 import { uiActions } from '../../../../store/ui.store.ts';
 import { Toast } from '../../../../components/toast-messages/toast-messages.tsx';
@@ -14,21 +14,26 @@ import SwitchInput from '../../../../components/switch.tsx';
 import { AxiosError } from 'axios';
 import { setValidationErrors } from '../../../../dao/restApi.ts';
 import { AppQueryClient } from '../../../../app.routes.tsx';
-import { Project, saveProject } from '../../../../dao/projects.dao.ts';
+import { Education, saveEducation } from '../../../../dao/education.ts';
 
-const projectFormSchema = z.object({
-  name: nameValidator,
-  responsibilities: descriptionValidator,
-  companyName: nameValidator,
+const educationFormSchema = z.object({
+  degreeProgram: nameValidator,
+  university: nameValidator,
   startDate: z.string(),
   endDate: z.string().optional(),
   isCurrent: z.boolean(),
   link: z.string().optional(),
 });
-type FormFieldsType = typeof projectFormSchema;
+type FormFieldsType = typeof educationFormSchema;
 type FormFields = z.infer<FormFieldsType>;
 
-export default function ProjectForm({ project, user }: { project: Project; user: Profile }) {
+export default function EducationForm({
+  education,
+  profile,
+}: {
+  education: Education;
+  profile: Profile;
+}) {
   const dispatch = useDispatch();
   const { closeModal } = useModalContext();
   const {
@@ -38,27 +43,27 @@ export default function ProjectForm({ project, user }: { project: Project; user:
     formState: { errors, isSubmitting },
   } = useForm<FormFields>({
     defaultValues: {
-      ...project,
+      ...education,
     },
-    resolver: zodResolver(projectFormSchema),
+    resolver: zodResolver(educationFormSchema),
   });
 
   console.log(errors);
   const { mutate } = useMutation({
-    mutationFn: (payload: { profileId: number; data: Project }) =>
-      saveProject(payload.profileId, payload.data),
+    mutationFn: (payload: { profileId: number; data: Education }) =>
+      saveEducation(payload.profileId, payload.data),
     onMutate: () => {
       // Any modifications before api call
     },
     onSuccess: () => {
       closeModal();
       AppQueryClient.invalidateQueries({
-        queryKey: ['profiles', user?.id, 'projects'],
+        queryKey: ['profiles', profile?.id, 'educations'],
       });
 
       dispatch(
         uiActions.addToast({
-          toast: new Toast('Saved successfully', 'Saved the project record.', 'success'),
+          toast: new Toast('Saved successfully', 'Saved the education record.', 'success'),
         }),
       );
     },
@@ -77,38 +82,34 @@ export default function ProjectForm({ project, user }: { project: Project; user:
   });
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    const record = Object.assign(project, data);
+    const record = Object.assign(education, data);
     mutate({
-      profileId: user.id,
+      profileId: profile.id,
       data: record,
     });
   };
 
   return (
     <form className="form flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <h3 className={'text-2xl mt-0'}>{project.id ? 'Update Experience' : 'Create Experience'}</h3>
+      <h3 className={'text-2xl mt-0'}>
+        {education.id ? 'Update Experience' : 'Create Experience'}
+      </h3>
       {errors.root && <div className="text-red-500">{errors.root.message}</div>}
       <hr />
-      <FormField label={'Project Name'} error={errors?.name?.message}>
+      <FormField label={'Degree Program'} error={errors?.degreeProgram?.message}>
         <input
-          {...register('name')}
+          {...register('degreeProgram')}
           type="text"
           className="form-control"
-          placeholder="Name of the project"
+          placeholder="Degree Program Name"
         />
       </FormField>
-      <FormField label={'Responsibilities'} error={errors?.responsibilities?.message}>
-        <textarea
-          {...register('responsibilities')}
-          className="form-control"
-          placeholder="Responsibilities"
-          rows={4}></textarea>
-      </FormField>
-      <FormField label={'Body'} error={errors?.companyName?.message}>
+
+      <FormField label={'University Name'} error={errors?.university?.message}>
         <input
-          {...register('companyName')}
+          {...register('university')}
           className="form-control"
-          placeholder="Name of Company"
+          placeholder="Name of the University"
         />
       </FormField>
       <FormField label={'Link'} error={errors?.link?.message}>

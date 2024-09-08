@@ -1,5 +1,4 @@
 import ProfileTabs from './profile-tabs.tsx';
-import EducationInfo from './education-info.tsx';
 import Experiences from './experiences/experiences.tsx';
 import QuickInfo from '../quick-info.tsx';
 import Profile from '../../../dao/users.dao.ts';
@@ -10,6 +9,7 @@ import CompetenceGroups from './competene-groups/competence-groups.tsx';
 import { motion } from 'framer-motion';
 import Projects from './projects/projects.tsx';
 import ScrollSpy from '../../../components/scroll-spy.tsx';
+import EducationList from './education/education-list.tsx';
 
 export default function ProfileOverview() {
   const { currentProfile }: { currentProfile: Profile } = useSelector(
@@ -43,7 +43,9 @@ export default function ProfileOverview() {
             <ModalContextProvider>
               <Experiences user={currentProfile} />
             </ModalContextProvider>
-            <EducationInfo></EducationInfo>
+            <ModalContextProvider>
+              <EducationList profile={currentProfile}></EducationList>
+            </ModalContextProvider>
           </div>
         </ScrollSpy>
       )}
