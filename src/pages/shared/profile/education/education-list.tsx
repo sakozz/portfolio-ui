@@ -56,7 +56,7 @@ export default function EducationList({ profile }: { profile: Profile }) {
           transition={{ delay: 0.1, duration: 1, type: 'spring' }}
           viewport={{ once: true, amount: 0.2 }}
           className="text-2xl text-secondary-500">
-          Recent Educations
+          Education
         </motion.h2>
         <button
           className={'btn btn-rounded btn-primary-outline'}
