@@ -14,10 +14,10 @@ export default function ProfileTabs() {
   };
 
   return (
-    <div>
+    <div className="bg-opacity-90 flex justify-center container bg-white pt-6 pb-2">
       <nav
         className={
-          'flex flex-row items-center justify-between list-none gap-1 p-1 bg-light-120 rounded-3xl'
+          'flex flex-row items-center justify-between list-none gap-1 p-1 bg-primary-100 rounded-3xl'
         }>
         {profileSections.map((section) => (
           <button

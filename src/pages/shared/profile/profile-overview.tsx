@@ -31,7 +31,7 @@ export default function ProfileOverview() {
               whileInView="visible"
               transition={{ delay: 0.1, duration: 1, type: 'spring' }}
               viewport={{ once: true, amount: 0.2 }}
-              className=" sticky top-0 bg-opacity-95 w-full flex justify-center container bg-white pt-6 pb-2">
+              className="sticky top-0 w-full z-10">
               <ProfileTabs />
             </motion.div>
             <ModalContextProvider>

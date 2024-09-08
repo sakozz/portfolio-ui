@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export function Footer() {
   return (
     <footer className=" bg-secondary-50 py-16 text-secondary-950 text-center font-light mt-20">
-      <div className="container mx-auto grid grid-cols-4 gap-8">
+      <div className="container mx-auto grid lg:grid-cols-4 gap-8">
         <nav className="col-span-2">
           <h4 className="text-xl">About</h4>
           <p className="text-sm  mt-2">

@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
 import EducationInfo from './education-info.tsx';
 import { Education, fetchEducation } from '../../../../dao/education.ts';
+import TimelineEvent from '../../../../components/timeline-event.tsx';
 
 export default function EducationList({ profile }: { profile: Profile }) {
   const { isOpen, openModal } = useModalContext();
@@ -35,11 +36,21 @@ export default function EducationList({ profile }: { profile: Profile }) {
   if (data) {
     const education = data.data as ArrayPayloadJSON<Education>;
     content = education.items.map((item, index) => (
-      <EducationInfo education={item} key={index}>
-        <button type="button" className={'btn btn-rounded'} onClick={() => handleEdit(item)}>
-          Edit
-        </button>
-      </EducationInfo>
+      <TimelineEvent
+        key={index}
+        title={item.degreeProgram}
+        link={item.link}
+        start={item.startDate}
+        end={item.isCurrent ? 'Present' : item.endDate}>
+        <div className="flex flex-row justify-between items-start relative">
+          <button
+            type="button"
+            className={'btn btn-rounded absolute -top-16 end-4'}
+            onClick={() => handleEdit(item)}>
+            Edit
+          </button>
+        </div>
+      </TimelineEvent>
     ));
   }
 

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
 import { fetchProjects, Project } from '../../../../dao/projects.dao.ts';
+import TimelineEvent from '../../../../components/timeline-event.tsx';
 
 export default function Projects({ profile }: { profile: Profile }) {
   const { isOpen, openModal } = useModalContext();
@@ -34,29 +35,23 @@ export default function Projects({ profile }: { profile: Profile }) {
   if (data) {
     const projects = data.data as ArrayPayloadJSON<Project>;
     content = projects.items.map((item, index) => (
-      <motion.div
-        variants={{
-          hidden: { opacity: 0, y: 50 },
-          visible: { opacity: 1, y: 0 },
-        }}
-        initial="hidden"
-        whileInView="visible"
-        transition={{ delay: 0.1, duration: 1.2, type: 'spring' }}
-        viewport={{ once: true, amount: 0.2 }}
+      <TimelineEvent
         key={index}
-        className={'my-2'}>
-        <div className={'flex flex-row justify-between gap-4'}>
-          <h3 className={'text-xl font-bold '}>{item.name}</h3>
-          <button type="button" className={'btn btn-rounded'} onClick={() => handleEdit(item)}>
+        title={item.name}
+        label={item.companyName}
+        link={item.link}
+        start={item.startDate}
+        end={item.isCurrent ? 'Present' : item.endDate}>
+        <div className="flex flex-row justify-between items-start relative">
+          <p className={'text-primary-500 pe-24'}>{item.responsibilities}</p>
+          <button
+            type="button"
+            className={'btn btn-rounded absolute -top-16 end-4'}
+            onClick={() => handleEdit(item)}>
             Edit
           </button>
         </div>
-        <p className={'font-bold text-primary-900'}>
-          {item.startDate} — {item.isCurrent ? 'Present' : item.endDate} | {item.companyName} |{' '}
-          {item.link}
-        </p>
-        <p className={'text-primary-500'}>{item.responsibilities}</p>
-      </motion.div>
+      </TimelineEvent>
     ));
   }
 
