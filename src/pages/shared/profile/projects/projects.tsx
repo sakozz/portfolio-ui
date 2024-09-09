@@ -41,6 +41,8 @@ export default function Projects({ profile }: { profile: Profile }) {
         label={item.companyName}
         link={item.link}
         start={item.startDate}
+        isFirst={index == 0}
+        isLast={index == projects.items.length - 1}
         end={item.isCurrent ? 'Present' : item.endDate}>
         <div className="flex flex-row justify-between items-start relative">
           <p className={'text-primary-500 pe-24'}>{item.responsibilities}</p>

@@ -8,6 +8,8 @@ export default function TimelineEvent({
   end,
   title,
   link,
+  isFirst,
+  isLast,
 }: {
   children: ReactNode;
   start: string;
@@ -16,6 +18,8 @@ export default function TimelineEvent({
   label?: string;
   subtitle?: string;
   link?: string;
+  isFirst: boolean;
+  isLast: boolean;
 }) {
   return (
     <motion.div
@@ -28,18 +32,22 @@ export default function TimelineEvent({
       transition={{ delay: 0.1, duration: 1.2, type: 'spring' }}
       viewport={{ once: true, amount: 0.2 }}
       className="flex flex-col relative py-2">
-      <div className="line border-s border-primary-100 absolute top-0 bottom-0 start-28"></div>
       <div className="flex flex-row justify-start items-end ">
         <div className="start w-24 text-end">
           <span>{start}</span>
         </div>
         <div className="w-4 h-4 rounded-full border border-primary-200 bg-secondary-50 z-10 ms-2 me-4 mb-1"></div>
-        <div className="end">
+        <div className="end relative">
+          {!isFirst && (
+            <div className="line w-[1px] bg-primary-100 absolute -top-4 bottom-6 -start-6"></div>
+          )}
           <p className="text-sm text-primary-400 font-light">{label}</p>
           <p>{end}</p>
         </div>
       </div>
-      <div className="ms-32 ps-2">
+      <div className="ms-32 ps-2 relative">
+        <div
+          className={`line w-[1px] bg-gradient-to-b from-primary-100 ${isLast ? 'to-white -bottom-8' : 'to-primary-100 bottom-0'} absolute top-0  -start-4`}></div>
         <div className="flex flex-row items-center">
           <h3 className={'text-lg text-primary-700 font-bold'}>{title}</h3>
           {link && (

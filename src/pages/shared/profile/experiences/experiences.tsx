@@ -41,7 +41,9 @@ export default function Experiences({ user }: { user: Profile }) {
         label={item.companyName}
         link={item.link}
         start={item.startDate}
-        end={item.isCurrent ? 'Present' : item.endDate}>
+        end={item.isCurrent ? 'Present' : item.endDate}
+        isFirst={index == 0}
+        isLast={index == experiences.items.length - 1}>
         <div className="flex flex-row justify-between items-start relative">
           <p className={'text-primary-500'}>{item.responsibilities}</p>
           <button

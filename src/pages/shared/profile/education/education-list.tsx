@@ -41,7 +41,9 @@ export default function EducationList({ profile }: { profile: Profile }) {
         title={item.degreeProgram}
         link={item.link}
         start={item.startDate}
-        end={item.isCurrent ? 'Present' : item.endDate}>
+        end={item.isCurrent ? 'Present' : item.endDate}
+        isFirst={index == 0}
+        isLast={index == education.items.length - 1}>
         <div className="flex flex-row justify-between items-start relative">
           <button
             type="button"
