@@ -41,7 +41,7 @@ export default function TimelineEvent({
       </div>
       <div className="ms-32 ps-2">
         <div className="flex flex-row items-center">
-          <h3 className={'text-lg font-bold '}>{title}</h3>
+          <h3 className={'text-lg text-primary-700 font-bold'}>{title}</h3>
           {link && (
             <a
               target="_blank"
