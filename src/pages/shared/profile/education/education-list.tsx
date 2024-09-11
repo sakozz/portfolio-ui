@@ -7,7 +7,6 @@ import EducationForm from './education.form.tsx';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
-import EducationInfo from './education-info.tsx';
 import { Education, fetchEducation } from '../../../../dao/education.ts';
 import TimelineEvent from '../../../../components/timeline-event.tsx';
 

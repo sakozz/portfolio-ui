@@ -6,7 +6,6 @@ import ToastMessages from './components/toast-messages/toast-messages.tsx';
 import { hasSessionCookie } from './dao/session.dao.ts';
 import { sessionActions } from './store/session.store.ts';
 import { loadProfile } from './dao/users.dao.ts';
-import { profileConfigs } from './profile-configs.ts';
 import { Footer } from './components/footer.tsx';
 
 function RootLayout() {
@@ -15,16 +14,17 @@ function RootLayout() {
 
   useEffect(() => {
     const isAuthenticated = hasSessionCookie();
-    const username = isAuthenticated ? 'own' : profileConfigs.defaultProfileUsername;
-    loadProfile(username)
-      .then((profile) => {
-        dispatch(
-          sessionActions.setSession({ authenticated: isAuthenticated, currentProfile: profile }),
-        );
-      })
-      .catch((err) => {
-        console.log('Error loading session:', err);
-      });
+    if (isAuthenticated) {
+      loadProfile('own')
+        .then((profile) => {
+          dispatch(
+            sessionActions.setSession({ authenticated: isAuthenticated, currentProfile: profile }),
+          );
+        })
+        .catch((err) => {
+          console.log('Error loading session:', err);
+        });
+    }
   }, [dispatch]);
 
   return (

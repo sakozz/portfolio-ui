@@ -21,7 +21,7 @@ export default function ProfileOverview() {
       {currentProfile?.id && (
         <ScrollSpy offset={600}>
           <div className="flex flex-col items-center justify-center gap-8">
-            <QuickInfo user={currentProfile} />
+            <QuickInfo profile={currentProfile} />
             <motion.div
               variants={{
                 hidden: { opacity: 0, y: 25 },

@@ -8,6 +8,7 @@ import { fetchQuery } from './restApi.ts';
 export default class Profile {
   constructor(
     public id: number,
+    public userId: number,
     public username: string,
     public email: string,
     public firstName: string,
