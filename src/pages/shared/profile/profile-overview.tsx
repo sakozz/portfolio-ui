@@ -35,7 +35,7 @@ export default function ProfileOverview() {
               <ProfileTabs />
             </motion.div>
             <ModalContextProvider>
-              <CompetenceGroups user={currentProfile} />
+              <CompetenceGroups profile={currentProfile} />
             </ModalContextProvider>
             <ModalContextProvider>
               <Projects profile={currentProfile} />

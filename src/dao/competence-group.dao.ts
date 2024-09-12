@@ -15,6 +15,7 @@ export class CompetenceGroup {
 
   constructor(
     public id: number,
+    public profileId: number,
     public name: string,
     public description: string,
     public competences: GroupCompetence[],
