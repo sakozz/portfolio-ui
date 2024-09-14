@@ -48,7 +48,6 @@ export default function EducationForm({
     resolver: zodResolver(educationFormSchema),
   });
 
-  console.log(errors);
   const { mutate } = useMutation({
     mutationFn: (payload: { profileId: number; data: Education }) =>
       saveEducation(payload.profileId, payload.data),

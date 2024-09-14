@@ -9,10 +9,16 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useModalContext } from '../../../../components/modal/modal-context.tsx';
 import { Education, fetchEducation } from '../../../../dao/education.ts';
 import TimelineEvent from '../../../../components/timeline-event.tsx';
+import { plainToInstance } from 'class-transformer';
+import { Actions } from '../../../../lib/types.ts';
+import EducationAbilities, {
+  Can,
+} from '../../../../components/ability-providers/education.abilities.tsx';
 
 export default function EducationList({ profile }: { profile: Profile }) {
   const { isOpen, openModal } = useModalContext();
   const [formEducation, setFormEducation] = useState(null);
+  const newEducation = plainToInstance(Education, { profileId: profile.id });
   const { data, error }: { data: AxiosResponse; error: AxiosError } = useQuery({
     queryKey: ['profiles', profile?.id, 'education'],
     queryFn: ({ signal }) => fetchEducation(profile?.id, signal),
@@ -44,50 +50,56 @@ export default function EducationList({ profile }: { profile: Profile }) {
         isFirst={index == 0}
         isLast={index == education.items.length - 1}>
         <div className="flex flex-row justify-between items-start relative">
-          <button
-            type="button"
-            className={'btn btn-rounded absolute -top-16 end-4'}
-            onClick={() => handleEdit(item)}>
-            Edit
-          </button>
+          <Can I={Actions.Update} this={plainToInstance(Education, item)}>
+            <button
+              type="button"
+              className={'btn btn-rounded absolute -top-16 end-4'}
+              onClick={() => handleEdit(item)}>
+              Edit
+            </button>
+          </Can>
         </div>
       </TimelineEvent>
     ));
   }
 
   return (
-    <div className={'flex flex-col w-full'} id="education" data-scrollspy="education">
-      <div className={'flex flex-row justify-between gap-4'}>
-        <motion.h2
-          variants={{
-            hidden: { opacity: 0, y: 50, scale: 1.2 },
-            visible: { opacity: 1, y: 0, scale: 1 },
-          }}
-          initial="hidden"
-          whileInView="visible"
-          transition={{ delay: 0.1, duration: 1, type: 'spring' }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="text-2xl text-secondary-500">
-          Education
-        </motion.h2>
-        <button
-          className={'btn btn-rounded btn-primary-outline'}
-          type="button"
-          onClick={handleCreateNew}>
-          Add New
-        </button>
+    <EducationAbilities>
+      <div className={'flex flex-col w-full'} id="education" data-scrollspy="education">
+        <div className={'flex flex-row justify-between gap-4'}>
+          <motion.h2
+            variants={{
+              hidden: { opacity: 0, y: 50, scale: 1.2 },
+              visible: { opacity: 1, y: 0, scale: 1 },
+            }}
+            initial="hidden"
+            whileInView="visible"
+            transition={{ delay: 0.1, duration: 1, type: 'spring' }}
+            viewport={{ once: true, amount: 0.2 }}
+            className="text-2xl text-secondary-500">
+            Education
+          </motion.h2>
+          <Can I={Actions.Update} this={newEducation}>
+            <button
+              className={'btn btn-rounded btn-primary-outline'}
+              type="button"
+              onClick={handleCreateNew}>
+              Add New
+            </button>
+          </Can>
+        </div>
+        <hr className={'my-4'} />
+        {content}
+        <AnimatePresence>
+          {isOpen && (
+            <Modal classname={'sm start'}>
+              {formEducation && (
+                <EducationForm education={formEducation} profile={profile}></EducationForm>
+              )}
+            </Modal>
+          )}
+        </AnimatePresence>
       </div>
-      <hr className={'my-4'} />
-      {content}
-      <AnimatePresence>
-        {isOpen && (
-          <Modal classname={'sm start'}>
-            {formEducation && (
-              <EducationForm education={formEducation} profile={profile}></EducationForm>
-            )}
-          </Modal>
-        )}
-      </AnimatePresence>
-    </div>
+    </EducationAbilities>
   );
 }

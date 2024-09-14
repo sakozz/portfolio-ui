@@ -6,7 +6,7 @@ export function CompetenceInfo({ groupCompetence }: { groupCompetence: GroupComp
   return (
     <div className="grid grid-cols-2 justify-between my-2">
       <div>
-        <span className="text-sm">{groupCompetence.competence.name}</span>
+        <span className="text-sm">{groupCompetence.competence?.name}</span>
       </div>
       <div className="flex flex-col">
         <span className="text-xs text-primary-400 mb-1">

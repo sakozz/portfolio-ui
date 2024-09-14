@@ -29,7 +29,7 @@ export default function CompetenceGroupInfo({
       viewport={{ once: true, amount: 0.2 }}
       className="card rounded-2xl p-6 pt-4">
       <div className={'flex flex-row justify-between items-center gap-2'}>
-        <h3 className={'text-xl font-bold '}>{competenceGroup.name}</h3>
+        <h3 className={'text-xl font-bold '}>{competenceGroup?.name}</h3>
         <Can I={Actions.Update} this={plainToInstance(CompetenceGroup, competenceGroup)}>
           <button
             type="button"
