@@ -6,10 +6,12 @@ export default function FormField({
   hint,
   error,
   children,
+  className,
 }: {
   label: string;
   hint?: string;
   error?: string;
+  className?: string;
   children: ReactNode;
 }) {
   const controlRef = useRef();
@@ -24,7 +26,7 @@ export default function FormField({
   }, [id, controlRef]);
 
   return (
-    <fieldset className={`${error ? 'invalid' : undefined}`}>
+    <fieldset className={`${error ? 'invalid' : undefined} ${className}`}>
       <label className="form-label" htmlFor={id}>
         {label}
       </label>

@@ -43,7 +43,6 @@ export default function ProjectForm({ project, user }: { project: Project; user:
     resolver: zodResolver(projectFormSchema),
   });
 
-  console.log(errors);
   const { mutate } = useMutation({
     mutationFn: (payload: { profileId: number; data: Project }) =>
       saveProject(payload.profileId, payload.data),

@@ -3,13 +3,14 @@ import { AxiosError } from 'axios';
 import store from '../store/store.ts';
 import { profileActions } from '../store/profile.store.ts';
 import { Params } from 'react-router-dom';
-import { fetchQuery } from './restApi.ts';
+import { callApi, fetchQuery } from './restApi.ts';
 
 export default class Profile {
   constructor(
     public id: number,
     public userId: number,
     public username: string,
+    public jobTitle: string,
     public email: string,
     public firstName: string,
     public lastName: string,
@@ -45,3 +46,7 @@ export const currentProfileLoader = async (params: Params) => {
   );
   return profile;
 };
+
+export async function saveProfile(payload: Profile, signal?: AbortSignal) {
+  return await callApi('PUT', `${apiPath.profilesPath}/${payload.username}`, signal, payload);
+}

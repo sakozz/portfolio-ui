@@ -1,13 +1,21 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Profile from '../../dao/users.dao.ts';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { plainToInstance } from 'class-transformer';
 import ProfileAbilities, { Can } from '../../components/ability-providers/profile.abilities.tsx';
 import { Actions } from '../../lib/types.ts';
+import { useModalContext } from '../../components/modal/modal-context.tsx';
+import { useState } from 'react';
+import Modal from '../../components/modal/modal.tsx';
+import ProfileForm from './profile/profile.form.tsx';
 
 export default function QuickInfo({ profile }: { profile: Profile }) {
-  const handleEdit = () => {};
-
+  const { isOpen, openModal } = useModalContext();
+  const [formProfile, setFormProfile] = useState<Profile>(null);
+  const handleEdit = (profile: Profile) => {
+    setFormProfile(profile);
+    openModal();
+  };
   return (
     <ProfileAbilities>
       <div className={'card flex flex-col md:flex-row gap-4'}>
@@ -41,13 +49,13 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
             )}
             {profile?.linkedInUrl && (
               <p>
-                <FontAwesomeIcon icon="linkedin" className="me-2" />
+                <FontAwesomeIcon icon={['fab', 'linkedin']} className="me-2" />
                 {profile.linkedInUrl}
               </p>
             )}
             {profile?.stackoverflowUrl && (
               <p>
-                <FontAwesomeIcon icon="stack-overflow" className="me-2" />
+                <FontAwesomeIcon icon={['fab', 'stack-overflow']} className="me-2" />
                 {profile.stackoverflowUrl}
               </p>
             )}
@@ -87,10 +95,13 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
               <h1 className={'text-4xl text-secondary-500 capitalize'}>
                 {profile?.firstName} {profile?.lastName}
               </h1>
-              <p className={'text-primary-500 text-xl capitalize'}>Software Engineer</p>
+              <p className={'text-primary-500 text-xl capitalize'}>{profile.jobTitle}</p>
             </div>
             <Can I={Actions.Update} this={plainToInstance(Profile, profile)}>
-              <button type="button" className={'btn btn-rounded icon-btn'} onClick={handleEdit}>
+              <button
+                type="button"
+                className={'btn btn-rounded icon-btn'}
+                onClick={() => handleEdit(profile)}>
                 <FontAwesomeIcon icon="pen-to-square" />
               </button>
             </Can>
@@ -109,6 +120,13 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
           </motion.p>
         </div>
       </div>
+      <AnimatePresence>
+        {isOpen && (
+          <Modal classname={'sm start'}>
+            {formProfile && <ProfileForm profile={formProfile}></ProfileForm>}
+          </Modal>
+        )}
+      </AnimatePresence>
     </ProfileAbilities>
   );
 }
