@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Profile from '../../dao/users.dao.ts';
 import { motion } from 'framer-motion';
 import { plainToInstance } from 'class-transformer';
-import ProfileAbilities, { Can } from '../../components/ability-providers/profile-abilies.tsx';
+import ProfileAbilities, { Can } from '../../components/ability-providers/profile.abilities.tsx';
 import { Actions } from '../../lib/types.ts';
 
 export default function QuickInfo({ profile }: { profile: Profile }) {

@@ -41,7 +41,7 @@ export default function ProfileOverview() {
               <Projects profile={currentProfile} />
             </ModalContextProvider>
             <ModalContextProvider>
-              <Experiences user={currentProfile} />
+              <Experiences profile={currentProfile} />
             </ModalContextProvider>
             <ModalContextProvider>
               <EducationList profile={currentProfile}></EducationList>
