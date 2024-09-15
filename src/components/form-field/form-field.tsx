@@ -4,12 +4,14 @@ import { randomId } from '../../lib/misc.ts';
 export default function FormField({
   label,
   hint,
+  prefix,
   error,
   children,
   className,
 }: {
   label: string;
   hint?: string;
+  prefix?: string;
   error?: string;
   className?: string;
   children: ReactNode;
@@ -31,6 +33,11 @@ export default function FormField({
         {label}
       </label>
       <div className={'input-group'} ref={controlRef}>
+        {prefix && (
+          <span className="bg-primary-50 rounded-s border-e border-primary-100 p-2 text-primary-500 text-sm font-light">
+            {prefix}
+          </span>
+        )}
         {children}
       </div>
       {hint && <span className="text-sm text-primary-400">{hint}</span>}
