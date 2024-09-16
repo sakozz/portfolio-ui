@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { descriptionValidator, nameValidator } from '../../../lib/validators.ts';
 import Profile, { saveProfile } from '../../../dao/users.dao.ts';
@@ -13,13 +13,15 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { setValidationErrors } from '../../../dao/restApi.ts';
 import FormField from '../../../components/form-field/form-field.tsx';
 import { profileActions } from '../../../store/profile.store.ts';
+import DatePicker from 'react-datepicker';
+import { useState } from 'react';
 
 const profileFormSchema = z.object({
   firstName: nameValidator,
   lastName: nameValidator,
   jobTitle: z.string(),
   description: descriptionValidator,
-  dateOfBirth: z.string(),
+  dateOfBirth: z.date(),
   address: z.string(),
   phone: z.string(),
   nationality: z.string(),
@@ -32,11 +34,14 @@ type FormFields = z.infer<FormFieldsType>;
 
 export default function ProfileForm({ profile }: { profile: Profile }) {
   const dispatch = useDispatch();
+  const [dateOfBirth, setDateOfBirth] = useState(profile.dateOfBirth);
   const { closeModal } = useModalContext();
   const {
     register,
     handleSubmit,
     setError,
+    setValue,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<FormFields>({
     defaultValues: {
@@ -86,6 +91,13 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
     });
   };
 
+  const handleChange = (dateChange: Date) => {
+    setValue('dateOfBirth', dateChange, {
+      shouldDirty: true,
+    });
+    setDateOfBirth(dateChange);
+  };
+
   return (
     <form className="form flex flex-col" onSubmit={handleSubmit(onSubmit)}>
       <h3 className={'text-2xl mt-0'}>{'Update Profile'}</h3>
@@ -112,10 +124,19 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
         </FormField>
 
         <FormField label={'Date of Birth'} error={errors?.dateOfBirth?.message}>
-          <input
-            {...register('dateOfBirth')}
-            className="form-control"
-            placeholder="Date of birth"
+          <Controller
+            name="dateOfBirth"
+            control={control}
+            defaultValue={profile.dateOfBirth}
+            render={() => (
+              <DatePicker
+                {...register('dateOfBirth')}
+                showIcon
+                className="form-control"
+                placeholderText="yyyy.mm.dd"
+                selected={dateOfBirth}
+                onChange={handleChange}></DatePicker>
+            )}
           />
         </FormField>
 

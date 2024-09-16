@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NavLink } from 'react-router-dom';
 
 export function Footer() {
   return (
@@ -14,19 +15,23 @@ export function Footer() {
           </p>
         </nav>
         <nav className="flex flex-col items-center">
-          <h4 className="text-xl mb-4">Github Repositories</h4>
-          <ul className="list-disc text-start">
-            <li>
+          <h4 className="text-xl mb-4">Links</h4>
+          <div className="text-start flex flex-col gap-2 ">
+            <a>
               <FontAwesomeIcon icon={['fab', 'github']} className="me-2" /> Frontend: ReactJs
-            </li>
-            <li>
+            </a>
+            <a>
               <FontAwesomeIcon icon={['fab', 'github']} className="me-2" />
               Backend: NestJs
-            </li>
-          </ul>
+            </a>
+            <NavLink to="/auth">
+              <FontAwesomeIcon icon="sign-in" className="me-2" />
+              Manage Your Profile
+            </NavLink>
+          </div>
         </nav>
         <nav className="flex flex-col gap-4">
-          <a className="text-xl">Contact Me</a>
+          <a className="text-xl">Find me at</a>
           <div>
             <FontAwesomeIcon icon={['fab', 'github']} className="me-2" size="2xl" />
             <FontAwesomeIcon icon={['fab', 'linkedin']} className="me-2" size="2xl" />
