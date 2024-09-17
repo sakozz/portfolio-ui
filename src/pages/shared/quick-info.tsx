@@ -8,6 +8,7 @@ import { useModalContext } from '../../components/modal/modal-context.tsx';
 import { useState } from 'react';
 import Modal from '../../components/modal/modal.tsx';
 import ProfileForm from './profile/profile.form.tsx';
+import { formatDate } from '../../lib/misc.ts';
 
 export default function QuickInfo({ profile }: { profile: Profile }) {
   const { isOpen, openModal } = useModalContext();
@@ -75,7 +76,7 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
             {profile?.dateOfBirth && (
               <p>
                 <FontAwesomeIcon icon="calendar-days" className="me-2" />
-                {profile.dateOfBirth}
+                {formatDate(profile.dateOfBirth)}
               </p>
             )}
           </div>

@@ -1,4 +1,6 @@
 export const profileConfigs = {
-  defaultProfileUsername: 'defaultusername',
+  defaultProfileUsername: 'sunil-shrestha',
   accessTokenCookieName: 'profile_cookie',
+  defaultDateFormat: 'dd.MM.yyyy',
+  minRequiredAge: 18,
 };

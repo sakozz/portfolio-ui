@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { descriptionValidator, nameValidator } from '../../../lib/validators.ts';
 import Profile, { saveProfile } from '../../../dao/users.dao.ts';
@@ -13,8 +13,9 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { setValidationErrors } from '../../../dao/restApi.ts';
 import FormField from '../../../components/form-field/form-field.tsx';
 import { profileActions } from '../../../store/profile.store.ts';
-import DatePicker from 'react-datepicker';
-import { useState } from 'react';
+import { profileConfigs } from '../../../profile-configs.ts';
+import { sub } from 'date-fns/sub';
+import DatePickerInput from '../../../components/date-picker.tsx';
 
 const profileFormSchema = z.object({
   firstName: nameValidator,
@@ -34,13 +35,11 @@ type FormFields = z.infer<FormFieldsType>;
 
 export default function ProfileForm({ profile }: { profile: Profile }) {
   const dispatch = useDispatch();
-  const [dateOfBirth, setDateOfBirth] = useState(profile.dateOfBirth);
   const { closeModal } = useModalContext();
   const {
     register,
     handleSubmit,
     setError,
-    setValue,
     control,
     formState: { errors, isSubmitting },
   } = useForm<FormFields>({
@@ -62,7 +61,6 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
       });
 
       const payload = res as AxiosResponse<Profile>;
-      console.log(payload.data);
       dispatch(profileActions.setProfile({ currentProfile: payload.data as Profile }));
 
       dispatch(
@@ -91,11 +89,8 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
     });
   };
 
-  const handleChange = (dateChange: Date) => {
-    setValue('dateOfBirth', dateChange, {
-      shouldDirty: true,
-    });
-    setDateOfBirth(dateChange);
+  const getMaxDate = () => {
+    return sub(new Date(), { years: profileConfigs.minRequiredAge });
   };
 
   return (
@@ -124,19 +119,10 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
         </FormField>
 
         <FormField label={'Date of Birth'} error={errors?.dateOfBirth?.message}>
-          <Controller
-            name="dateOfBirth"
+          <DatePickerInput
             control={control}
-            defaultValue={profile.dateOfBirth}
-            render={() => (
-              <DatePicker
-                {...register('dateOfBirth')}
-                showIcon
-                className="form-control"
-                placeholderText="yyyy.mm.dd"
-                selected={dateOfBirth}
-                onChange={handleChange}></DatePicker>
-            )}
+            selected={profile.dateOfBirth}
+            maxDate={getMaxDate()}
           />
         </FormField>
 

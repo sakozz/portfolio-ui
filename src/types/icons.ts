@@ -23,6 +23,8 @@ import {
   faUser,
   faUsersLine,
   faXmark,
+  faChevronRight,
+  faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faLinkedin, faStackOverflow } from '@fortawesome/free-brands-svg-icons';
 
@@ -55,6 +57,8 @@ export const faIconsList = [
   faLanguage,
   faUsersLine,
   faCertificate,
+  faChevronRight,
+  faChevronLeft,
 ] as const;
 
 export type FaIconType = (typeof faIconsList)[number];

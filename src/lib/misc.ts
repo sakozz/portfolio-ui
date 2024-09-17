@@ -1,3 +1,6 @@
+import { format } from 'date-fns/format';
+import { profileConfigs } from '../profile-configs.ts';
+
 export function compare(a: number, b: number) {
   if (a < b) {
     return -1;
@@ -37,6 +40,12 @@ export function wordsInitials(words: string, length: number) {
     : null;
 }
 
+export function formatDate(date: string | Date, targetFormat?: string) {
+  return format(
+    date instanceof Date ? date : new Date(date),
+    targetFormat || profileConfigs.defaultDateFormat,
+  );
+}
 
 export const keycodes = {
   BACKSPACE: 8,
@@ -51,5 +60,3 @@ export const keycodes = {
 export function toBoolean(value: unknown): boolean {
   return value ? true : value === '';
 }
-
-
