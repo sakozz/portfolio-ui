@@ -15,7 +15,7 @@ export default class Profile {
     public firstName: string,
     public lastName: string,
     public description: string,
-    public dateOfBirth: Date,
+    public dateOfBirth: Date | string,
     public address: string,
     public phone: string,
     public nationality: string,

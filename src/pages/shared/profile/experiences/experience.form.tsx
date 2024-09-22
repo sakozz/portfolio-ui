@@ -15,6 +15,7 @@ import SwitchInput from '../../../../components/switch.tsx';
 import { AxiosError } from 'axios';
 import { setValidationErrors } from '../../../../dao/restApi.ts';
 import { AppQueryClient } from '../../../../app.routes.tsx';
+import TipTapEditor from '../../../../components/tip-tap-editor.tsx';
 
 const experienceFormSchema = z.object({
   jobTitle: nameValidator,
@@ -40,6 +41,7 @@ export default function ExperienceForm({
   const {
     register,
     handleSubmit,
+    control,
     setError,
     formState: { errors, isSubmitting },
   } = useForm<ExperienceFormFields>({
@@ -106,13 +108,17 @@ export default function ExperienceForm({
           placeholder="Job Title"
         />
       </FormField>
-      <FormField label={'Responsibilities'} error={errors?.responsibilities?.message}>
-        <textarea
-          {...register('responsibilities')}
-          className="form-control"
-          placeholder="Responsibilities"
-          rows={4}></textarea>
+
+      <FormField
+        className="col-span-2"
+        label={'Description'}
+        error={errors?.responsibilities?.message}>
+        <TipTapEditor
+          control={control}
+          controlName="responsibilities"
+          value={experience.responsibilities}></TipTapEditor>
       </FormField>
+
       <FormField label={'Body'} error={errors?.companyName?.message}>
         <input
           {...register('companyName')}

@@ -2,7 +2,7 @@
   @apply flex flex-col w-full;
 }
 
-.ProseMirror {
+.ProseMirror, .tip-tap-content {
   @apply p-2;
   &:focus {
     outline: none;
@@ -42,8 +42,4 @@
       @apply m-0;
     }
   }
-}
-
-.tip-tap-content {
-
 }

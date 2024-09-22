@@ -14,6 +14,7 @@ import { Actions } from '../../../../lib/types.ts';
 import ProjectAbilities, {
   Can,
 } from '../../../../components/ability-providers/project.abilities.tsx';
+import parse from 'html-react-parser';
 
 export default function Projects({ profile }: { profile: Profile }) {
   const { isOpen, openModal } = useModalContext();
@@ -51,7 +52,7 @@ export default function Projects({ profile }: { profile: Profile }) {
         isLast={index == projects.items.length - 1}
         end={item.isCurrent ? 'Present' : item.endDate}>
         <div className="flex flex-row justify-between items-start relative">
-          <p className={'text-primary-500 pe-24'}>{item.responsibilities}</p>
+          <div className={'pe-24 tip-tap-content'}>{parse(item.responsibilities)}</div>
           <Can I={Actions.Update} this={plainToInstance(Project, item)}>
             <button
               type="button"

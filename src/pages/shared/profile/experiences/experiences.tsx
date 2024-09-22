@@ -14,6 +14,7 @@ import ExperienceAbilities, {
   Can,
 } from '../../../../components/ability-providers/experience.abilities.tsx';
 import { Actions } from '../../../../lib/types.ts';
+import parse from 'html-react-parser';
 
 export default function Experiences({ profile }: { profile: Profile }) {
   const { isOpen, openModal } = useModalContext();
@@ -51,7 +52,7 @@ export default function Experiences({ profile }: { profile: Profile }) {
         isFirst={index == 0}
         isLast={index == experiences.items.length - 1}>
         <div className="flex flex-row justify-between items-start relative">
-          <p className={'text-primary-500'}>{item.responsibilities}</p>
+          <div className={'pe-24 tip-tap-content'}>{parse(item.responsibilities)}</div>
           <Can I={Actions.Update} this={plainToInstance(Experience, item)}>
             <button
               type="button"

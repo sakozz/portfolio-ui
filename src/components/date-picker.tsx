@@ -33,7 +33,7 @@ export default function DatePickerInput({
 }: {
   control: Control;
   controlName: string;
-  selected: Date;
+  selected: Date | string;
   maxDate?: Date;
   minDate?: Date;
 }) {
@@ -54,7 +54,7 @@ export default function DatePickerInput({
           className="form-control"
           maxDate={maxDate}
           minDate={minDate}
-          selected={date}
+          selected={date as Date}
           onChange={onChange}
           onSelect={handleChange}
           renderCustomHeader={(props) => calendarHeader(props, minDate, maxDate)}></DatePicker>

@@ -23,7 +23,7 @@ const profileFormSchema = z.object({
   lastName: nameValidator,
   jobTitle: z.string(),
   description: descriptionValidator,
-  dateOfBirth: z.date(),
+  dateOfBirth: z.string().or(z.date()),
   address: z.string(),
   phone: z.string(),
   nationality: z.string(),

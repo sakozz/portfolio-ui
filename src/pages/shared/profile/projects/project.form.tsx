@@ -15,6 +15,7 @@ import { AxiosError } from 'axios';
 import { setValidationErrors } from '../../../../dao/restApi.ts';
 import { AppQueryClient } from '../../../../app.routes.tsx';
 import { Project, saveProject } from '../../../../dao/projects.dao.ts';
+import TipTapEditor from '../../../../components/tip-tap-editor.tsx';
 
 const projectFormSchema = z.object({
   name: nameValidator,
@@ -35,6 +36,7 @@ export default function ProjectForm({ project, user }: { project: Project; user:
     register,
     handleSubmit,
     setError,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<FormFields>({
     defaultValues: {
@@ -96,13 +98,17 @@ export default function ProjectForm({ project, user }: { project: Project; user:
           placeholder="Name of the project"
         />
       </FormField>
-      <FormField label={'Responsibilities'} error={errors?.responsibilities?.message}>
-        <textarea
-          {...register('responsibilities')}
-          className="form-control"
-          placeholder="Responsibilities"
-          rows={4}></textarea>
+
+      <FormField
+        className="col-span-2"
+        label={'Responsibilities'}
+        error={errors?.responsibilities?.message}>
+        <TipTapEditor
+          control={control}
+          controlName="responsibilities"
+          value={project.responsibilities}></TipTapEditor>
       </FormField>
+
       <FormField label={'Body'} error={errors?.companyName?.message}>
         <input
           {...register('companyName')}
