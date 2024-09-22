@@ -25,6 +25,10 @@ import {
   faXmark,
   faChevronRight,
   faChevronLeft,
+  faListUl,
+  faListOl,
+  faRotateLeft,
+  faRotateRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faLinkedin, faStackOverflow } from '@fortawesome/free-brands-svg-icons';
 
@@ -59,6 +63,10 @@ export const faIconsList = [
   faCertificate,
   faChevronRight,
   faChevronLeft,
+  faListUl,
+  faListOl,
+  faRotateLeft,
+  faRotateRight,
 ] as const;
 
 export type FaIconType = (typeof faIconsList)[number];

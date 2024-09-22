@@ -9,6 +9,7 @@ import { useState } from 'react';
 import Modal from '../../components/modal/modal.tsx';
 import ProfileForm from './profile/profile.form.tsx';
 import { formatDate } from '../../lib/misc.ts';
+import parse from 'html-react-parser';
 
 export default function QuickInfo({ profile }: { profile: Profile }) {
   const { isOpen, openModal } = useModalContext();
@@ -107,7 +108,7 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
               </button>
             </Can>
           </motion.div>
-          <motion.p
+          <motion.div
             variants={{
               hidden: { opacity: 0, y: 25 },
               visible: { opacity: 1, y: 0 },
@@ -116,9 +117,9 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
             whileInView="visible"
             transition={{ delay: 0.1, duration: 1, type: 'spring' }}
             viewport={{ once: true, amount: 0.2 }}
-            className={'mt-8 leading text-lg'}>
-            {profile?.description}
-          </motion.p>
+            className={'mt-8 leading text-lg ProseMirror'}>
+            {parse(profile.description)}
+          </motion.div>
         </div>
       </div>
       <AnimatePresence>

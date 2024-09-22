@@ -28,7 +28,7 @@ form {
       }
     }
 
-    @apply flex border border-primary-200 rounded w-full;
+    @apply flex flex-col border border-primary-200 rounded w-full;
     &:focus-within {
       @apply outline
       outline-secondary-300

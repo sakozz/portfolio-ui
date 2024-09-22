@@ -1,0 +1,49 @@
+.tiptap-editor .input-group {
+  @apply flex flex-col w-full;
+}
+
+.ProseMirror {
+  @apply p-2;
+  &:focus {
+    outline: none;
+  }
+
+  h1 {
+    @apply text-3xl mb-2;
+  }
+
+  h2 {
+    @apply text-2xl mb-2;
+  }
+
+  h3 {
+    @apply text-xl mb-1;
+  }
+
+  h4 {
+    @apply text-lg;
+  }
+
+  p {
+    @apply my-2;
+  }
+
+  ul li {
+    @apply list-disc;
+  }
+
+  ol li {
+    @apply list-decimal;
+  }
+
+  li {
+    @apply ms-4 leading-5 text-sm;
+    p {
+      @apply m-0;
+    }
+  }
+}
+
+.tip-tap-content {
+
+}

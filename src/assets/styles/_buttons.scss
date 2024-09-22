@@ -1,13 +1,13 @@
 button.btn,
 a.btn {
   transition: background-color 0.3s ease;
-  @apply text-secondary-900 bg-secondary-50 text-nowrap flex items-center justify-center;
+  @apply text-secondary-900 bg-secondary-50 rounded px-4 py-2 leading-6 text-nowrap flex items-center justify-center ;
 
   &:hover:not(:disabled) {
     @apply bg-secondary-100;
   }
 
-  &:active:not(:disabled) {
+  &:active:not(:disabled), &.active {
     @apply bg-secondary-200;
   }
 
@@ -114,7 +114,6 @@ a.btn {
     }
   }
 
-
   &.btn-outline {
     @apply text-white
     border-solid
@@ -139,16 +138,15 @@ a.btn {
 
 .btn {
   &.btn-rounded {
-    @apply rounded-full
-    px-4
-    py-2
-    leading-6;
+    @apply rounded-full;
+  }
 
-    &.btn-lg {
-      @apply px-8
-      py-3
-      leading-6;
-    }
+  &.btn-sm {
+    @apply px-2 py-1 text-sm leading-4;
+  }
+
+  &.btn-lg {
+    @apply px-8 py-3 leading-6;
   }
 
   &.icon-btn {

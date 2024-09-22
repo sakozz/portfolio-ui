@@ -26,11 +26,13 @@ const months = [
 ];
 export default function DatePickerInput({
   control,
+  controlName,
   selected,
   maxDate,
   minDate,
 }: {
   control: Control;
+  controlName: string;
   selected: Date;
   maxDate?: Date;
   minDate?: Date;
@@ -41,7 +43,7 @@ export default function DatePickerInput({
   };
   return (
     <Controller
-      name="dateOfBirth"
+      name={controlName}
       control={control}
       defaultValue={date}
       render={({ field: { onChange } }) => (

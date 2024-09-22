@@ -16,6 +16,7 @@ import { profileActions } from '../../../store/profile.store.ts';
 import { profileConfigs } from '../../../profile-configs.ts';
 import { sub } from 'date-fns/sub';
 import DatePickerInput from '../../../components/date-picker.tsx';
+import TipTapEditor from '../../../components/tip-tap-editor.tsx';
 
 const profileFormSchema = z.object({
   firstName: nameValidator,
@@ -121,6 +122,7 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
         <FormField label={'Date of Birth'} error={errors?.dateOfBirth?.message}>
           <DatePickerInput
             control={control}
+            controlName="dateOfBirth"
             selected={profile.dateOfBirth}
             maxDate={getMaxDate()}
           />
@@ -132,16 +134,17 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
         <FormField className="col-span-2" label={'Address'} error={errors?.address?.message}>
           <input {...register('address')} className="form-control" placeholder="Address" />
         </FormField>
+
         <FormField
           className="col-span-2"
           label={'Description'}
           error={errors?.description?.message}>
-          <textarea
-            {...register('description')}
-            className="form-control"
-            placeholder="Short description"
-            rows={6}></textarea>
+          <TipTapEditor
+            control={control}
+            controlName="description"
+            value={profile.description}></TipTapEditor>
         </FormField>
+
         <FormField label={'Nationality'} error={errors?.nationality?.message}>
           <input {...register('nationality')} className="form-control" placeholder="Nationality" />
         </FormField>
