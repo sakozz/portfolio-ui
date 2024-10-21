@@ -1,8 +1,4 @@
-export type RelationshipSaveOptions =
-  | boolean
-  | "idOnly"
-  | "idIfExists"
-  | string[];
+export type RelationshipSaveOptions = boolean | 'idOnly' | 'idIfExists' | string[];
 
 export interface AttributeOptions {
   save?: RelationshipSaveOptions;
@@ -20,13 +16,4 @@ export class AttributeDescriptor {
     this.save = true;
     Object.assign(this, options);
   }
-}
-
-/**
- * Decorator for attributes
- */
-export function Attribute(options?: AttributeOptions) {
-  return (target: any, key: string) => {
-    target.constructor.defineAttribute(key,options);
-  };
 }

@@ -12,7 +12,6 @@
     @apply bg-green-50 text-white;
   }
 
-
   &.error {
     @apply bg-red-55 text-white;
   }
@@ -28,9 +27,4 @@
   &.info {
     @apply bg-blue-50 text-white;
   }
-
-
-  animation:
-          slideInFromLeft 0.5s ease,
-          fadeIn 1s ease;
 }

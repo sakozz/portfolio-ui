@@ -1,8 +1,8 @@
-import { createPortal } from "react-dom";
-import { ReactNode, useContext, useEffect, useRef } from "react";
-import { ModalContext } from "./modal-context.tsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { motion } from "framer-motion";
+import { createPortal } from 'react-dom';
+import { ReactNode, useContext, useEffect, useRef } from 'react';
+import { ModalContext } from './modal-context.tsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { motion } from 'framer-motion';
 
 export default function Modal({
   children,
@@ -11,14 +11,14 @@ export default function Modal({
   children: ReactNode;
   classname?: string;
 }) {
-  const dialog = useRef();
+  const dialog = useRef(null);
   const { isOpen, closeModal } = useContext(ModalContext);
   useEffect(() => {
     const modal = dialog.current;
     if (!modal) return;
     if (isOpen) {
       modal.showModal();
-      modal.addEventListener("close", () => {
+      modal.addEventListener('close', () => {
         closeModal();
       });
       return;
@@ -29,25 +29,23 @@ export default function Modal({
   return createPortal(
     <motion.dialog
       variants={{
-        hidden: { opacity: 0, x: "-100%" },
+        hidden: { opacity: 0, x: '-100%' },
         visible: { opacity: 1, x: 0 },
       }}
       initial="hidden"
       animate="visible"
       exit="hidden"
-      transition={{ duration: 0.6, type: "spring" }}
+      transition={{ duration: 0.6, type: 'spring' }}
       ref={dialog}
-      className={`modal ${classname}`}
-    >
+      className={`modal ${classname}`}>
       <div className={`content`}>{children}</div>
       <button
         type="button"
-        className={"btn btn-rounded icon-btn absolute end-2 top-2"}
-        onClick={closeModal}
-      >
-        <FontAwesomeIcon icon="xmark" size={"lg"} />
+        className={'btn btn-rounded icon-btn absolute end-2 top-2'}
+        onClick={closeModal}>
+        <FontAwesomeIcon icon="xmark" size={'lg'} />
       </button>
     </motion.dialog>,
-    document.getElementById("modal"),
+    document.getElementById('modal'),
   );
 }

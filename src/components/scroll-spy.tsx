@@ -5,13 +5,13 @@ export type ScrollSpyCtxType = {
 };
 export const ScrollSpyCtx = createContext<ScrollSpyCtxType | null>(null);
 
-export function useScrollSpyContext() {
+export const useScrollSpyContext = function () {
   const ctx = useContext(ScrollSpyCtx);
   if (!ctx) {
     throw new Error('Component should be wrapped in ScrollSpy');
   }
   return ctx;
-}
+};
 
 export default function ScrollSpy({
   offset = 0,

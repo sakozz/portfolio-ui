@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { NavLink } from "react-router-dom";
-import styles from "./nav-menu.module.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NavLink } from 'react-router-dom';
+import styles from './nav-menu.module.scss';
 
 export default function IntSideMenu() {
   return (
@@ -10,9 +10,8 @@ export default function IntSideMenu() {
           <NavLink
             to="/int"
             className={({ isActive }) => (isActive ? styles.active : undefined)}
-            end
-          >
-            <div className={"flex flex-col gap-2 items-center text-md"}>
+            end>
+            <div className={'flex flex-col gap-2 items-center text-md'}>
               <FontAwesomeIcon icon="user" className="me-2" />
               <span>Overview</span>
             </div>
@@ -21,9 +20,8 @@ export default function IntSideMenu() {
         <li>
           <NavLink
             to="/settings"
-            className={({ isActive }) => (isActive ? styles.active : undefined)}
-          >
-            <div className={"flex flex-col gap-2 items-center text-md"}>
+            className={({ isActive }) => (isActive ? styles.active : undefined)}>
+            <div className={'flex flex-col gap-2 items-center text-md'}>
               <FontAwesomeIcon icon="id-card" className="me-2" />
               <span>Settings</span>
             </div>

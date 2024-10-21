@@ -118,7 +118,7 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
             transition={{ delay: 0.1, duration: 1, type: 'spring' }}
             viewport={{ once: true, amount: 0.2 }}
             className={'mt-8 leading text-lg ProseMirror'}>
-            {parse(profile.description)}
+            {profile?.description && parse(profile.description)}
           </motion.div>
         </div>
       </div>

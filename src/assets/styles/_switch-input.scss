@@ -1,5 +1,5 @@
 .switch {
-  @apply inline-flex flex-row relative w-14 h-7 rounded-2xl ;
+  @apply inline-flex flex-row relative w-14 h-7 rounded-2xl;
 }
 
 /* Hide default HTML checkbox */
@@ -21,9 +21,10 @@
   }
 
   &.enable-transitions {
-    &::before, &::after {
-      -webkit-transition: .4s;
-      transition: .4s;
+    &::before,
+    &::after {
+      -webkit-transition: 0.4s;
+      transition: 0.4s;
     }
   }
 }

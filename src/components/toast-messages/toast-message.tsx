@@ -3,16 +3,16 @@ import {
   faCircleExclamation,
   faCircleInfo,
   faTriangleExclamation,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { uiActions } from "../../store/ui.store.ts";
-import { Toast } from "./toast-messages.tsx";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { uiActions } from '../../store/ui.store.ts';
+import { Toast } from './toast-messages.tsx';
 
 export default function ToastMessage({ toast }: { toast: Toast }) {
   const messages = () => {
-    const message = toast.message || "general.default_error";
+    const message = toast.message || 'general.default_error';
 
     if (Array.isArray(message)) {
       return (
@@ -24,18 +24,18 @@ export default function ToastMessage({ toast }: { toast: Toast }) {
       );
     }
 
-    if (typeof message === "string") {
+    if (typeof message === 'string') {
       return <p className="message">{message}</p>;
     }
   };
 
   const iconName = () => {
     switch (toast.type) {
-      case "success":
+      case 'success':
         return faCheck;
-      case "warning":
+      case 'warning':
         return faCircleExclamation;
-      case "error":
+      case 'error':
         return faTriangleExclamation;
       default:
         return faCircleInfo;
@@ -48,7 +48,7 @@ export default function ToastMessage({ toast }: { toast: Toast }) {
     setTimeout(() => {
       dispatch(uiActions.clearToast({ id: toast.id }));
     }, 3000);
-  }, [toast.id]);
+  }, [dispatch, toast.id]);
 
   return (
     <div className={`toast-message ${toast.type}`}>

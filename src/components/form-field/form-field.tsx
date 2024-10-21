@@ -16,7 +16,7 @@ export default function FormField({
   className?: string;
   children: ReactNode;
 }) {
-  const controlRef = useRef();
+  const controlRef = useRef(null);
   const id = randomId();
   useEffect(() => {
     const controlEl = controlRef.current;

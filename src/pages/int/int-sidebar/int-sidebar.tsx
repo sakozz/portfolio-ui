@@ -1,5 +1,5 @@
-import IntSideMenu from "./int-side-menu.tsx";
-import UserMenu from "./user-menu.tsx";
+import IntSideMenu from './int-side-menu.tsx';
+import UserMenu from './user-menu.tsx';
 
 function IntSidebar() {
   return (
