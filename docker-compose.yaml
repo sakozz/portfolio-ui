@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  portfolio_ui:
+    container_name: portfolio_ui
+    image: portfolio_ui
+    ports:
+      - ${NGINX_PORT}:${NGINX_PORT}
+    build:
+      dockerfile: Dockerfile
+    environment:
+      NGINX_PORT: $NGINX_PORT
+      API_SERVICE: $API_SERVICE
