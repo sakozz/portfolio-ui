@@ -16,9 +16,8 @@ http {
    }
 
   server {
-    listen ${NGINX_PORT} $host;
-  	listen [::]:${NGINX_PORT} $host;
-
+    listen ${NGINX_PORT};
+  	server_name ${UI_HOST_NAME};
     root /usr/share/nginx/html;
 
     gzip on;

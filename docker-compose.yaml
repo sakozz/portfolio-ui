@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   portfolio_ui:
     container_name: portfolio_ui
@@ -12,5 +10,6 @@ services:
       NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx/
       NGINX_PORT: $NGINX_PORT
       API_SERVICE: $API_SERVICE
-    volumes:
-      - ./nginx:/etc/nginx/templates
+      UI_HOST_NAME: $UI_HOST_NAME
+#    volumes:
+#      - ./nginx:/etc/nginx/templates
