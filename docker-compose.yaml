@@ -5,7 +5,7 @@ services:
     container_name: portfolio_ui
     image: portfolio_ui
     ports:
-      - 80:${NGINX_PORT}
+      - ${NGINX_PORT}:${NGINX_PORT}
     build:
       dockerfile: Dockerfile
     environment:
