@@ -16,5 +16,4 @@ FROM    nginx:alpine
 COPY    ./nginx /etc/nginx/templates
 COPY    --from=build /app/dist /usr/share/nginx/html
 
-EXPOSE  ${NGINX_PORT}
 
