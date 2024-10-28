@@ -1,4 +1,4 @@
-const apiHost: string = 'http://localhost:3000/api';
+const apiHost: string = '/api';
 export const apiPath = {
   authPath: `${apiHost}/auth`,
   profilesPath: `${apiHost}/profiles`,
