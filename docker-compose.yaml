@@ -9,5 +9,3 @@ services:
       NGINX_PORT: $NGINX_PORT
       API_SERVICE: $API_SERVICE
       UI_HOST_NAME: $UI_HOST_NAME
-#    volumes:
-#      - ./nginx:/etc/nginx/templates

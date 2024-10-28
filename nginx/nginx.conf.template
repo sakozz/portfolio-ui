@@ -16,7 +16,7 @@ http {
    }
 
   server {
-    listen ${NGINX_PORT};
+    listen 80;
     root /usr/share/nginx/html;
 
     gzip on;
