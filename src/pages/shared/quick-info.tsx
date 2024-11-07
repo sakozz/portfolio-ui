@@ -55,12 +55,6 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
                 {profile.linkedInUrl}
               </p>
             )}
-            {profile?.stackoverflowUrl && (
-              <p>
-                <FontAwesomeIcon icon={['fab', 'stack-overflow']} className="me-2" />
-                {profile.stackoverflowUrl}
-              </p>
-            )}
             {profile?.githubUrl && (
               <p>
                 <FontAwesomeIcon icon={['fab', 'github']} className="me-2" />
@@ -71,13 +65,13 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
             {profile?.nationality && (
               <p>
                 <FontAwesomeIcon icon="passport" className="me-2" />
-                {profile.nationality}
+                Nationality: {profile.nationality}
               </p>
             )}
             {profile?.dateOfBirth && (
               <p>
                 <FontAwesomeIcon icon="calendar-days" className="me-2" />
-                {formatDate(profile.dateOfBirth)}
+                Date of Birth: {formatDate(profile.dateOfBirth)}
               </p>
             )}
           </div>
