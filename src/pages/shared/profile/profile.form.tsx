@@ -171,16 +171,6 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
           error={errors?.githubUrl?.message}>
           <input {...register('githubUrl')} className="form-control" placeholder="Github Profile" />
         </FormField>
-        <FormField
-          className="col-span-2"
-          label={'Stackoverflow URL'}
-          error={errors?.stackoverflowUrl?.message}>
-          <input
-            {...register('stackoverflowUrl')}
-            className="form-control"
-            placeholder="Stackoverflow URL"
-          />
-        </FormField>
       </div>
 
       <div className="flex flex-row gap-2 justify-end mt-4">
