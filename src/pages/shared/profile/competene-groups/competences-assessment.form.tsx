@@ -39,22 +39,21 @@ export default function CompetencesAssessmentForm({ user }: { user: Profile }) {
     name: 'competenceLevel',
   });
 
-  // User this ref to prevent from duplicate fields
-  const ref = useRef(false);
+  // Check this fieldsAdded to prevent from duplicate fields
+  const fieldsAdded = useRef(false);
   useEffect(() => {
-    if (ref.current) {
-      competenceGroup.competences.forEach((competence) => {
-        append({
-          level: competence.level,
-          id: competence.id,
-          competenceId: competence.competenceId,
-          competence: competence.competence,
-        });
+    if (!fieldsAdded.current) {
+      const fieldsList = competenceGroup.competences.map((competenceGroup) => {
+        return {
+          level: competenceGroup.level,
+          id: competenceGroup.id,
+          competenceId: competenceGroup.competenceId,
+          competence: competenceGroup.competence,
+        };
       });
+      append(fieldsList);
+      fieldsAdded.current = true;
     }
-    return () => {
-      ref.current = true;
-    };
   }, [append, competenceGroup]);
 
   const { mutate } = useMutation({
