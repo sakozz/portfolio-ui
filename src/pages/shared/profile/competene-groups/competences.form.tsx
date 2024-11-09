@@ -104,7 +104,9 @@ export default function CompetencesForm({
   };
 
   const searchCompetences = async (searchTerm: string) => {
-    const params: QueryParams = new QueryParams({ filters: [{ attr: 'name', value: searchTerm }] });
+    const params: QueryParams = new QueryParams({
+      filters: [{ attr: 'name', value: searchTerm, opt: 'match' }],
+    });
 
     const result = await fetchCompetences(params);
     if (result instanceof AxiosError) return [];

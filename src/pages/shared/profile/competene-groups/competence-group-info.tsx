@@ -17,6 +17,16 @@ export default function CompetenceGroupInfo({
   const handleEdit = (competenceGroup: CompetenceGroup) => {
     onEdit(competenceGroup);
   };
+  const competencesWithLevel = () => {
+    return competenceGroup.competences
+      .filter((group: GroupCompetence) => group.level > 0)
+      .sort((a, b) => b.level - a.level);
+  };
+
+  const competencesWithoutLevel = () => {
+    return competenceGroup.competences.filter((group: GroupCompetence) => group.level < 1);
+  };
+
   return (
     <motion.div
       variants={{
@@ -40,10 +50,24 @@ export default function CompetenceGroupInfo({
         </Can>
       </div>
       <div>
-        {competenceGroup.competences?.map(
+        {competencesWithLevel()?.map(
           (item: GroupCompetence, index) =>
             item && <CompetenceInfo key={index} groupCompetence={item} />,
         )}
+
+        {competencesWithLevel().length > 0 && competencesWithoutLevel().length > 0 && (
+          <h5 className="font-bold mt-6  py-2">Others</h5>
+        )}
+        <div className="text-sm flex flex-row flex-wrap gap-x-3 gap-y-2">
+          {competencesWithoutLevel().map(
+            (item: GroupCompetence, index: number) =>
+              item && (
+                <p key={index} className="py-1 px-3 bg-secondary-50 rounded-full text-primary-500">
+                  {item.competence?.name}
+                </p>
+              ),
+          )}
+        </div>
       </div>
     </motion.div>
   );

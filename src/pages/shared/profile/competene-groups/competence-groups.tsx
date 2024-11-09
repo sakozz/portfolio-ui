@@ -80,7 +80,7 @@ export default function CompetenceGroups({ profile }: { profile: Profile }) {
           </Can>
         </div>
         <hr className={'my-4'} />
-        <div className="my-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">{content}</div>
+        <div className="my-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">{content}</div>
         <AnimatePresence>
           {isOpen && (
             <Modal classname={'sm start'}>

@@ -28,7 +28,6 @@ const profileFormSchema = z.object({
   phone: z.string(),
   nationality: z.string(),
   linkedInUrl: z.string().optional(),
-  stackoverflowUrl: z.string().optional(),
   githubUrl: z.string().optional(),
 });
 type FormFieldsType = typeof profileFormSchema;

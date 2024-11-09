@@ -13,7 +13,7 @@ export class Competence {
 }
 
 export async function fetchCompetences(params?: QueryParams, signal?: AbortSignal) {
-  return await callApi('GET', `${apiPath.competencesPath}`, signal, params);
+  return await callApi('GET', `${apiPath.competencesPath}`, signal, null, params);
 }
 
 export function asSelectOptions(competences: Competence[]): SelectOption[] {

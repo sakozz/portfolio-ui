@@ -10,6 +10,7 @@ import Modal from '../../components/modal/modal.tsx';
 import ProfileForm from './profile/profile.form.tsx';
 import { formatDate } from '../../lib/misc.ts';
 import parse from 'html-react-parser';
+import IconLabel from '../../components/icon-label.tsx';
 
 export default function QuickInfo({ profile }: { profile: Profile }) {
   const { isOpen, openModal } = useModalContext();
@@ -30,50 +31,17 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
             alt=""
             className={'w-28 h-28 rounded-full mb-3 shadow-2xl  border-white border-2'}
           />
-          <div className={'flex flex-col gap-1'}>
-            {profile?.email && (
-              <p>
-                <FontAwesomeIcon icon="envelope" className="me-2" />
-                {profile.email}
-              </p>
-            )}
-            {profile?.phone && (
-              <p>
-                <FontAwesomeIcon icon="phone" className="me-2" />
-                {profile.phone}
-              </p>
-            )}
-            {profile?.address && (
-              <p>
-                <FontAwesomeIcon icon="map-location-dot" className="me-2" />
-                {profile.address}
-              </p>
-            )}
-            {profile?.linkedInUrl && (
-              <p>
-                <FontAwesomeIcon icon={['fab', 'linkedin']} className="me-2" />
-                {profile.linkedInUrl}
-              </p>
-            )}
-            {profile?.githubUrl && (
-              <p>
-                <FontAwesomeIcon icon={['fab', 'github']} className="me-2" />
-                {profile.githubUrl}
-              </p>
-            )}
+          <div className={'flex flex-col gap-2'}>
+            <IconLabel icon="envelope" label={profile?.email}></IconLabel>
+            <IconLabel icon="phone" label={profile?.phone}></IconLabel>
+            <IconLabel icon="map-location-dot" label={profile?.address}></IconLabel>
+            <IconLabel icon={['fab', 'linkedin']} label={profile?.linkedInUrl}></IconLabel>
+            <IconLabel icon={['fab', 'github']} label={profile?.githubUrl}></IconLabel>
             <hr className={'my-3'} />
-            {profile?.nationality && (
-              <p>
-                <FontAwesomeIcon icon="passport" className="me-2" />
-                Nationality: {profile.nationality}
-              </p>
-            )}
-            {profile?.dateOfBirth && (
-              <p>
-                <FontAwesomeIcon icon="calendar-days" className="me-2" />
-                Date of Birth: {formatDate(profile.dateOfBirth)}
-              </p>
-            )}
+            <IconLabel icon="passport" label={'Nationality:' + profile.nationality}></IconLabel>
+            <IconLabel
+              icon="calendar-days"
+              label={'Date of Birth:' + formatDate(profile.dateOfBirth)}></IconLabel>
           </div>
         </div>
         <div className={'p-6 w-full'}>
