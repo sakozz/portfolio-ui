@@ -51,7 +51,6 @@ export default function ExperienceForm({
     resolver: zodResolver(experienceFormSchema),
   });
 
-  console.log(errors);
   const { mutate } = useMutation({
     mutationFn: (payload: { profileId: number; data: Experience }) =>
       saveExperience(payload.profileId, payload.data),
@@ -85,7 +84,6 @@ export default function ExperienceForm({
   });
 
   const onSubmit: SubmitHandler<ExperienceFormFields> = async (data) => {
-    console.log(data);
     const record = Object.assign(experience, data);
     mutate({
       profileId: user.id,
@@ -95,9 +93,7 @@ export default function ExperienceForm({
 
   return (
     <form className="form flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <h3 className={'text-2xl mt-0'}>
-        {experience.id ? 'Update Experience' : 'Create Experience'}
-      </h3>
+      <h3 className={'text-2xl mt-0'}>{experience.id ? 'Update Experience' : 'Add Experience'}</h3>
       {errors.root && <div className="text-red-500">{errors.root.message}</div>}
       <hr />
       <FormField label={'Title'} error={errors?.jobTitle?.message}>
@@ -108,24 +104,24 @@ export default function ExperienceForm({
           placeholder="Job Title"
         />
       </FormField>
-
-      <FormField
-        className="col-span-2"
-        label={'Description'}
-        error={errors?.responsibilities?.message}>
-        <TipTapEditor
-          control={control}
-          controlName="responsibilities"
-          value={experience.responsibilities}></TipTapEditor>
-      </FormField>
-
-      <FormField label={'Body'} error={errors?.companyName?.message}>
+      <FormField label={'Company Name'} error={errors?.companyName?.message}>
         <input
           {...register('companyName')}
           className="form-control"
           placeholder="Name of Company"
         />
       </FormField>
+      <FormField
+        className="col-span-2"
+        label={'Responsibilities'}
+        error={errors?.responsibilities?.message}>
+        <TipTapEditor
+          control={control}
+          controlName="responsibilities"
+          classNames="min-h-40"
+          value={experience.responsibilities}></TipTapEditor>
+      </FormField>
+
       <FormField label={'Link'} error={errors?.link?.message}>
         <input {...register('link')} className="form-control" placeholder="Company website" />
       </FormField>

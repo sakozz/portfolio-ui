@@ -8,11 +8,13 @@ const extensions = [StarterKit];
 export default function TipTapEditor({
   value,
   controlName,
+  classNames,
   control,
 }: {
   value: string;
   controlName: string;
   control: Control;
+  classNames?: string;
 }) {
   return (
     <Controller
@@ -24,6 +26,7 @@ export default function TipTapEditor({
           slotBefore={<TipTapMenu />}
           extensions={extensions}
           content={value}
+          editorProps={{ attributes: { class: classNames } }}
           onUpdate={({ editor }: { editor: Editor }) => {
             onChange(editor.getHTML());
           }}></EditorProvider>

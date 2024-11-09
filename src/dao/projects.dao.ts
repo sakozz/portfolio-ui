@@ -7,7 +7,7 @@ export class Project {
   constructor(
     public id: number,
     public name: string,
-    public responsibilities: string,
+    public description: string,
     public companyName: string,
     public link: string,
     public startDate: string,

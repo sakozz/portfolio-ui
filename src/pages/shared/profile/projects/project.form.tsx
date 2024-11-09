@@ -19,7 +19,7 @@ import TipTapEditor from '../../../../components/tip-tap-editor.tsx';
 
 const projectFormSchema = z.object({
   name: nameValidator,
-  responsibilities: descriptionValidator,
+  description: descriptionValidator,
   companyName: nameValidator,
   startDate: z.string(),
   endDate: z.string().optional(),
@@ -87,7 +87,7 @@ export default function ProjectForm({ project, user }: { project: Project; user:
 
   return (
     <form className="form flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <h3 className={'text-2xl mt-0'}>{project.id ? 'Update Experience' : 'Create Experience'}</h3>
+      <h3 className={'text-2xl mt-0'}>{project.id ? 'Update Project' : 'Add Project'}</h3>
       {errors.root && <div className="text-red-500">{errors.root.message}</div>}
       <hr />
       <FormField label={'Project Name'} error={errors?.name?.message}>
@@ -101,15 +101,15 @@ export default function ProjectForm({ project, user }: { project: Project; user:
 
       <FormField
         className="col-span-2"
-        label={'Responsibilities'}
-        error={errors?.responsibilities?.message}>
+        label={'Project Description'}
+        error={errors?.description?.message}>
         <TipTapEditor
           control={control}
-          controlName="responsibilities"
-          value={project.responsibilities}></TipTapEditor>
+          controlName="description"
+          value={project.description}></TipTapEditor>
       </FormField>
 
-      <FormField label={'Body'} error={errors?.companyName?.message}>
+      <FormField label={'Company Name'} error={errors?.companyName?.message}>
         <input
           {...register('companyName')}
           className="form-control"
