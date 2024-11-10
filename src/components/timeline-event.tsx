@@ -7,6 +7,7 @@ export default function TimelineEvent({
   label,
   start,
   end,
+  isPresent,
   title,
   link,
   isFirst,
@@ -16,6 +17,7 @@ export default function TimelineEvent({
   start: Date | string;
   end: Date | string;
   title: string;
+  isPresent?: boolean;
   label?: string;
   subtitle?: string;
   link?: string;
@@ -35,7 +37,7 @@ export default function TimelineEvent({
       className="flex flex-col relative py-2">
       <div className="flex flex-row justify-start items-end ">
         <div className="start w-24 text-end">
-          <span>{formatDate(start)}</span>
+          <span>{formatDate(start, 'MMM yyyy')}</span>
         </div>
         <div className="w-4 h-4 rounded-full border border-primary-200 bg-secondary-50 z-10 ms-2 me-4 mb-1"></div>
         <div className="end relative">
@@ -43,7 +45,7 @@ export default function TimelineEvent({
             <div className="line w-[1px] bg-primary-100 absolute -top-4 bottom-6 -start-6"></div>
           )}
           <p className="text-sm text-primary-400 font-light">{label}</p>
-          <p>{end instanceof Date ? formatDate(end) : end}</p>
+          <p>{isPresent ? 'Present' : formatDate(end, 'MMM yyyy')}</p>
         </div>
       </div>
       <div className="ms-32 ps-2 relative">

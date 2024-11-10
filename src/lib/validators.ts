@@ -2,10 +2,10 @@ import { z } from 'zod';
 
 export const nameValidator = z
   .string()
-  .min(5, 'Title should be at least 5 Characters')
-  .max(100, 'Title should be at max 100 characters');
+  .min(5, 'Should be at least 5 Characters')
+  .max(100, 'Should be at max 100 characters');
 
-export const descriptionValidator = z.string().min(20, 'Title should be at least 20 Characters');
+export const descriptionValidator = z.string().min(20, 'Should be at least 20 Characters');
 
 export const emailValidator = z.string().email('Invalid email address');
 

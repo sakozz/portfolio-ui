@@ -50,7 +50,8 @@ export default function Projects({ profile }: { profile: Profile }) {
         start={item.startDate}
         isFirst={index == 0}
         isLast={index == projects.items.length - 1}
-        end={item.isCurrent ? 'Present' : item.endDate}>
+        isPresent={item.isCurrent}
+        end={item.endDate}>
         <div className="flex flex-row justify-between items-start relative">
           <div className={'pe-24 tip-tap-content'}>{parse(item.description)}</div>
           <Can I={Actions.Update} this={plainToInstance(Project, item)}>
