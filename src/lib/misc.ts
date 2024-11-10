@@ -41,6 +41,7 @@ export function wordsInitials(words: string, length: number) {
 }
 
 export function formatDate(date: string | Date, targetFormat?: string) {
+  if (!date) return '';
   return format(
     date instanceof Date ? date : new Date(date),
     targetFormat || profileConfigs.defaultDateFormat,

@@ -9,8 +9,8 @@ export class Education {
     public degreeProgram: string,
     public university: string,
     public link: string,
-    public startDate: string,
-    public endDate: string,
+    public startDate: Date,
+    public endDate: Date,
     public isCurrent: boolean,
   ) {}
 }

@@ -15,12 +15,15 @@ import { AxiosError } from 'axios';
 import { setValidationErrors } from '../../../../dao/restApi.ts';
 import { AppQueryClient } from '../../../../app.routes.tsx';
 import { Education, saveEducation } from '../../../../dao/education.ts';
+import DatePickerInput from '../../../../components/date-picker.tsx';
+import { useState } from 'react';
+import { sub } from 'date-fns/sub';
 
 const educationFormSchema = z.object({
   degreeProgram: nameValidator,
   university: nameValidator,
-  startDate: z.string(),
-  endDate: z.string().optional(),
+  startDate: z.date(),
+  endDate: z.date().optional(),
   isCurrent: z.boolean(),
   link: z.string().optional(),
 });
@@ -35,10 +38,12 @@ export default function EducationForm({
   profile: Profile;
 }) {
   const dispatch = useDispatch();
+  const [minEndDate, setMinEndDate] = useState<Date>();
   const { closeModal } = useModalContext();
   const {
     register,
     handleSubmit,
+    control,
     setError,
     formState: { errors, isSubmitting },
   } = useForm<FormFields>({
@@ -47,7 +52,13 @@ export default function EducationForm({
     },
     resolver: zodResolver(educationFormSchema),
   });
+  const getMinDate = () => {
+    return sub(new Date(), { years: 50 }); // limits the candidate to be max 50 yrs old
+  };
 
+  const handleStartDateChange = (date: Date) => {
+    return setMinEndDate(date);
+  };
   const { mutate } = useMutation({
     mutationFn: (payload: { profileId: number; data: Education }) =>
       saveEducation(payload.profileId, payload.data),
@@ -115,14 +126,27 @@ export default function EducationForm({
         <input {...register('link')} className="form-control" placeholder="Company website" />
       </FormField>
 
-      <FormField label={'Start Date'} hint={'2022/02/30'} error={errors?.startDate?.message}>
-        <input {...register('startDate')} className="form-control" placeholder="Start" />
-      </FormField>
-
-      <FormField label={'End Date'} error={errors?.endDate?.message}>
-        <input {...register('endDate')} className="form-control" placeholder="End" />
-      </FormField>
-
+      <div className="flex flex-col sm:flex-row gap-4">
+        <FormField label={'Start Date'} error={errors?.startDate?.message}>
+          <DatePickerInput
+            control={control}
+            controlName="startDate"
+            selected={education.startDate}
+            changed={handleStartDateChange}
+            minDate={getMinDate()}
+            maxDate={new Date()}
+          />
+        </FormField>
+        <FormField label={'End Date'} error={errors?.endDate?.message}>
+          <DatePickerInput
+            control={control}
+            controlName="endDate"
+            selected={education.endDate}
+            minDate={minEndDate}
+            maxDate={new Date()}
+          />
+        </FormField>
+      </div>
       <SwitchInput register={register('isCurrent')} error={errors.isCurrent?.message}>
         <p>Is Current</p>
       </SwitchInput>

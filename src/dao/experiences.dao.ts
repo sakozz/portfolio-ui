@@ -13,8 +13,8 @@ export class Experience {
     public responsibilities: string,
     public companyName: string,
     public link: string,
-    public startDate: string,
-    public endDate: string,
+    public startDate: Date,
+    public endDate: Date,
     public isCurrent: boolean,
   ) {}
 }

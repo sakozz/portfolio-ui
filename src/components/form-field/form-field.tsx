@@ -28,7 +28,7 @@ export default function FormField({
   }, [id, controlRef]);
 
   return (
-    <fieldset className={`${error ? 'invalid' : undefined} ${className}`}>
+    <fieldset className={`${error ? 'invalid' : ''} ${className} w-full`}>
       <label className="form-label" htmlFor={id}>
         {label}
       </label>

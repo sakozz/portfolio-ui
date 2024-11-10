@@ -16,13 +16,16 @@ import { setValidationErrors } from '../../../../dao/restApi.ts';
 import { AppQueryClient } from '../../../../app.routes.tsx';
 import { Project, saveProject } from '../../../../dao/projects.dao.ts';
 import TipTapEditor from '../../../../components/tip-tap-editor.tsx';
+import DatePickerInput from '../../../../components/date-picker.tsx';
+import { sub } from 'date-fns/sub';
+import { useState } from 'react';
 
 const projectFormSchema = z.object({
   name: nameValidator,
   description: descriptionValidator,
   companyName: nameValidator,
-  startDate: z.string(),
-  endDate: z.string().optional(),
+  startDate: z.string().or(z.date()),
+  endDate: z.string().or(z.date()).optional(),
   isCurrent: z.boolean(),
   link: z.string().optional(),
 });
@@ -31,6 +34,7 @@ type FormFields = z.infer<FormFieldsType>;
 
 export default function ProjectForm({ project, user }: { project: Project; user: Profile }) {
   const dispatch = useDispatch();
+  const [minEndDate, setMinEndDate] = useState<Date>();
   const { closeModal } = useModalContext();
   const {
     register,
@@ -85,6 +89,14 @@ export default function ProjectForm({ project, user }: { project: Project; user:
     });
   };
 
+  const getMinDate = () => {
+    return sub(new Date(), { years: 50 }); // limits the candidate to be max 50 yrs old
+  };
+
+  const handleStartDateChange = (date: Date) => {
+    return setMinEndDate(date);
+  };
+
   return (
     <form className="form flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
       <h3 className={'text-2xl mt-0'}>{project.id ? 'Update Project' : 'Add Project'}</h3>
@@ -119,14 +131,27 @@ export default function ProjectForm({ project, user }: { project: Project; user:
       <FormField label={'Link'} error={errors?.link?.message}>
         <input {...register('link')} className="form-control" placeholder="Company website" />
       </FormField>
-
-      <FormField label={'Start Date'} hint={'2022/02/30'} error={errors?.startDate?.message}>
-        <input {...register('startDate')} className="form-control" placeholder="Start" />
-      </FormField>
-
-      <FormField label={'End Date'} error={errors?.endDate?.message}>
-        <input {...register('endDate')} className="form-control" placeholder="End" />
-      </FormField>
+      <div className="flex flex-col sm:flex-row gap-4">
+        <FormField label={'Start Date'} error={errors?.startDate?.message}>
+          <DatePickerInput
+            control={control}
+            controlName="startDate"
+            selected={project.startDate}
+            changed={handleStartDateChange}
+            minDate={getMinDate()}
+            maxDate={new Date()}
+          />
+        </FormField>
+        <FormField label={'End Date'} error={errors?.endDate?.message}>
+          <DatePickerInput
+            control={control}
+            controlName="endDate"
+            selected={project.endDate}
+            minDate={minEndDate}
+            maxDate={new Date()}
+          />
+        </FormField>
+      </div>
 
       <SwitchInput register={register('isCurrent')} error={errors.isCurrent?.message}>
         <p>Is Current</p>

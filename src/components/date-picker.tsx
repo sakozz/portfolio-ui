@@ -30,16 +30,21 @@ export default function DatePickerInput({
   selected,
   maxDate,
   minDate,
+  changed,
 }: {
   control: Control;
   controlName: string;
   selected: Date | string;
   maxDate?: Date;
   minDate?: Date;
+  changed?: (date: Date) => void;
 }) {
   const [date, setDate] = useState(selected);
   const handleChange = (dateChange: Date) => {
     setDate(dateChange);
+    if (changed) {
+      changed(dateChange);
+    }
   };
   return (
     <Controller

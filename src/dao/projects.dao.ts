@@ -10,8 +10,8 @@ export class Project {
     public description: string,
     public companyName: string,
     public link: string,
-    public startDate: string,
-    public endDate: string,
+    public startDate: Date | string,
+    public endDate: Date | string,
     public isCurrent: boolean,
   ) {}
 }

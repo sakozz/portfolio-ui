@@ -16,13 +16,16 @@ import { AxiosError } from 'axios';
 import { setValidationErrors } from '../../../../dao/restApi.ts';
 import { AppQueryClient } from '../../../../app.routes.tsx';
 import TipTapEditor from '../../../../components/tip-tap-editor.tsx';
+import DatePickerInput from '../../../../components/date-picker.tsx';
+import { sub } from 'date-fns/sub';
+import { useState } from 'react';
 
 const experienceFormSchema = z.object({
   jobTitle: nameValidator,
   responsibilities: descriptionValidator,
   companyName: nameValidator,
-  startDate: z.string(),
-  endDate: z.string().optional(),
+  startDate: z.date(),
+  endDate: z.date().optional(),
   isCurrent: z.boolean(),
   link: z.string().optional(),
 });
@@ -37,6 +40,7 @@ export default function ExperienceForm({
   user: Profile;
 }) {
   const dispatch = useDispatch();
+  const [minEndDate, setMinEndDate] = useState<Date>();
   const { closeModal } = useModalContext();
   const {
     register,
@@ -50,6 +54,14 @@ export default function ExperienceForm({
     },
     resolver: zodResolver(experienceFormSchema),
   });
+
+  const getMinDate = () => {
+    return sub(new Date(), { years: 50 }); // limits the candidate to be max 50 yrs old
+  };
+
+  const handleStartDateChange = (date: Date) => {
+    return setMinEndDate(date);
+  };
 
   const { mutate } = useMutation({
     mutationFn: (payload: { profileId: number; data: Experience }) =>
@@ -126,13 +138,27 @@ export default function ExperienceForm({
         <input {...register('link')} className="form-control" placeholder="Company website" />
       </FormField>
 
-      <FormField label={'Start Date'} hint={'2022/02/30'} error={errors?.startDate?.message}>
-        <input {...register('startDate')} className="form-control" placeholder="Start" />
-      </FormField>
-
-      <FormField label={'End Date'} error={errors?.endDate?.message}>
-        <input {...register('endDate')} className="form-control" placeholder="End" />
-      </FormField>
+      <div className="flex flex-col sm:flex-row gap-4">
+        <FormField label={'Start Date'} error={errors?.startDate?.message}>
+          <DatePickerInput
+            control={control}
+            controlName="startDate"
+            selected={experience.startDate}
+            changed={handleStartDateChange}
+            minDate={getMinDate()}
+            maxDate={new Date()}
+          />
+        </FormField>
+        <FormField label={'End Date'} error={errors?.endDate?.message}>
+          <DatePickerInput
+            control={control}
+            controlName="endDate"
+            selected={experience.endDate}
+            minDate={minEndDate}
+            maxDate={new Date()}
+          />
+        </FormField>
+      </div>
 
       <SwitchInput register={register('isCurrent')} error={errors.isCurrent?.message}>
         <p>Is Current</p>
