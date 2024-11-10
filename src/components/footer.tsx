@@ -8,7 +8,7 @@ export function Footer() {
         <nav className="col-span-2">
           <h4 className="text-xl">About</h4>
           <p className="text-sm  mt-2">
-            "Portfolio Me" is a portfolio website built as learning as well as showcase application
+            "Portfolio" is a portfolio website built as learning as well as showcase application
             which can be used as a portfolio for web developers. This application is built using
             React and Tailwind CSS. The APIs for this application is served with NestJS. Both
             repositories are available on GitHub with MIT license.
@@ -17,10 +17,10 @@ export function Footer() {
         <nav className="flex flex-col items-center">
           <h4 className="text-xl mb-4">Links</h4>
           <div className="text-start flex flex-col gap-2 ">
-            <a>
+            <a href="https://github.com/sakozz/portfolio-ui" target="_blank">
               <FontAwesomeIcon icon={['fab', 'github']} className="me-2" /> Frontend: ReactJs
             </a>
-            <a>
+            <a href="https://github.com/sakozz/portfolio-api" target="_blank">
               <FontAwesomeIcon icon={['fab', 'github']} className="me-2" />
               Backend: NestJs
             </a>
@@ -33,8 +33,12 @@ export function Footer() {
         <nav className="flex flex-col gap-4">
           <a className="text-xl">Find me at</a>
           <div>
-            <FontAwesomeIcon icon={['fab', 'github']} className="me-2" size="2xl" />
-            <FontAwesomeIcon icon={['fab', 'linkedin']} className="me-2" size="2xl" />
+            <a href="https://linkedin.com/in/sunilz" target="_blank">
+              <FontAwesomeIcon icon={['fab', 'linkedin']} className="me-2" size="2xl" />
+            </a>
+            <a href="http://github.com/sakozz" target="_blank">
+              <FontAwesomeIcon icon={['fab', 'github']} className="me-2" size="2xl" />
+            </a>
           </div>
         </nav>
       </div>
