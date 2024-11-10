@@ -5,6 +5,23 @@ import withMT from '@material-tailwind/html/utils/withMT.js';
 export default withMT({
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '2rem',
+        sm: '2rem',
+        lg: '2rem',
+        xl: '4rem',
+        '2xl': '4rem',
+      },
+      screens: {
+        sm: '100%',
+        md: '100%',
+        lg: '1200px',
+        xl: '1200px',
+        '2xl': '1200px',
+      },
+    },
     extend: {},
     boxShadow: {
       //box shadow from Neom designs
