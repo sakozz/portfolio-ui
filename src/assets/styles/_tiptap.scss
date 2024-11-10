@@ -1,10 +1,9 @@
-.tiptap-editor .input-group {
-  @apply flex flex-col w-full;
+.ProseMirror.tiptap-editor {
+  @apply flex flex-col w-full px-2;
 }
 
 .ProseMirror,
 .tip-tap-content {
-  @apply p-2;
   &:focus {
     outline: none;
   }

@@ -8,7 +8,6 @@ import { useModalContext } from '../../components/modal/modal-context.tsx';
 import { useState } from 'react';
 import Modal from '../../components/modal/modal.tsx';
 import ProfileForm from './profile/profile.form.tsx';
-import { formatDate } from '../../lib/misc.ts';
 import parse from 'html-react-parser';
 import IconLabel from '../../components/icon-label.tsx';
 
@@ -24,7 +23,7 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
       <div className={'card flex flex-col md:flex-row gap-4'}>
         <div
           className={
-            'min-w-[280px] flex flex-col justify-center items-center gap-2 bg-secondary-500 text-white p-6 rounded-s-3xl '
+            'min-w-[280px] flex flex-col justify-center items-center gap-2 bg-secondary-500 text-white p-6 rounded-t-3xl md:rounded-s-3xl md:rounded-e-none'
           }>
           <img
             src={profile?.avatarUrl || ''}
@@ -37,11 +36,6 @@ export default function QuickInfo({ profile }: { profile: Profile }) {
             <IconLabel icon="map-location-dot" label={profile?.address}></IconLabel>
             <IconLabel icon={['fab', 'linkedin']} label={profile?.linkedInUrl}></IconLabel>
             <IconLabel icon={['fab', 'github']} label={profile?.githubUrl}></IconLabel>
-            <hr className={'my-3'} />
-            <IconLabel icon="passport" label={'Nationality:' + profile.nationality}></IconLabel>
-            <IconLabel
-              icon="calendar-days"
-              label={'Date of Birth:' + formatDate(profile.dateOfBirth)}></IconLabel>
           </div>
         </div>
         <div className={'p-6 w-full'}>

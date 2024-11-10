@@ -26,7 +26,7 @@ export default function TipTapEditor({
           slotBefore={<TipTapMenu />}
           extensions={extensions}
           content={value}
-          editorProps={{ attributes: { class: classNames } }}
+          editorProps={{ attributes: { class: classNames + ' tiptap-editor' } }}
           onUpdate={({ editor }: { editor: Editor }) => {
             onChange(editor.getHTML());
           }}></EditorProvider>

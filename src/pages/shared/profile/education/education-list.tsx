@@ -14,6 +14,7 @@ import { Actions } from '../../../../lib/types.ts';
 import EducationAbilities, {
   Can,
 } from '../../../../components/ability-providers/education.abilities.tsx';
+import parse from 'html-react-parser';
 
 export default function EducationList({ profile }: { profile: Profile }) {
   const { isOpen, openModal } = useModalContext();
@@ -50,6 +51,7 @@ export default function EducationList({ profile }: { profile: Profile }) {
         isFirst={index == 0}
         isLast={index == education.items.length - 1}>
         <div className="flex flex-row justify-between items-start relative">
+          <div className="tip-tap-content">{parse(item?.university)}</div>
           <Can I={Actions.Update} this={plainToInstance(Education, item)}>
             <button
               type="button"
